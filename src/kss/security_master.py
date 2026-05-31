@@ -32,6 +32,43 @@ class SecurityListing:
     financial_subtype: str | None = None
 
 
+SAMPLE_LISTINGS = [
+    SecurityListing(
+        ticker="005930",
+        company_name="삼성전자",
+        market="KOSPI",
+        sector="전기전자",
+    ),
+    SecurityListing(
+        ticker="000660",
+        company_name="SK하이닉스",
+        market="KOSPI",
+        sector="반도체",
+    ),
+    SecurityListing(
+        ticker="105560",
+        company_name="KB금융",
+        market="KOSPI",
+        sector="금융지주",
+        financial_subtype="금융지주",
+    ),
+    SecurityListing(
+        ticker="005935",
+        company_name="삼성전자우",
+        market="KOSPI",
+        sector="전기전자",
+        security_type=SecurityType.PREFERRED_STOCK,
+    ),
+    SecurityListing(
+        ticker="069500",
+        company_name="KODEX 200",
+        market="KOSPI",
+        sector="ETF",
+        security_type=SecurityType.ETF,
+    ),
+]
+
+
 def identify_security(query: str, listings: list[SecurityListing]) -> CompanyMeta | None:
     normalized_query = _normalize_query(query)
     if not normalized_query:
