@@ -5,6 +5,9 @@ description = "Korean stock quantitative valuation engine"
 requires-python = ">=3.10"
 dependencies = []
 
+[project.scripts]
+kss = "kss.cli:main"
+
 [project.optional-dependencies]
 dev = [
   "pytest>=8.0.0",

@@ -1,10 +1,12 @@
 """KSS quantitative valuation engine."""
 
+from kss.analysis import analyze_stock
 from kss.models import CompanyType, Confidence, Verdict
 from kss.security_master import SAMPLE_LISTINGS, SecurityListing, SecurityType, identify_security
 from kss.valuation import evaluate_stock
 
 __all__ = [
+    "analyze_stock",
     "CompanyType",
     "Confidence",
     "SAMPLE_LISTINGS",

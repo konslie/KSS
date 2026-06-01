@@ -1,0 +1,140 @@
+"""Small deterministic dataset for local development and tests."""
+
+from __future__ import annotations
+
+from kss.models import CompanyType, FinancialData, MarketData, PeerCandidate
+from kss.providers import InMemoryDataProvider
+from kss.security_master import SAMPLE_LISTINGS
+
+
+MOCK_PROVIDER = InMemoryDataProvider(
+    security_listings=SAMPLE_LISTINGS,
+    market_data_by_ticker={
+        "005930": MarketData(current_price=71000, market_cap=424_000_000_000_000),
+        "000660": MarketData(current_price=190000, market_cap=138_000_000_000_000),
+        "105560": MarketData(current_price=84000, market_cap=33_000_000_000_000),
+    },
+    financial_data_by_ticker={
+        "005930": FinancialData(
+            eps=6200,
+            bps=56000,
+            roe_pct=11,
+            roe_history_pct=(11, 9, 7),
+            operating_income_history=(36_000_000_000_000, 28_000_000_000_000, 43_000_000_000_000),
+            net_income_history=(31_000_000_000_000, 22_000_000_000_000, 39_000_000_000_000),
+            fcf_history=(18_000_000_000_000, 9_000_000_000_000, 14_000_000_000_000),
+            debt_ratio_history_pct=(28, 30, 32),
+        ),
+        "000660": FinancialData(
+            eps=15000,
+            bps=98000,
+            roe_pct=18,
+            roe_history_pct=(18, 8, 5),
+            operating_income_history=(21_000_000_000_000, -7_000_000_000_000, 7_000_000_000_000),
+            net_income_history=(16_000_000_000_000, -9_000_000_000_000, 5_000_000_000_000),
+            fcf_history=(6_000_000_000_000, -4_000_000_000_000, 2_000_000_000_000),
+            debt_ratio_history_pct=(62, 65, 58),
+        ),
+        "105560": FinancialData(
+            eps=13500,
+            bps=145000,
+            roe_pct=9,
+            roe_3yr_avg_pct=9,
+            roe_history_pct=(9, 10, 9),
+            operating_income_history=(6_200_000_000_000, 5_800_000_000_000, 5_400_000_000_000),
+            net_income_history=(4_900_000_000_000, 4_600_000_000_000, 4_300_000_000_000),
+            fcf_history=(3_000_000_000_000, 2_800_000_000_000, 2_600_000_000_000),
+            debt_ratio_history_pct=(1200, 1210, 1190),
+            dps=3200,
+        ),
+    },
+    peer_candidates_by_ticker={
+        "005930": [
+            PeerCandidate(
+                ticker="000660",
+                company_name="SK하이닉스",
+                market="KOSPI",
+                sector="반도체",
+                company_type=CompanyType.NON_FINANCIAL,
+                market_cap=138_000_000_000_000,
+                per=12.5,
+                pbr=1.9,
+                roe_pct=18,
+                industry_match_score=0.9,
+            ),
+            PeerCandidate(
+                ticker="066570",
+                company_name="LG전자",
+                market="KOSPI",
+                sector="전기전자",
+                company_type=CompanyType.NON_FINANCIAL,
+                market_cap=16_000_000_000_000,
+                per=10.0,
+                pbr=0.9,
+                roe_pct=8,
+                industry_match_score=0.7,
+            ),
+            PeerCandidate(
+                ticker="034220",
+                company_name="LG디스플레이",
+                market="KOSPI",
+                sector="전기전자",
+                company_type=CompanyType.NON_FINANCIAL,
+                market_cap=5_000_000_000_000,
+                per=None,
+                pbr=0.6,
+                roe_pct=-4,
+                industry_match_score=0.6,
+            ),
+        ],
+        "105560": [
+            PeerCandidate(
+                ticker="055550",
+                company_name="신한지주",
+                market="KOSPI",
+                sector="금융지주",
+                company_type=CompanyType.FINANCIAL,
+                market_cap=28_000_000_000_000,
+                per=6.5,
+                pbr=0.48,
+                roe_pct=8.5,
+                subtype="금융지주",
+                financial_subtype_match_score=1.0,
+            ),
+            PeerCandidate(
+                ticker="086790",
+                company_name="하나금융지주",
+                market="KOSPI",
+                sector="금융지주",
+                company_type=CompanyType.FINANCIAL,
+                market_cap=19_000_000_000_000,
+                per=5.8,
+                pbr=0.45,
+                roe_pct=9.1,
+                subtype="금융지주",
+                financial_subtype_match_score=1.0,
+            ),
+            PeerCandidate(
+                ticker="316140",
+                company_name="우리금융지주",
+                market="KOSPI",
+                sector="금융지주",
+                company_type=CompanyType.FINANCIAL,
+                market_cap=12_000_000_000_000,
+                per=5.2,
+                pbr=0.42,
+                roe_pct=8.8,
+                subtype="금융지주",
+                financial_subtype_match_score=1.0,
+            ),
+        ],
+    },
+    historical_fair_values_by_ticker={
+        "005930": [70000, 76000, 82000],
+        "000660": [170000, 195000, 210000],
+        "105560": [76000, 81000, 87000],
+    },
+    rim_fair_values_by_ticker={
+        "105560": 92000,
+    },
+)
