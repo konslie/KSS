@@ -628,3 +628,149 @@ v1에서 제외:
 - 실시간 수급 분석
 - 해외 주식
 
+## 16. 현재 구현 상태
+
+기준일: 2026-06-01
+
+현재 구현은 외부 데이터 수집 전 단계의 테스트 가능한 계산 코어와 application layer에 초점을 둔다.
+
+### 16.1 구현 완료
+
+- Python 패키지 구조
+  - `src/kss`
+  - `tests`
+  - `pyproject.toml`
+- 도메인 모델
+  - `CompanyMeta`
+  - `MarketData`
+  - `FinancialData`
+  - `PeerCandidate`
+  - `SelectedPeer`
+  - `FairValueBand`
+  - `ModelResult`
+  - `RiskFlags`
+  - `ValuationResult`
+- 판정 enum
+  - `UNDERVALUED`
+  - `FAIRLY_VALUED`
+  - `OVERVALUED`
+  - `VALUE_TRAP_RISK`
+  - `INSUFFICIENT_DATA`
+  - `UNSUPPORTED`
+- 금융주/비금융주 분류 모델
+- KRX 종목 식별의 최소 계층
+  - 종목코드 입력 정규화
+  - 종목명 입력 정규화
+  - KOSPI/KOSDAQ 지원 여부 판단
+  - 우선주/ETF/ETN/리츠/스팩 등 제외 대상 표현
+- Peer 선정 로직
+  - 후보 점수화
+  - 상위 3개 peer 선정
+  - peer 수에 따른 신뢰도 산정
+- 밸류에이션 계산 로직
+  - 비금융주 Peer PER 모델
+  - 비금융주 Peer PBR 모델
+  - Historical Multiple 모델
+  - 금융주 RIM 입력값 반영
+  - 금융주 Peer PBR 모델
+  - 금융주 Historical PBR 모델
+  - 모델별 가중 평균 기반 fair value band 산출
+- 리스크 플래그
+  - ROE 하락
+  - 이익 하락
+  - FCF 음수 지속
+  - 부채비율 급등
+  - value trap risk
+  - peer 부족
+- 최종 판정 로직
+  - 기준 적정가 대비 상승/하락 여력
+  - value trap risk 우선 판정
+  - confidence 산정
+- 데이터 provider 구조
+  - `DataProvider` protocol
+  - `InMemoryDataProvider`
+  - deterministic mock data provider
+- application orchestration
+  - `analyze_stock(query, provider)`
+  - 종목 식별, 데이터 조회, 밸류에이션 계산을 연결
+- CLI 초안
+  - mock provider 기반 JSON 출력
+  - 예: `PYTHONPATH=src .venv/bin/python -m kss.cli 삼성전자`
+- 테스트
+  - peer 선정 테스트
+  - valuation 테스트
+  - security master 테스트
+  - analysis orchestration 테스트
+
+현재 검증 상태:
+
+```text
+16 passed
+```
+
+### 16.2 현재 한계
+
+- 실제 KRX, DART, 재무 데이터 API와 아직 연결되어 있지 않다.
+- mock data는 구조 검증용이며 실제 투자 판단에 사용할 수 없다.
+- 현재 CLI는 mock provider만 사용한다.
+- `upside_downside` 별도 출력 필드는 PRD 출력 스키마에 있으나 현재 구현은 explanation과 fair value band 중심이다.
+- Streamlit UI는 아직 구현되지 않았다.
+- RIM 자체 산식은 provider에서 계산된 `rim_fair_value`를 입력받는 구조이며, 요구수익률/초과이익 fade 계산 엔진은 아직 분리 구현되지 않았다.
+- 배당수익률 보조 평가는 금융주 weight table에는 있으나 별도 모델 결과로 아직 산출하지 않는다.
+- 외부 데이터 품질 경고 체계는 `data_warnings` 필드만 마련되어 있고, provider별 상세 warning taxonomy는 아직 정의되지 않았다.
+
+## 17. 작업 계획
+
+### 17.1 다음 우선순위
+
+1. 실제 데이터 provider의 첫 버전을 추가한다.
+   - 우선 후보: `pykrx` 기반 시장 데이터 provider
+   - 목표: 종목 목록, 현재가, 시가총액, 기본 시장 데이터를 가져온다.
+   - 검증: provider contract 테스트와 mock fallback 테스트를 통과한다.
+
+2. 재무 데이터 provider를 분리 설계한다.
+   - 후보 소스: DART Open API, 재무제표 CSV/캐시, 추후 유료 데이터 provider
+   - 목표: EPS, BPS, ROE, 이익/FCF/부채비율 history를 `FinancialData`로 정규화한다.
+   - 검증: 누락 데이터가 `INSUFFICIENT_DATA` 또는 confidence 하향으로 반영된다.
+
+3. provider별 데이터 정규화 계층을 추가한다.
+   - 종목코드 포맷 통일
+   - 시장 구분 통일
+   - 업종/금융 subtype 매핑
+   - 결측치 및 비정상값 처리
+
+4. CLI를 실제 provider 선택 구조로 확장한다.
+   - `--provider mock`
+   - `--provider pykrx`
+   - `--as-of-date YYYY-MM-DD`
+   - JSON 출력 유지
+
+5. 출력 스키마를 PRD와 구현 간 일치시킨다.
+   - `upside_downside` 계산 추가
+   - peer confidence 출력 추가
+   - 모델별 결과의 누락 사유 표현
+
+### 17.2 v1 완성 기준
+
+v1은 다음 조건을 만족하면 완료로 본다.
+
+- 사용자가 종목명 또는 종목코드를 입력할 수 있다.
+- KOSPI/KOSDAQ 보통주만 분석 대상으로 처리한다.
+- 제외 대상은 `UNSUPPORTED`로 반환한다.
+- 핵심 시장 데이터와 재무 데이터가 provider를 통해 주입된다.
+- 금융주와 비금융주가 서로 다른 모델 조합으로 평가된다.
+- peer 3개 자동 선정 결과가 출력된다.
+- fair value band와 최종 판정이 JSON으로 반환된다.
+- 데이터 부족, peer 부족, value trap risk가 명시적으로 드러난다.
+- 전체 테스트가 통과한다.
+
+### 17.3 v1 이후 후보
+
+- Streamlit UI
+- DART 재무제표 캐시 계층
+- Historical PER/PBR 자동 계산
+- RIM 산식 내재화
+- 배당수익률 보조 모델 구현
+- 데이터 품질 점수화
+- 간단한 HTML/PDF 리포트 출력
+- 배치 분석
