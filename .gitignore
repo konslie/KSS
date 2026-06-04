@@ -1,0 +1,10 @@
+.venv/
+.env
+.DS_Store
+__pycache__/
+*.pyc
+data/cache/
+data/incoming/
+data/reports/
+data/logs/
+memory.md
