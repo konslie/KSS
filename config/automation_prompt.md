@@ -25,6 +25,8 @@ Report rules:
 - Do not make certain forecasts.
 - Preserve source names and URLs when available.
 - Mark unclear news as `확인 필요`.
+- In portfolio impact rationale, mention the source names and briefly state the actual issue behind the news or disclosure. Keep it concise, but do not stop at generic wording such as "AI/semiconductor issue".
+- Use Markdown bold for key labels and important terms in Executive Summary and each sector briefing.
 - Include user-relevant failed collectors and missing data in the Data Quality section.
 - If `DART_API_KEY` is missing, do not ask for the key in chat. Report DART as skipped.
 - If optional KRX reference data is unavailable, state that some KRX reference data was not collected. Do not expose `pykrx`, `KRX_ID`, or `KRX_PW` in the user-facing report.

@@ -46,7 +46,7 @@ Settings -> Pages -> Build and deployment -> Deploy from a branch -> main / docs
 ## Optional Data Sources
 
 - `yfinance` improves US stock and ETF collection when installed.
-- yfinance also collects market indicators: S&P 500, Nasdaq 100, VIX, SOXX, KOSPI, KOSDAQ, USD/KRW.
+- yfinance also collects market indicators: KOSPI, KOSDAQ, Nasdaq, S&P 500, VIX, Gold, USD/KRW, Philadelphia Semiconductor Index.
 - yfinance also collects overseas holding news.
 - Naver Finance is fetched with a lightweight HTML parser for Korean prices.
 - Naver Search API collects Korean holding-specific news when `NAVER_CLIENT_ID` and `NAVER_CLIENT_SECRET` are set.

@@ -23,14 +23,14 @@ INCOMING_DIR = ROOT / "data" / "incoming"
 CACHE_DIR = ROOT / "data" / "cache"
 DART_API_BASE = "https://opendart.fss.or.kr/api"
 MARKET_INDICATORS = {
-    "^GSPC": "S&P 500",
-    "^NDX": "Nasdaq 100",
-    "^VIX": "VIX",
-    "SOXX": "SOXX",
     "^KS11": "KOSPI",
     "^KQ11": "KOSDAQ",
-    "KRW=X": "USD/KRW",
+    "^IXIC": "Nasdaq",
+    "^GSPC": "S&P 500",
+    "^VIX": "VIX",
     "GC=F": "Gold",
+    "KRW=X": "USD/KRW",
+    "^SOX": "필라델피아반도체지수",
 }
 
 RSS_FEEDS = [
