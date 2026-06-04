@@ -1,166 +1,191 @@
-# KSS 작업 메모리
+# Project Memory
 
-## 작업 기준
+Last updated: 2026-06-04 KST
 
-- 기본 작업공간: `/Users/konslie/Desktop/Codex`
-- 프로젝트 경로: `/Users/konslie/Desktop/Codex/KSS`
-- 공통 지침:
-  - `/Users/konslie/Desktop/Codex/AGENTS.md`
-  - `/Users/konslie/Desktop/Codex/AGENTS.ko.md`
-- 프로젝트 요구사항 기준 문서:
-  - `/Users/konslie/Desktop/Codex/KSS/PRD.md`
+## Context
 
-## 제품 방향
-
-KSS는 한국 주식 정량 밸류에이션 엔진이다.
-
-목표는 KOSPI/KOSDAQ 상장사의 현재 주가가 정량 기준으로 저평가, 적정가, 고평가, value trap risk 중 어디에 해당하는지 판단하는 것이다.
-
-핵심 결정사항:
-
-- 대상 시장은 KOSPI/KOSDAQ으로 한정한다.
-- KONEX, ETF, ETN, 리츠, 스팩, 우선주, 해외 주식, 비상장 기업은 제외한다.
-- 금융주와 비금융주는 다른 모델로 평가한다.
-- 최종 적정가는 단일 숫자가 아니라 `low`, `base`, `high` 밴드로 산출한다.
-- Peer 비교 대상은 가장 비교 가능성이 높은 3개 기업만 선정한다.
-- v1에서는 DCF를 기본 모델에서 제외한다.
-
-## v1 모델 범위
-
-금융주:
-
-- RIM
-- Peer PBR
-- Historical PBR
-- 배당수익률 보조 평가
-
-비금융주:
-
-- Peer PER
-- Peer PBR
-- Historical Multiple
-
-최종 판정:
-
-- `UNDERVALUED`
-- `FAIRLY_VALUED`
-- `OVERVALUED`
-- `VALUE_TRAP_RISK`
-- `INSUFFICIENT_DATA`
-- `UNSUPPORTED`
-
-## Peer 선정 규칙
-
-Peer Group은 대상 기업과 가장 비교 가능성이 높은 3개 기업으로 구성한다.
-
-제외 조건:
-
-- 대상 기업 자신
-- 우선주
-- 스팩
-- 리츠
-- ETF/ETN
-- 거래정지 또는 관리종목
-- 최근 재무 데이터 부족 기업
-- 시가총액 데이터가 없는 기업
-
-비금융주 peer score:
+This project was built from a mobile Codex conversation, but the actual files live on this Mac at:
 
 ```text
-peer_score =
-  industry_match_score * 40
-+ market_cap_similarity_score * 25
-+ valuation_metric_availability_score * 15
-+ profitability_similarity_score * 10
-+ exchange_similarity_score * 5
-+ liquidity_score * 5
+/Users/konslie/Desktop/Codex/KSS
 ```
 
-금융주 peer score:
+The old KSS project contents were intentionally replaced with the Morning Investment Briefing automation project. The existing `.git` directory was preserved so the repo connection/history remains available.
+
+## Product Direction
+
+Goal: create a personal morning investment briefing system.
+
+Current chosen flow:
 
 ```text
-peer_score =
-  financial_subtype_match_score * 45
-+ market_cap_similarity_score * 25
-+ valuation_metric_availability_score * 15
-+ profitability_similarity_score * 10
-+ liquidity_score * 5
+Codex Automation at 08:00 KST
+  -> make collect
+  -> read data/incoming/YYYY-MM-DD/source.json and news.md
+  -> Codex writes data/reports/YYYY-MM-DD/final.md
+  -> make render-html
+  -> publish docs/index.html via GitHub Pages later
 ```
 
-Peer 신뢰도:
+Important decision: final report writing is done by Codex Automation for now, not by OpenAI API code. The Python code only collects input data and renders Markdown to HTML.
 
-- 3개: `HIGH`
-- 2개: `MEDIUM`
-- 1개: `LOW`
-- 0개: Peer 모델 제외
+Telegram delivery was removed because Telegram cannot be installed/used on the company Mac. GitHub Pages HTML output is the replacement delivery target.
 
-## 현재 구현 내역
+## Current Project Structure
 
-외부 API 수집 전, 테스트 가능한 순수 계산 코어를 먼저 구현했다.
+```text
+AGENTS.md
+Makefile
+README.md
+requirements.txt
+config/
+  automation_prompt.md
+  portfolio.yaml
+  report_format.md
+src/
+  collect.py
+  render_html.py
+tests/
+  test_collect.py
+  test_render_html.py
+data/
+  incoming/
+  reports/
+docs/
+  index.html
+  reports/
+```
 
-생성 파일:
+## Implemented
 
-- `README.md`
-- `pyproject.toml`
-- `src/kss/__init__.py`
-- `src/kss/models.py`
-- `src/kss/peer_selection.py`
-- `src/kss/valuation.py`
-- `tests/__init__.py`
-- `tests/test_peer_selection.py`
-- `tests/test_valuation.py`
+- Portfolio config for Korean and US holdings.
+- `make collect` creates:
+  - `data/incoming/YYYY-MM-DD/source.json`
+  - `data/incoming/YYYY-MM-DD/news.md`
+- `make render-html` creates:
+  - `docs/index.html`
+  - `docs/reports/YYYY-MM-DD.html`
+- `make test` passes.
+- Local `.venv` was created and dependencies were installed.
 
-구현 내용:
+## Data Sources
 
-- 도메인 enum/dataclass 모델
-- 금융주/비금융주 타입
-- Peer 후보 점수화
-- 상위 3개 Peer 선정
-- Peer PER/PBR 멀티플 산정
-- 모델별 fair value 계산
-- fair value band 조합
-- 최종 verdict 산정
-- value trap risk 플래그
-- confidence 산정
-- unsupported/insufficient data 처리
+Currently working after Codex network approval:
 
-## 검증 내역
+- `yfinance`
+  - US holdings: `SCHD`, `SPYM`, `AAPL`, `NVDA`, `CPNG`, `QQQ`, `QQQM`, `RKLB`, `LUNR`
+  - Overseas holding news through `yfinance.Ticker(symbol).news`
+  - Market indicators:
+    - S&P 500: `^GSPC`
+    - Nasdaq 100: `^NDX`
+    - VIX: `^VIX`
+    - SOXX: `SOXX`
+    - KOSPI: `^KS11`
+    - KOSDAQ: `^KQ11`
+    - USD/KRW: `KRW=X`
+- Naver Finance HTML parsing
+  - Korean holdings prices and change percent
+- Naver Search API
+  - Korean holding-specific news when `NAVER_CLIENT_ID` and `NAVER_CLIENT_SECRET` are set
+- CNBC RSS
+  - Global market context news items
+  - Reuters RSS was removed because the previous URL returned HTTP 404.
 
-실행한 검증:
+Implemented but requires local secret:
+
+- DART
+  - Reads `DART_API_KEY` from environment or `.env`
+  - If missing, records:
+    - `{"source": "dart", "status": "skipped", "reason": "DART_API_KEY not set"}`
+  - Do not ask the user to paste the API key in chat.
+  - Preferred-share holdings use common-stock lookup fallbacks where needed, e.g. 현대차2우B `005387` -> 현대차 `005380`.
+
+Installed but not useful as default right now:
+
+- `pykrx`
+  - In this environment, installed `pykrx` expects `KRX_ID` / `KRX_PW`.
+  - Without those, it is skipped:
+    - `{"source": "pykrx", "status": "skipped", "reason": "KRX_ID or KRX_PW not set"}`
+  - Default Korean data source remains Naver Finance.
+
+## Secrets Policy
+
+Never put API keys in chat or committed files.
+
+Use local `.env`:
 
 ```bash
-python -m compileall src tests
+DART_API_KEY=your_key_here
 ```
 
-결과: 통과
+`.env` is ignored by git.
 
-`pytest`는 로컬 기본 Python 환경에 설치되어 있지 않아 실행하지 못했다.
+## Useful Commands
 
-대신 테스트 함수를 직접 실행했다.
+Run from:
 
 ```bash
-python -c "import sys; sys.path.insert(0, 'src'); import tests.test_peer_selection as p; import tests.test_valuation as v; [getattr(p, name)() for name in dir(p) if name.startswith('test_')]; [getattr(v, name)() for name in dir(v) if name.startswith('test_')]; print('manual tests passed')"
+cd /Users/konslie/Desktop/Codex/KSS
 ```
 
-결과:
+Test:
 
-```text
-manual tests passed
+```bash
+make test
 ```
 
-## 환경 메모
+Offline input generation:
 
-- 현재 `/Users/konslie/Desktop/Codex/KSS`는 아직 git repository가 아니다.
-- 기본 Python은 `Python 3.10.12`였다.
-- Python 3.10 호환을 위해 `StrEnum` 대신 `str, Enum` 조합을 사용했다.
-- `pyproject.toml`의 `requires-python`은 `>=3.10`으로 설정했다.
+```bash
+make collect-offline DATE=2026-06-04
+```
 
-## 다음 작업 후보
+Real data collection:
 
-1. `git init` 및 첫 커밋 생성
-2. `pytest` 개발 의존성 설치 또는 가상환경 구성
-3. KRX 종목 식별 계층 추가
-4. 외부 데이터 수집 계층 추가
-5. 데이터 정규화 계층 추가
-6. Streamlit 또는 CLI 인터페이스 추가
+```bash
+make collect DATE=2026-06-04
+```
 
+Render report HTML after Codex writes `final.md`:
+
+```bash
+make render-html DATE=2026-06-04 REPORT=data/reports/2026-06-04/final.md
+```
+
+## Last Verified Behavior
+
+For `DATE=2026-06-04`, real collection produced after network approval:
+
+- US quotes: 9
+- Korean Naver quotes: 8
+- Market indicators: 7
+- News: 56 total
+  - CNBC RSS: 8
+  - Naver Search API: 23
+  - yfinance news: 25
+- DART disclosures: 25 after `DART_API_KEY` was set, including 현대차2우B through common-stock fallback
+- pykrx quotes/indices: 0 because KRX credentials were not set
+- Reuters RSS: removed
+
+## Next Priorities
+
+1. Review Naver Search query quality and tighten noisy domestic news matches if needed.
+2. Add FRED collector for US macro/rates:
+   - US 2Y
+   - US 10Y
+   - Fed Funds
+   - CPI/Core CPI if useful
+3. Add report-generation guidance or a sample `final.md` based on real `source.json`.
+4. Once data quality is acceptable, connect GitHub Pages:
+   - Serve `docs/` from the main branch.
+   - Add commit/push step to Codex Automation only after manual runs are reliable.
+5. Register Codex Automation for 08:00 KST after the full manual flow works.
+
+## Important Caution
+
+Network failures inside Codex usually happened because the Codex sandbox blocks network by default. When rerun with user-approved escalated network access, `pip install`, `yfinance`, Naver Finance, and CNBC RSS worked.
+
+Do not assume company Mac security policy is blocking everything. So far, the remaining issues are source-specific:
+
+- DART: requires local `.env` key, now configured on this Mac
+- pykrx: KRX credentials required by installed library/environment

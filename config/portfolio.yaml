@@ -1,0 +1,75 @@
+domestic:
+  - name: "현대차2우B"
+    symbol: "005387"
+    tier: 1
+    factors: ["usdkrw", "auto", "dividend", "export"]
+  - name: "하나금융지주"
+    symbol: "086790"
+    tier: 1
+    factors: ["kr_rate", "yield_curve", "foreign_flow", "dividend"]
+  - name: "우리금융지주"
+    symbol: "316140"
+    tier: 1
+    factors: ["kr_rate", "yield_curve", "foreign_flow", "dividend"]
+  - name: "삼성전자"
+    symbol: "005930"
+    tier: 2
+    factors: ["soxx", "semiconductor", "export", "fx"]
+  - name: "DB손해보험"
+    symbol: "005830"
+    tier: 2
+    factors: ["kr_rate", "insurance", "dividend"]
+  - name: "현대바이오"
+    symbol: "048410"
+    tier: 3
+    factors: ["biotech", "risk_sentiment"]
+  - name: "금호석유화학우"
+    symbol: "011785"
+    tier: 3
+    factors: ["chemical", "dividend", "china"]
+  - name: "이수페타시스"
+    symbol: "007660"
+    tier: 3
+    factors: ["ai", "pcb", "semiconductor"]
+
+overseas:
+  - name: "SCHD"
+    symbol: "SCHD"
+    tier: 1
+    factors: ["dividend", "us_large_value", "rates"]
+  - name: "SPYM"
+    symbol: "SPYM"
+    tier: 1
+    factors: ["us_equity", "dividend"]
+  - name: "Apple"
+    symbol: "AAPL"
+    tier: 2
+    factors: ["nasdaq", "consumer_tech", "usd"]
+  - name: "Nvidia"
+    symbol: "NVDA"
+    tier: 2
+    factors: ["ai", "soxx", "nasdaq"]
+  - name: "Coupang"
+    symbol: "CPNG"
+    tier: 2
+    factors: ["consumer", "krw", "growth"]
+  - name: "QQQ"
+    symbol: "QQQ"
+    tier: 2
+    factors: ["nasdaq", "growth", "rates"]
+  - name: "QQQM"
+    symbol: "QQQM"
+    tier: 2
+    factors: ["nasdaq", "growth", "rates"]
+  - name: "Rocket Lab"
+    symbol: "RKLB"
+    tier: 3
+    factors: ["space", "risk_sentiment", "growth"]
+  - name: "Resolve AI"
+    symbol: "UNCONFIRMED"
+    tier: 3
+    factors: ["ai", "speculative"]
+  - name: "Intuitive Machines"
+    symbol: "LUNR"
+    tier: 3
+    factors: ["space", "risk_sentiment", "growth"]
