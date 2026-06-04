@@ -7,40 +7,54 @@
   <style>
     :root {
       color-scheme: light;
-      --bg: #f7f8fa;
+      --bg: #eef2f6;
       --paper: #ffffff;
       --text: #1f2933;
       --muted: #667085;
-      --line: #d8dee8;
+      --line: #d7dde7;
       --accent: #0f766e;
+      --accent-strong: #0b4f4a;
+      --up: #087443;
+      --down: #b42318;
+    }
+    * {
+      box-sizing: border-box;
     }
     body {
       margin: 0;
-      background: var(--bg);
+      background: linear-gradient(180deg, #dce7ee 0, var(--bg) 280px);
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.55;
     }
     main {
-      max-width: 980px;
+      max-width: 1120px;
       margin: 0 auto;
-      padding: 40px 20px 64px;
+      padding: 28px 20px 64px;
     }
     article {
       background: var(--paper);
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 32px;
+      padding: 34px;
+      box-shadow: 0 18px 50px rgba(31, 41, 51, 0.08);
     }
     h1 {
-      margin: 0 0 24px;
-      font-size: 32px;
+      margin: 8px 0 28px;
+      padding: 22px 24px;
+      border: 1px solid #cfe2df;
+      border-left: 6px solid var(--accent);
+      border-radius: 8px;
+      background: linear-gradient(135deg, #f7fbfa, #edf5f3);
+      color: #111827;
+      font-size: 34px;
+      line-height: 1.18;
       letter-spacing: 0;
     }
     h2 {
-      margin: 32px 0 12px;
-      padding-top: 20px;
-      border-top: 1px solid var(--line);
+      margin: 34px 0 14px;
+      padding-top: 18px;
+      border-top: 1px solid #e2e8f0;
       font-size: 21px;
       letter-spacing: 0;
     }
@@ -52,24 +66,151 @@
     p, li {
       font-size: 15px;
     }
+    p {
+      margin: 0 0 14px;
+    }
     ul {
+      margin: 0 0 14px;
       padding-left: 22px;
     }
-    table {
+    .data-table {
       width: 100%;
       border-collapse: collapse;
-      margin: 12px 0 20px;
+      margin: 14px 0 24px;
       font-size: 14px;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 0 0 1px var(--line);
     }
-    th, td {
-      border: 1px solid var(--line);
+    .data-table th, .data-table td {
+      border: 1px solid #e0e6ef;
       padding: 10px 12px;
       text-align: left;
       vertical-align: top;
     }
-    th {
-      background: #eef6f5;
-      color: #134e4a;
+    .data-table th {
+      background: #edf5f4;
+      color: #174a46;
+      font-size: 13px;
+      font-weight: 750;
+    }
+    .data-table tr:nth-child(even) td {
+      background: #fbfcfe;
+    }
+    .metrics-table {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      border-collapse: separate;
+      box-shadow: none;
+      overflow: visible;
+    }
+    .metrics-table tr,
+    .metrics-table td {
+      display: block;
+    }
+    .metrics-table tbody {
+      display: contents;
+    }
+    .metrics-table tr:first-child {
+      display: none;
+    }
+    .metrics-table tr {
+      min-height: 132px;
+      padding: 14px;
+      border: 1px solid #d8e5e2;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #ffffff, #f7faf9);
+      box-shadow: 0 8px 22px rgba(31, 41, 51, 0.06);
+    }
+    .metrics-table td {
+      border: 0;
+      padding: 0;
+    }
+    .metrics-table td:nth-child(1) {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+    }
+    .metrics-table td:nth-child(3) {
+      margin-top: 8px;
+      color: #111827;
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+    .metrics-table td:nth-child(2) {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .metrics-table td:nth-child(2)::before {
+      content: "직전 ";
+    }
+    .metrics-table td:nth-child(4),
+    .metrics-table td:nth-child(5) {
+      display: inline-block;
+      margin-top: 10px;
+      margin-right: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #f2f4f7;
+      font-size: 12px;
+      font-weight: 750;
+    }
+    .metrics-table td:nth-child(6) {
+      margin-top: 12px;
+    }
+    .portfolio-table td:nth-child(1) {
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .portfolio-table td:nth-child(3),
+    .portfolio-table td:nth-child(4),
+    .portfolio-table td:nth-child(5) {
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .news-table td:first-child {
+      width: 150px;
+      font-weight: 700;
+      color: var(--accent-strong);
+    }
+    .spark {
+      color: var(--accent);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 18px;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+    .value-up {
+      color: var(--up);
+    }
+    .value-down {
+      color: var(--down);
+    }
+    .tone-up,
+    .tone-down,
+    .tone-neutral {
+      display: inline-block;
+      min-width: 58px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 750;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .tone-up {
+      background: #e8f6ef;
+      color: var(--up);
+    }
+    .tone-down {
+      background: #fff0ed;
+      color: var(--down);
+    }
+    .tone-neutral {
+      background: #f2f4f7;
+      color: #475467;
     }
     .meta {
       margin-bottom: 16px;
@@ -81,11 +222,20 @@
       flex-wrap: wrap;
       align-items: center;
       gap: 8px 12px;
-      margin-bottom: 18px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--line);
+      margin-bottom: 14px;
+      padding: 10px 12px;
+      border: 1px solid #d9e6e3;
+      border-radius: 8px;
+      background: #f7fbfa;
       color: var(--muted);
       font-size: 13px;
+    }
+    .brief-header::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
     }
     .brief-title {
       margin: 0;
@@ -99,12 +249,23 @@
       gap: 8px;
     }
     .brief-links a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #e9f5f2;
       color: var(--accent);
       font-size: 13px;
       text-decoration: none;
     }
     .brief-links a:hover {
       text-decoration: underline;
+    }
+    @media (max-width: 900px) {
+      .metrics-table {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
     @media (max-width: 640px) {
       main {
@@ -114,9 +275,13 @@
         padding: 20px 14px;
       }
       h1 {
-        font-size: 24px;
+        padding: 18px;
+        font-size: 25px;
       }
-      table {
+      .metrics-table {
+        grid-template-columns: 1fr;
+      }
+      .data-table:not(.metrics-table) {
         display: block;
         overflow-x: auto;
       }
@@ -134,16 +299,16 @@
       </section>
       <h1>Morning Investment Briefing - 2026-06-04</h1>
 <h2>주요 거시지표</h2>
-<table><tbody>
+<table class="data-table metrics-table"><tbody>
 <tr><th>지표</th><th>직전 거래일 종가</th><th>종가</th><th>등락폭</th><th>등락률</th><th>종가 7일</th></tr>
-<tr><td>Nasdaq 100</td><td>30,660.60</td><td>30,571.24</td><td>-89.36</td><td>-0.29%</td><td>▁▁▄▅▇█▇</td></tr>
-<tr><td>S&amp;P 500</td><td>7,609.78</td><td>7,553.68</td><td>-56.10</td><td>-0.74%</td><td>▁▁▄▆▇█▄</td></tr>
-<tr><td>KOSPI</td><td>8,801.49</td><td>8,639.41</td><td>-162.08</td><td>-1.84%</td><td>▁▃▂▅██▆</td></tr>
-<tr><td>USD/KRW</td><td>1,516.60</td><td>1,534.48</td><td>+17.88</td><td>+1.18%</td><td>▃▂▁▃▄▅█</td></tr>
-<tr><td>VIX</td><td>16.06</td><td>16.33</td><td>+0.27</td><td>+1.68%</td><td>█▄▁▆▄▆█</td></tr>
-<tr><td>Gold</td><td>4,436.70</td><td>4,492.70</td><td>+56.00</td><td>+1.26%</td><td>▂▅█▃▄▁▄</td></tr>
-<tr><td>SOXX</td><td>605.02</td><td>615.68</td><td>+10.66</td><td>+1.76%</td><td>▂▁▂▂▂▇█</td></tr>
-<tr><td>KOSDAQ</td><td>1,026.03</td><td>1,049.73</td><td>+23.70</td><td>+2.31%</td><td>█▆▅▃▂▁▂</td></tr>
+<tr><td>Nasdaq 100</td><td>30,660.60</td><td>30,571.24</td><td class="value-down">-89.36</td><td class="value-down">-0.29%</td><td class="spark">▁▁▄▅▇█▇</td></tr>
+<tr><td>S&amp;P 500</td><td>7,609.78</td><td>7,553.68</td><td class="value-down">-56.10</td><td class="value-down">-0.74%</td><td class="spark">▁▁▄▆▇█▄</td></tr>
+<tr><td>KOSPI</td><td>8,801.49</td><td>8,639.41</td><td class="value-down">-162.08</td><td class="value-down">-1.84%</td><td class="spark">▁▃▂▅██▆</td></tr>
+<tr><td>USD/KRW</td><td>1,516.60</td><td>1,534.48</td><td class="value-up">+17.88</td><td class="value-up">+1.18%</td><td class="spark">▃▂▁▃▄▅█</td></tr>
+<tr><td>VIX</td><td>16.06</td><td>16.33</td><td class="value-up">+0.27</td><td class="value-up">+1.68%</td><td class="spark">█▄▁▆▄▆█</td></tr>
+<tr><td>Gold</td><td>4,436.70</td><td>4,492.70</td><td class="value-up">+56.00</td><td class="value-up">+1.26%</td><td class="spark">▂▅█▃▄▁▄</td></tr>
+<tr><td>SOXX</td><td>605.02</td><td>615.68</td><td class="value-up">+10.66</td><td class="value-up">+1.76%</td><td class="spark">▂▁▂▂▂▇█</td></tr>
+<tr><td>KOSDAQ</td><td>1,026.03</td><td>1,049.73</td><td class="value-up">+23.70</td><td class="value-up">+2.31%</td><td class="spark">█▆▅▃▂▁▂</td></tr>
 </tbody></table>
 <h2>1. Executive Summary</h2>
 <ul>
@@ -159,23 +324,23 @@
 <p>2. 미국 보유 종목 중 LUNR -14.51%, RZLV -10.00%, RKLB -6.99%, NVDA -3.62%가 약세였다.</p>
 <p>3. DART 공시가 25건 수집됐다. 현대차2우B 관련 공시는 7건이었다.</p>
 <h2>2. 포트폴리오 영향도</h2>
-<table><tbody>
+<table class="data-table portfolio-table"><tbody>
 <tr><th>종목</th><th>영향도</th><th>종가</th><th>등락폭</th><th>등락률</th><th>7일</th><th>근거</th></tr>
-<tr><td>하나금융지주</td><td>긍정</td><td>120,600원</td><td>+3,603원</td><td>+3.08%</td><td>▇▆▂▂▁▄█</td><td>Naver Search 뉴스에 금융주 상승 및 은행 과징금 이슈가 포함됐다.</td></tr>
-<tr><td>현대차2우B</td><td>긍정</td><td>266,000원</td><td>+14,273원</td><td>+5.67%</td><td>▃▂▁▃█▅▂</td><td>DART에 영업잠정실적, 기업가치제고계획 관련 공시가 포함됐다.</td></tr>
-<tr><td>우리금융지주</td><td>중립~긍정</td><td>30,400원</td><td>+499원</td><td>+1.67%</td><td>█▇▄▂▁▃▆</td><td>DART에 증권발행실적보고서와 투자설명서 관련 공시가 있다.</td></tr>
-<tr><td>DB손해보험</td><td>중립</td><td>144,700원</td><td>+791원</td><td>+0.55%</td><td>█▄▁▃▁▅▄</td><td>손보업계 자동차보험 관련 뉴스와 채무증권 신고서 공시가 같이 들어왔다.</td></tr>
-<tr><td>삼성전자</td><td>중립</td><td>351,500원</td><td>+8,573원</td><td>+2.50%</td><td>▁▂▁▃▇█▇</td><td>SOXX는 +1.76%였지만 NVDA는 -3.62%였다. Naver Search의 일부 삼성 관련 뉴스는 확인 필요하다.</td></tr>
-<tr><td>금호석유화학</td><td>긍정</td><td>131,900원</td><td>+3,804원</td><td>+2.97%</td><td>█▅▃▂▁▁▂</td><td>Naver Search 뉴스에 재무 체력 관련 제목이 포함됐다.</td></tr>
-<tr><td>이수페타시스</td><td>긍정</td><td>133,700원</td><td>+2,506원</td><td>+1.91%</td><td>█▄▁▂█▆▅</td><td>Naver Search 뉴스에 AI 서버 수요와 PCB주 관련 제목이 포함됐다.</td></tr>
-<tr><td>현대바이오</td><td>긍정</td><td>10,940원</td><td>+356원</td><td>+3.36%</td><td>▇█▆▂▂▂▁</td><td>CNBC에는 바이오 M&amp;A 관련 글로벌 뉴스가 포함됐지만, 현대바이오 직접 관련성은 확인 필요하다.</td></tr>
-<tr><td>SCHD</td><td>중립</td><td>$32.37</td><td>$0.00</td><td>0.00%</td><td>█▆▇▆▁▄▄</td><td>yfinance 뉴스는 배당 포트폴리오와 SCHD/DGRO 비교 기사 중심이다.</td></tr>
-<tr><td>Coupang</td><td>부정</td><td>$16.42</td><td>-$0.31</td><td>-1.85%</td><td>▁▇▅▇▇█▆</td><td>yfinance 뉴스에 CPNG의 buyback 및 risk-reward 관련 제목이 포함됐다.</td></tr>
-<tr><td>Resolve AI</td><td>부정</td><td>$2.565</td><td>-$0.285</td><td>-10.00%</td><td>▂▁▅█▇▆▁</td><td>yfinance 뉴스에 2026년 매출 가이던스 재확인, TCS 제휴, Commerce.com 거래 관련 제목이 포함됐다.</td></tr>
-<tr><td>Rocket Lab</td><td>부정</td><td>$114.70</td><td>-$8.62</td><td>-6.99%</td><td>▇██▇▃▃▁</td><td>yfinance 뉴스에 우주주 약세 및 SpaceX IPO 관련 기사들이 포함됐다.</td></tr>
-<tr><td>Nvidia</td><td>부정</td><td>$214.75</td><td>-$8.07</td><td>-3.62%</td><td>▃▂▃▁█▇▃</td><td>CNBC와 yfinance 뉴스에 AI/반도체 관련 이슈가 있으나 당일 가격은 약세였다.</td></tr>
-<tr><td>Apple</td><td>부정</td><td>$310.26</td><td>-$4.94</td><td>-1.57%</td><td>▃▅▆▆▁█▄</td><td>yfinance 뉴스에 WWDC 전 Apple 관련 분석 기사와 CEO 관련 제목이 포함됐다. 사실관계 확인 필요.</td></tr>
-<tr><td>Intuitive Machines</td><td>부정</td><td>$33.83</td><td>-$5.74</td><td>-14.51%</td><td>▂▅█▇▄▄▁</td><td>yfinance 뉴스에 주식 발행 및 우주주 약세 관련 기사들이 포함됐다.</td></tr>
+<tr><td>하나금융지주</td><td class="tone-up">긍정</td><td>120,600원</td><td class="value-up">+3,603원</td><td class="value-up">+3.08%</td><td class="spark">▇▆▂▂▁▄█</td><td>Naver Search 뉴스에 금융주 상승 및 은행 과징금 이슈가 포함됐다.</td></tr>
+<tr><td>현대차2우B</td><td class="tone-up">긍정</td><td>266,000원</td><td class="value-up">+14,273원</td><td class="value-up">+5.67%</td><td class="spark">▃▂▁▃█▅▂</td><td>DART에 영업잠정실적, 기업가치제고계획 관련 공시가 포함됐다.</td></tr>
+<tr><td>우리금융지주</td><td class="tone-neutral">중립~긍정</td><td>30,400원</td><td class="value-up">+499원</td><td class="value-up">+1.67%</td><td class="spark">█▇▄▂▁▃▆</td><td>DART에 증권발행실적보고서와 투자설명서 관련 공시가 있다.</td></tr>
+<tr><td>DB손해보험</td><td class="tone-neutral">중립</td><td>144,700원</td><td class="value-up">+791원</td><td class="value-up">+0.55%</td><td class="spark">█▄▁▃▁▅▄</td><td>손보업계 자동차보험 관련 뉴스와 채무증권 신고서 공시가 같이 들어왔다.</td></tr>
+<tr><td>삼성전자</td><td class="tone-neutral">중립</td><td>351,500원</td><td class="value-up">+8,573원</td><td class="value-up">+2.50%</td><td class="spark">▁▂▁▃▇█▇</td><td class="value-up">SOXX는 +1.76%였지만 NVDA는 -3.62%였다. Naver Search의 일부 삼성 관련 뉴스는 확인 필요하다.</td></tr>
+<tr><td>금호석유화학</td><td class="tone-up">긍정</td><td>131,900원</td><td class="value-up">+3,804원</td><td class="value-up">+2.97%</td><td class="spark">█▅▃▂▁▁▂</td><td>Naver Search 뉴스에 재무 체력 관련 제목이 포함됐다.</td></tr>
+<tr><td>이수페타시스</td><td class="tone-up">긍정</td><td>133,700원</td><td class="value-up">+2,506원</td><td class="value-up">+1.91%</td><td class="spark">█▄▁▂█▆▅</td><td>Naver Search 뉴스에 AI 서버 수요와 PCB주 관련 제목이 포함됐다.</td></tr>
+<tr><td>현대바이오</td><td class="tone-up">긍정</td><td>10,940원</td><td class="value-up">+356원</td><td class="value-up">+3.36%</td><td class="spark">▇█▆▂▂▂▁</td><td>CNBC에는 바이오 M&amp;A 관련 글로벌 뉴스가 포함됐지만, 현대바이오 직접 관련성은 확인 필요하다.</td></tr>
+<tr><td>SCHD</td><td class="tone-neutral">중립</td><td>$32.37</td><td>$0.00</td><td>0.00%</td><td class="spark">█▆▇▆▁▄▄</td><td>yfinance 뉴스는 배당 포트폴리오와 SCHD/DGRO 비교 기사 중심이다.</td></tr>
+<tr><td>Coupang</td><td class="tone-down">부정</td><td>$16.42</td><td class="value-down">-$0.31</td><td class="value-down">-1.85%</td><td class="spark">▁▇▅▇▇█▆</td><td>yfinance 뉴스에 CPNG의 buyback 및 risk-reward 관련 제목이 포함됐다.</td></tr>
+<tr><td>Resolve AI</td><td class="tone-down">부정</td><td>$2.565</td><td class="value-down">-$0.285</td><td class="value-down">-10.00%</td><td class="spark">▂▁▅█▇▆▁</td><td>yfinance 뉴스에 2026년 매출 가이던스 재확인, TCS 제휴, Commerce.com 거래 관련 제목이 포함됐다.</td></tr>
+<tr><td>Rocket Lab</td><td class="tone-down">부정</td><td>$114.70</td><td class="value-down">-$8.62</td><td class="value-down">-6.99%</td><td class="spark">▇██▇▃▃▁</td><td>yfinance 뉴스에 우주주 약세 및 SpaceX IPO 관련 기사들이 포함됐다.</td></tr>
+<tr><td>Nvidia</td><td class="tone-down">부정</td><td>$214.75</td><td class="value-down">-$8.07</td><td class="value-down">-3.62%</td><td class="spark">▃▂▃▁█▇▃</td><td>CNBC와 yfinance 뉴스에 AI/반도체 관련 이슈가 있으나 당일 가격은 약세였다.</td></tr>
+<tr><td>Apple</td><td class="tone-down">부정</td><td>$310.26</td><td class="value-down">-$4.94</td><td class="value-down">-1.57%</td><td class="spark">▃▅▆▆▁█▄</td><td>yfinance 뉴스에 WWDC 전 Apple 관련 분석 기사와 CEO 관련 제목이 포함됐다. 사실관계 확인 필요.</td></tr>
+<tr><td>Intuitive Machines</td><td class="tone-down">부정</td><td>$33.83</td><td class="value-down">-$5.74</td><td class="value-down">-14.51%</td><td class="spark">▂▅█▇▄▄▁</td><td>yfinance 뉴스에 주식 발행 및 우주주 약세 관련 기사들이 포함됐다.</td></tr>
 </tbody></table>
 <h2>3. 금융주 브리핑</h2>
 <p>하나금융지주와 우리금융지주는 각각 +3.08%, +1.67% 상승했다. DB손해보험도 +0.55% 상승했다. Naver Search 뉴스에는 ELS 은행 과징금 규모 조정과 금융주 상승 전환 관련 제목, KB금융ㆍ신한지주ㆍ하나금융지주 강세 관련 제목이 포함됐다.</p>
@@ -194,7 +359,7 @@
 <p>Coupang은 16.42달러로 -1.85%였다. yfinance 뉴스에는 CPNG의 buyback 및 risk-reward 관련 제목이 포함됐다. Resolve AI는 2.565달러로 -10.00%였고, yfinance 뉴스에는 2026년 매출 가이던스 재확인과 TCS 제휴 관련 제목이 포함됐다. 추가 사실 확인 전에는 방향성 판단을 보류한다.</p>
 <h2>7. 공시 및 뉴스</h2>
 <p>공시는 총 25건 수집됐다.</p>
-<table><tbody>
+<table class="data-table"><tbody>
 <tr><th>종목</th><th>공시 건수</th><th>주요 유형</th></tr>
 <tr><td>현대차2우B</td><td>7</td><td>영업잠정실적, 기업가치제고계획, 기업지배구조보고서, 대규모기업집단현황공시</td></tr>
 <tr><td>하나금융지주</td><td>4</td><td>최대주주등소유주식변동신고서, 증권발행실적보고서, 투자설명서</td></tr>
@@ -203,7 +368,7 @@
 <tr><td>DB손해보험</td><td>3</td><td>채무증권 증권신고서, 대규모기업집단현황공시</td></tr>
 </tbody></table>
 <p>뉴스는 총 48건 수집됐다. CNBC Markets 8건, Naver Search News 21건, yfinance news 19건이다.</p>
-<table><tbody>
+<table class="data-table news-table"><tbody>
 <tr><th>종목/분류</th><th>주요 헤드라인</th></tr>
 <tr><td>현대차2우B</td><td>현대차그룹, 美 &#x27;오토테크 어워드 2026&#x27;서 &#x27;올해의 車회사&#x27; 선정; 젠슨 황 만나는 기업들도 주가 떨어졌다…환율 1530원 직전</td></tr>
 <tr><td>하나금융지주</td><td>환율 요동, 코스피 &#x27;뚝&#x27;...하나금융·신한금융·KB금융·한화는 &#x27;급등&#x27;; 역대급 코스피 강세장에도 저평가된 은행주</td></tr>
