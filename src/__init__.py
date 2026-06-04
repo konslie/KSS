@@ -1,1 +1,0 @@
-"""Morning investment briefing package."""
