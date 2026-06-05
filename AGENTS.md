@@ -13,12 +13,16 @@ The system has two responsibilities:
 For each run date:
 - `data/incoming/YYYY-MM-DD/source.json` exists.
 - `data/incoming/YYYY-MM-DD/news.md` exists.
+- `data/reports/YYYY-MM-DD/view_model.json` exists after structured report data is built.
+- `data/reports/YYYY-MM-DD/analysis_context.json` exists after report-writing context is built.
 - `data/reports/YYYY-MM-DD/final.md` exists after Codex writes the report.
-- `docs/index.html` and `docs/reports/YYYY-MM-DD.html` exist after HTML rendering.
+- `docs/index.html`, `docs/reports/YYYY-MM-DD.html`, and `docs/reports/YYYY-MM-DD.json` exist after HTML rendering.
 
 ## Reporting Rules
 
 - Do not add facts that are not present in `source.json` or `news.md`.
+- Use `view_model.json` as the primary structured source for frontend-ready prices, 7-trading-day closes, investor flows, news, disclosures, and data availability.
+- Use `analysis_context.json` as the primary grouped context source for written interpretation when it exists.
 - Do not make buy/sell recommendations.
 - Do not provide target prices.
 - Do not make certain forecasts.
@@ -32,3 +36,4 @@ For each run date:
 - Keep collectors replaceable: one source failing must not block the whole run.
 - Store raw run outputs under `data/incoming/` and final reports under `data/reports/`.
 - Store GitHub Pages output under `docs/`.
+- Keep frontend assets in `docs/assets/`; `src/render_html.py` should generate static shell pages and embed report/view-model JSON, not handcraft page styling inline.

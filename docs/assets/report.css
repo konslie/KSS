@@ -55,9 +55,6 @@ main {
 
 /* ── NAV HEADER ── */
 .brief-header {
-  position: sticky;
-  top: 12px;
-  z-index: 20;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -145,7 +142,7 @@ main {
   background: none;
   box-shadow: none;
   color: var(--text);
-  font-size: clamp(38px, 5.2vw, 64px);
+  font-size: clamp(34px, 4.6vw, 56px);
   line-height: 1.06;
 }
 
@@ -158,6 +155,48 @@ main {
   color: var(--muted);
   font-size: 17px;
   font-weight: 600;
+}
+
+.market-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  padding: 8px 12px;
+  border: 0.5px solid var(--line-2);
+  border-radius: 999px;
+  background: rgba(148,163,184,0.08);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.market-status span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  color: #fff;
+}
+
+.market-status strong {
+  color: var(--muted);
+}
+
+.market-status.status-danger span {
+  background: rgba(244,63,94,0.22);
+  color: var(--down);
+}
+
+.market-status.status-warning span {
+  background: rgba(245,158,11,0.18);
+  color: #fbbf24;
+}
+
+.market-status.status-neutral span {
+  background: rgba(99,102,241,0.18);
+  color: var(--accent-2);
 }
 
 .dashboard-section-head {
@@ -287,6 +326,43 @@ main {
   color: var(--muted);
 }
 
+.market-comment {
+  display: inline-flex;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.tag-list,
+.status-flags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.tag-list i,
+.status-flags i {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 2px 7px;
+  border: 0.5px solid var(--line-2);
+  border-radius: 999px;
+  background: rgba(148,163,184,0.08);
+  color: var(--faint);
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 650;
+}
+
+.status-flags i {
+  border-color: rgba(245,158,11,0.26);
+  background: rgba(245,158,11,0.1);
+  color: #fbbf24;
+}
+
 .market-spark {
   position: absolute;
   right: 18px;
@@ -362,7 +438,7 @@ main {
 
 .holding-data-table {
   width: 100%;
-  min-width: 1080px;
+  min-width: 1320px;
   border-collapse: collapse;
   font-size: 14px;
 }
@@ -437,6 +513,46 @@ main {
   font-size: 12px;
 }
 
+.impact-pill {
+  display: inline-flex;
+  min-width: 74px;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.impact-up {
+  border: 0.5px solid var(--up-border);
+  background: var(--up-bg);
+  color: var(--up);
+}
+
+.impact-down {
+  border: 0.5px solid var(--down-border);
+  background: var(--down-bg);
+  color: var(--down);
+}
+
+.impact-neutral {
+  border: 0.5px solid var(--line-2);
+  background: rgba(148,163,184,0.1);
+  color: var(--muted);
+}
+
+.issue-cell {
+  min-width: 180px;
+}
+
+.issue-cell strong {
+  display: block;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 750;
+}
+
 .compact-flow {
   display: grid;
   gap: 5px;
@@ -486,6 +602,15 @@ main {
   font-weight: 650;
 }
 
+.brief-summary {
+  max-width: 260px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
 .muted-cell {
   color: var(--faint);
   font-size: 12px;
@@ -512,7 +637,7 @@ h1 {
   letter-spacing: -0.02em;
 }
 h1::before {
-  content: "KSS MARKET INTELLIGENCE";
+  content: "개인 포트폴리오 관련 브리핑";
   display: block;
   margin-bottom: 14px;
   color: var(--gold);
@@ -949,7 +1074,7 @@ ul {
     border-radius: 16px;
   }
   .dashboard-hero h1 {
-    font-size: 34px;
+    font-size: 30px;
   }
   .dashboard-hero p:last-child {
     font-size: 14px;

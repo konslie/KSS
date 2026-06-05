@@ -39,7 +39,7 @@ async function loadReport(app) {
   const inArchive = app.dataset.inArchive === "true";
   app.innerHTML = "";
   app.append(renderShell(report, app.dataset.currentDate, archives, inArchive, viewModel));
-  document.title = report.title || "KO 데일리 브리핑";
+  document.title = report.title || "KO_데일리브리핑";
 }
 
 async function readReportData(app) {
@@ -133,10 +133,16 @@ function renderHero(report, viewModel) {
   const hero = document.createElement("section");
   hero.className = "dashboard-hero";
   const date = viewModel.date || report.date || "";
+  const status = viewModel.market_status || {};
+  const statusTone = marketStatusTone(status.label);
   hero.innerHTML = `
-    <p class="eyebrow">KSS MARKET INTELLIGENCE</p>
-    <h1>${escapeHtml(report.title || "KO 데일리 브리핑")}</h1>
+    <p class="eyebrow">개인 포트폴리오 관련 브리핑</p>
+    <h1>${escapeHtml(report.title || "KO_데일리브리핑")}</h1>
     <p>${escapeHtml(date)} · 국내외 시장 & 포트폴리오 요약</p>
+    <div class="market-status status-${statusTone}">
+      <span>${escapeHtml(status.label || "상태 확인")}</span>
+      <strong>${escapeHtml(status.reason || "시장 상태 산정 정보 부족")}</strong>
+    </div>
   `;
   return hero;
 }
@@ -168,6 +174,8 @@ function renderMarketCards(indicators) {
         <span class="prev-value">이전 ${formatPlainNumber(price.previous_close)}</span>
         <strong>${formatPlainNumber(price.latest_close)}</strong>
         <span class="metric-pills"><b>${formatSignedPercent(price.change_pct)}</b><em>${formatSignedNumber(price.change)}</em></span>
+        <span class="market-comment">${escapeHtml(indicator.short_comment || "")}</span>
+        ${tagList(indicator.risk_tags || [])}
       </div>
       <div class="market-spark">${numericSparkline(price.recent_closes || [], tone)}</div>
     `;
@@ -190,7 +198,9 @@ function renderHoldingMatrix(holdings) {
         <th>등락</th>
         <th>추이 (7일)</th>
         <th>수급</th>
-        <th>뉴스/공시</th>
+        <th>영향</th>
+        <th>핵심 이슈</th>
+        <th>한줄 요약</th>
       </tr>
     </thead>
   `;
@@ -215,18 +225,69 @@ function renderHoldingMatrix(holdings) {
       </td>
       <td>${numericSparkline(price.recent_closes || [], tone)}</td>
       <td>${hasDomesticFlow ? compactFlowBlock(latest, seven) : `<span class="muted-cell">국내 종목만</span>`}</td>
+      <td><span class="impact-pill impact-${impactTone(holding.impact?.label)}">${escapeHtml(holding.impact?.label || "중립")}</span></td>
       <td>
-        <div class="info-pills">
-          <span>뉴스 ${escapeHtml(String((holding.news || []).length))}</span>
-          <span>공시 ${escapeHtml(String((holding.disclosures || []).length))}</span>
+        <div class="issue-cell">
+          <strong>${escapeHtml(holding.primary_issue || "특이 신호 제한")}</strong>
+          ${tagList((holding.impact?.reasons || []).slice(0, 2))}
+          ${dataStatusFlags(holding.data_status || {})}
         </div>
       </td>
+      <td><p class="brief-summary">${escapeHtml(holdingBriefSummary(holding))}</p></td>
     `;
     tbody.append(tr);
   }
   table.append(tbody);
   wrap.append(table);
   return wrap;
+}
+
+function holdingBriefSummary(holding) {
+  const disclosures = holding.disclosures || [];
+  const news = holding.news || [];
+  const disclosure = disclosures.find((item) => item.title || item.report_name || item.name);
+  const article = news.find((item) => item.title || item.summary);
+  if (disclosure) {
+    return truncateText(`공시: ${disclosure.title || disclosure.report_name || disclosure.name}`, 74);
+  }
+  if (article) {
+    return truncateText(`뉴스: ${article.title || article.summary}`, 74);
+  }
+  return holding.primary_issue || "확인된 뉴스/공시 없음";
+}
+
+function truncateText(text, limit) {
+  const normalized = String(text || "").replace(/\s+/g, " ").trim();
+  if (normalized.length <= limit) return normalized;
+  return `${normalized.slice(0, limit - 1)}…`;
+}
+
+function tagList(tags) {
+  const clean = (tags || []).filter(Boolean).slice(0, 3);
+  if (!clean.length) return "";
+  return `<span class="tag-list">${clean.map((tag) => `<i>${escapeHtml(tag)}</i>`).join("")}</span>`;
+}
+
+function dataStatusFlags(status) {
+  const labels = [];
+  if (status.price === "missing") labels.push("가격 확인 필요");
+  if (status.flow === "missing") labels.push("수급 확인 필요");
+  if (status.news === "empty") labels.push("뉴스 없음");
+  if (!labels.length) return "";
+  return `<span class="status-flags">${labels.map((label) => `<i>${escapeHtml(label)}</i>`).join("")}</span>`;
+}
+
+function impactTone(label) {
+  const text = String(label || "");
+  if (text.includes("긍정")) return "up";
+  if (text.includes("부정")) return "down";
+  return "neutral";
+}
+
+function marketStatusTone(label) {
+  if (label === "위험") return "danger";
+  if (label === "주의") return "warning";
+  return "neutral";
 }
 
 function compactFlowBlock(latest, seven) {

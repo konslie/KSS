@@ -1,24 +1,28 @@
 from __future__ import annotations
 
-import unittest
+import json
 import tempfile
+import unittest
 from pathlib import Path
+from unittest import mock
 
-from src.render_html import archive_dates, index_header, markdown_to_html
+from src import render_html
+from src.render_html import archive_dates, app_shell, index_header, markdown_to_report
 
 
 class RenderHtmlTests(unittest.TestCase):
-    def test_basic_markdown_rendering(self) -> None:
-        html = markdown_to_html("# Title\n\n## Section\n\n- Item\n\n| A | B |\n| --- | --- |\n| 1 | 2 |")
+    def test_basic_markdown_becomes_report_data(self) -> None:
+        report = markdown_to_report("# Title\n\n## Section\n\n- Item\n\n| A | B |\n| --- | --- |\n| 1 | 2 |")
 
-        self.assertIn("<h1>Title</h1>", html)
-        self.assertIn("<h2>Section</h2>", html)
-        self.assertIn("<li>Item</li>", html)
-        self.assertIn('<table class="data-table">', html)
-        self.assertIn("<th>A</th>", html)
+        self.assertEqual(report["schema"], "kss-report.v1")
+        self.assertEqual(report["elements"][0], {"type": "heading", "level": 1, "text": "Title"})
+        self.assertEqual(report["elements"][1], {"type": "heading", "level": 2, "text": "Section"})
+        self.assertEqual(report["elements"][2], {"type": "list", "items": ["Item"], "autoBold": False})
+        self.assertEqual(report["elements"][3]["type"], "table")
+        self.assertEqual(report["elements"][3]["header"], ["A", "B"])
 
     def test_report_title_and_metrics_meta(self) -> None:
-        html = markdown_to_html(
+        report = markdown_to_report(
             "# Morning Investment Briefing - 2026-06-04\n\n"
             "## 주요 거시지표\n\n"
             "| 지표 | 직전 거래일 종가 | 종가 | 등락폭 | 등락률 | 종가 7일 |\n"
@@ -27,11 +31,12 @@ class RenderHtmlTests(unittest.TestCase):
             report_date="2026-06-04",
         )
 
-        self.assertIn("<h1>KO 데일리 브리핑 (26.06.04)</h1>", html)
-        self.assertIn("2026-06-04 08:00 KST 수집 기준", html)
+        self.assertEqual(report["title"], "KO_데일리브리핑(26.0604)")
+        self.assertEqual(report["elements"][0]["text"], "KO_데일리브리핑(26.0604)")
+        self.assertIn("2026-06-04 08:00 KST 수집 기준", report["elements"][2]["text"])
 
     def test_metrics_table_uses_requested_order(self) -> None:
-        html = markdown_to_html(
+        report = markdown_to_report(
             "| 지표 | 직전 거래일 종가 | 종가 | 등락폭 | 등락률 | 종가 7일 |\n"
             "| --- | --- | --- | --- | --- | --- |\n"
             "| USD/KRW | 1 | 2 | +1 | +1% | ▁▂▃ |\n"
@@ -41,61 +46,58 @@ class RenderHtmlTests(unittest.TestCase):
             "| VIX | 1 | 2 | +1 | +1% | ▁▂▃ |\n"
         )
 
-        self.assertLess(html.index("<td>KOSPI</td>"), html.index("<td>Nasdaq</td>"))
-        self.assertLess(html.index("<td>Nasdaq</td>"), html.index("<td>VIX</td>"))
-        self.assertLess(html.index("<td>USD/KRW</td>"), html.index("<td>필라델피아반도체지수</td>"))
-        self.assertIn('class="sparkline sparkline-up"', html)
-        self.assertIn('class="sparkline-path"', html)
-        self.assertIn('class="sparkline-baseline"', html)
+        rows = report["elements"][0]["rows"]
+        names = [row[0] for row in rows]
+        self.assertLess(names.index("KOSPI"), names.index("Nasdaq"))
+        self.assertLess(names.index("Nasdaq"), names.index("VIX"))
+        self.assertLess(names.index("USD/KRW"), names.index("필라델피아반도체지수"))
+        self.assertEqual(report["elements"][0]["className"], "metrics-table")
 
-    def test_portfolio_table_renders_source_badges_and_legend(self) -> None:
-        html = markdown_to_html(
-            "| 종목 | 영향도 | 근거 |\n"
-            "| --- | --- | --- |\n"
-            "| Nvidia | 부정 | CNBC와 yfinance 뉴스에 AI 투자 둔화 우려가 포함됐다. |\n"
-            "| 현대차2우B | 긍정 | DART에 영업잠정실적 공시가 포함됐다. |\n"
-            "| 하나금융지주 | 긍정 | Naver Search 뉴스에 은행주 강세가 포함됐다. |"
+    def test_portfolio_table_is_marked_for_frontend_badges_and_legend(self) -> None:
+        report = markdown_to_report(
+            "| 종목 | 영향도 | 종가 | 등락폭 | 등락률 | 7일 | 근거 |\n"
+            "| --- | --- | --- | --- | --- | --- | --- |\n"
+            "| Nvidia | 부정 | $214.75 | -$8.07 | -3.62% | ▇▆▅ | CNBC와 yfinance 뉴스에 AI 투자 둔화 우려가 포함됐다. |\n"
+            "| 현대차2우B | 긍정 | 266,000원 | +14,273원 | +5.67% | ▁▂▃ | DART에 영업잠정실적 공시가 포함됐다. |"
         )
 
-        self.assertIn('class="source-legend"', html)
-        self.assertIn('class="source-badge source-naver"', html)
-        self.assertIn('class="source-badge source-dart"', html)
-        self.assertIn('class="source-badge source-yfinance"', html)
-        self.assertIn('class="source-badge source-cnbc"', html)
-        self.assertNotIn('source-<span', html)
-        self.assertIn('class="impact-legend"', html)
-        self.assertIn('<td><span class="tone-down">부정</span></td>', html)
-        self.assertNotIn('<td class="tone-down">부정</td>', html)
+        table = report["elements"][0]
+        self.assertEqual(table["className"], "portfolio-table")
+        self.assertEqual(table["header"], ["종목", "영향도", "가격", "기관", "외인", "7일", "근거"])
+        self.assertEqual(table["rows"][0][2], "$214.75\n-$8.07 (-3.62%)")
+        self.assertEqual(table["rows"][0][3], "")
 
-    def test_source_badges_are_limited_to_portfolio_table(self) -> None:
-        html = markdown_to_html(
-            "## 1. Executive Summary\n\n"
-            "- DART 공시와 yfinance 뉴스가 있었다.\n\n"
-            "## 2. 포트폴리오 영향도\n\n"
-            "| 종목 | 영향도 | 근거 |\n"
-            "| --- | --- | --- |\n"
-            "| Nvidia | 부정 | CNBC와 yfinance 뉴스에 AI 투자 둔화 우려가 포함됐다. |"
-        )
-
-        self.assertIn("<li><strong>DART</strong> 공시와 <strong>yfinance</strong> 뉴스가 있었다.</li>", html)
-        self.assertIn('class="source-badge source-yfinance"', html)
-
-    def test_key_terms_are_bolded_in_summary_and_sector_briefings(self) -> None:
-        html = markdown_to_html(
+    def test_auto_bold_flag_is_limited_to_summary_and_sector_briefings(self) -> None:
+        report = markdown_to_report(
             "## 1. Executive Summary\n\n"
             "- 오늘의 한줄 요약: Nvidia 약세와 DART 공시를 확인했다.\n\n"
-            "## 3. 금융주 브리핑\n\n"
-            "하나금융지주와 DB손해보험은 상승했다.\n\n"
             "## 8. 오늘의 관찰 포인트\n\n"
             "Nvidia는 여기서 자동 강조하지 않는다."
         )
 
-        self.assertIn("<strong>오늘의 한줄 요약</strong>", html)
-        self.assertIn("<strong>Nvidia</strong>", html)
-        self.assertIn("<strong>DART</strong>", html)
-        self.assertIn("<strong>하나금융지주</strong>", html)
-        self.assertIn("<strong>DB손해보험</strong>", html)
-        self.assertIn("<p>Nvidia는 여기서 자동 강조하지 않는다.</p>", html)
+        summary_list = report["elements"][1]
+        observation_paragraph = report["elements"][3]
+        self.assertTrue(summary_list["autoBold"])
+        self.assertFalse(observation_paragraph["autoBold"])
+
+    def test_app_shell_links_assets_and_report_json(self) -> None:
+        html = app_shell(
+            title="KO 데일리 브리핑 (26.06.04)",
+            report_json="reports/2026-06-04.json",
+            current_date="2026-06-04",
+            archive_dates=["2026-06-04", "2026-06-03"],
+            report_data={
+                "title": "KO 데일리 브리핑 (26.06.04)",
+                "report": {"elements": []},
+                "view_model": {"holdings": []},
+            },
+        )
+
+        self.assertIn('href="assets/report.css"', html)
+        self.assertIn('src="assets/report.js"', html)
+        self.assertIn('data-report-json="reports/2026-06-04.json"', html)
+        self.assertIn('id="report-data"', html)
+        self.assertIn("2026-06-03", html)
 
     def test_index_header_links_to_archives(self) -> None:
         html = index_header(
@@ -120,8 +122,32 @@ class RenderHtmlTests(unittest.TestCase):
             reports_dir = Path(tmp)
             (reports_dir / "2026-06-04.html").write_text("", encoding="utf-8")
             (reports_dir / "not-a-report.html").write_text("", encoding="utf-8")
+            (reports_dir / "2026-06-04.json").write_text("", encoding="utf-8")
 
             self.assertEqual(archive_dates(reports_dir), ["2026-06-04"])
+
+    def test_main_writes_shell_assets_and_report_json(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            docs_dir = Path(tmp) / "docs"
+            report_path = Path(tmp) / "final.md"
+            report_path.write_text("# Morning Investment Briefing - 2026-06-04\n", encoding="utf-8")
+            with mock.patch.object(render_html, "DOCS_DIR", docs_dir):
+                with mock.patch.object(render_html, "ASSETS_DIR", docs_dir / "assets"):
+                    exit_code = render_html.main(["--date", "2026-06-04", "--report", str(report_path)])
+
+            self.assertEqual(exit_code, 0)
+            self.assertTrue((docs_dir / "index.html").exists())
+            self.assertTrue((docs_dir / "reports" / "2026-06-04.html").exists())
+            json_path = docs_dir / "reports" / "2026-06-04.json"
+            self.assertTrue(json_path.exists())
+            self.assertTrue((docs_dir / "assets" / "report.css").exists())
+            self.assertTrue((docs_dir / "assets" / "report.js").exists())
+            self.assertIn('id="report-data"', (docs_dir / "index.html").read_text(encoding="utf-8"))
+            data = json.loads(json_path.read_text(encoding="utf-8"))
+            self.assertEqual(data["title"], "KO_데일리브리핑(26.0604)")
+            self.assertEqual(data["schema"], "kss-page.v1")
+            self.assertIn("report", data)
+            self.assertIn("view_model", data)
 
 
 if __name__ == "__main__":

@@ -5,6 +5,7 @@ import datetime as dt
 import html
 import io
 import json
+import math
 import os
 import re
 import sys
@@ -22,6 +23,15 @@ PORTFOLIO_PATH = ROOT / "config" / "portfolio.yaml"
 INCOMING_DIR = ROOT / "data" / "incoming"
 CACHE_DIR = ROOT / "data" / "cache"
 DART_API_BASE = "https://opendart.fss.or.kr/api"
+KRX_OPEN_API_BASE = "https://data-dbg.krx.co.kr/svc/apis"
+KRX_STOCK_API_PATHS = {
+    "KOSPI": "sto/stk_bydd_trd",
+    "KOSDAQ": "sto/ksq_bydd_trd",
+}
+KRX_INDEX_API_PATHS = {
+    "KOSPI": "idx/kospi_dd_trd",
+    "KOSDAQ": "idx/kosdaq_dd_trd",
+}
 MARKET_INDICATORS = {
     "^KS11": "KOSPI",
     "^KQ11": "KOSDAQ",
@@ -43,6 +53,11 @@ DART_STOCK_CODE_FALLBACKS = {
 }
 
 KOSDAQ_SYMBOLS = {"048410"}
+INVESTOR_NAME_KO = {
+    "individual": "개인",
+    "institution": "기관",
+    "foreign": "외국인",
+}
 
 
 def now_kst() -> dt.datetime:
@@ -248,25 +263,58 @@ def fetch_yfinance_quote(yf: Any, symbol: str) -> tuple[dict[str, Any] | None, d
         history = ticker.history(period="10d", interval="1d", auto_adjust=False)
         if history.empty:
             return None, {"source": "yfinance", "symbol": symbol, "status": "missing", "reason": "empty history"}
-        last = history.iloc[-1]
-        previous = history.iloc[-2] if len(history) > 1 else None
+        valid_history = history.dropna(subset=["Close"])
+        if valid_history.empty:
+            return None, {
+                "source": "yfinance",
+                "symbol": symbol,
+                "status": "missing",
+                "reason": "history has no valid close",
+            }
+        last = valid_history.iloc[-1]
+        previous = valid_history.iloc[-2] if len(valid_history) > 1 else None
         close = float(last["Close"])
         previous_close = float(previous["Close"]) if previous is not None else None
         change = None if previous_close is None else close - previous_close
         change_pct = None if previous_close in (None, 0) else ((close - previous_close) / previous_close) * 100
-        recent_closes = [round(float(value), 4) for value in history["Close"].tail(7)]
-        return {
+        recent_history = valid_history.tail(7)
+        recent_closes = [round(float(value), 4) for value in recent_history["Close"]]
+        recent_dates = [format_yfinance_date(index) for index in recent_history.index]
+        row = {
             "symbol": symbol,
             "source": "yfinance",
+            "as_of_date": format_yfinance_date(valid_history.index[-1]),
             "close": round(close, 4),
             "previous_close": round(previous_close, 4) if previous_close is not None else None,
             "change": round(change, 4) if change is not None else None,
             "change_pct": round(change_pct, 2) if change_pct is not None else None,
             "recent_closes": recent_closes,
-            "volume": int(last["Volume"]) if "Volume" in last else None,
-        }, None
+            "recent_dates": recent_dates,
+            "volume": int(last["Volume"]) if "Volume" in last and is_finite_number(last["Volume"]) else None,
+        }
+        warning = None
+        if len(valid_history) != len(history):
+            warning = {
+                "source": "yfinance",
+                "symbol": symbol,
+                "status": "partial",
+                "reason": "ignored history rows with invalid close",
+            }
+        return row, warning
     except Exception as exc:  # noqa: BLE001
         return None, {"source": "yfinance", "symbol": symbol, "status": "failed", "reason": str(exc)}
+
+
+def format_yfinance_date(value: Any) -> str:
+    date_value = value.date() if hasattr(value, "date") else value
+    return str(date_value)
+
+
+def is_finite_number(value: Any) -> bool:
+    try:
+        return math.isfinite(float(value))
+    except (TypeError, ValueError):
+        return False
 
 
 def collect_naver(holdings: list[dict[str, Any]], offline: bool) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
@@ -394,7 +442,7 @@ def naver_news_query(holding: dict[str, Any]) -> str:
     return name
 
 
-def collect_pykrx(
+def collect_krx_open_api_reference(
     holdings: list[dict[str, Any]],
     run_date: str,
     offline: bool,
@@ -404,16 +452,9 @@ def collect_pykrx(
     quality: list[dict[str, Any]] = []
 
     if offline:
-        return stock_rows, index_rows, [{"source": "pykrx", "status": "skipped", "reason": "offline mode"}]
-
-    if not os.getenv("KRX_ID") or not os.getenv("KRX_PW"):
-        return stock_rows, index_rows, [{"source": "pykrx", "status": "skipped", "reason": "KRX_ID or KRX_PW not set"}]
-
-    try:
-        import pandas as pd  # type: ignore
-        from pykrx import stock  # type: ignore
-    except ImportError:
-        return stock_rows, index_rows, [{"source": "pykrx", "status": "failed", "reason": "package not installed"}]
+        return stock_rows, index_rows, [{"source": "krx_open_api", "status": "skipped", "reason": "offline mode"}]
+    if not os.getenv("KRX_AUTH_KEY"):
+        return stock_rows, index_rows, [{"source": "krx_open_api", "status": "skipped", "reason": "KRX_AUTH_KEY not set"}]
 
     dates = candidate_market_dates(run_date)
     domestic_names = {
@@ -422,74 +463,595 @@ def collect_pykrx(
         if holding.get("market") == "KR"
     }
 
-    try:
-        ohlcv = None
-        used_date = None
-        for date in dates:
-            frames = [
-                stock.get_market_ohlcv_by_ticker(date, market="KOSPI"),
-                stock.get_market_ohlcv_by_ticker(date, market="KOSDAQ"),
-            ]
-            candidate = pd.concat(frames)
-            if has_columns(candidate, ["종가"]):
-                ohlcv = candidate
-                used_date = date
-                break
-        if ohlcv is None:
-            quality.append({"source": "pykrx", "status": "unavailable", "reason": "no usable stock ohlcv returned"})
-        else:
-            for symbol, name in domestic_names.items():
-                if symbol not in ohlcv.index:
-                    quality.append({"source": "pykrx", "symbol": symbol, "status": "missing", "reason": "ticker not found"})
-                    continue
-                row = ohlcv.loc[symbol]
-                stock_rows.append({
-                    "symbol": symbol,
-                    "name": name,
-                    "source": "pykrx",
-                    "as_of_date": used_date,
-                    "price": safe_int(row.get("종가")),
-                    "change": safe_int(row.get("대비")),
-                    "change_pct": safe_float(row.get("등락률")),
-                    "volume": safe_int(row.get("거래량")),
-                    "trading_value": safe_int(row.get("거래대금")),
-                })
-    except Exception as exc:  # noqa: BLE001
-        quality.append({"source": "pykrx", "status": "failed", "reason": f"stock ohlcv failed: {exc}"})
+    for market, api_path in KRX_STOCK_API_PATHS.items():
+        rows, error = first_krx_rows(api_path, dates)
+        if not rows:
+            quality.append({
+                "source": "krx_open_api",
+                "market": market,
+                "status": "missing",
+                "reason": error or "empty stock data",
+            })
+            continue
+        for row in rows:
+            symbol = str(row.get("ISU_CD") or row.get("ISU_SRT_CD") or "").strip()
+            if symbol not in domestic_names:
+                continue
+            stock_rows.append({
+                "symbol": symbol,
+                "name": domestic_names[symbol],
+                "source": "krx_open_api",
+                "as_of_date": str(row.get("BAS_DD") or row.get("TRD_DD") or ""),
+                "price": parse_int_value(row.get("TDD_CLSPRC")),
+                "change": parse_int_value(row.get("CMPPREVDD_PRC")),
+                "change_pct": safe_float(str(row.get("FLUC_RT", "")).replace(",", "")),
+                "volume": parse_int_value(row.get("ACC_TRDVOL")),
+                "trading_value": parse_int_value(row.get("ACC_TRDVAL")),
+            })
 
-    index_specs = [
-        ("1001", "KOSPI"),
-        ("2001", "KOSDAQ"),
-    ]
-    for index_code, name in index_specs:
-        try:
-            frame = None
-            used_date = None
-            for date in dates:
-                candidate = stock.get_index_ohlcv_by_date(date, date, index_code)
-                if not candidate.empty and has_columns(candidate, ["종가"]):
-                    frame = candidate
-                    used_date = date
-                    break
-            if frame is None:
-                quality.append({"source": "pykrx", "index": name, "status": "missing", "reason": "empty index data"})
+    for name, api_path in KRX_INDEX_API_PATHS.items():
+        rows, error = first_krx_rows(api_path, dates)
+        if not rows:
+            quality.append({
+                "source": "krx_open_api",
+                "index": name,
+                "status": "missing",
+                "reason": error or "empty index data",
+            })
+            continue
+        row = rows[0]
+        index_rows.append({
+            "name": name,
+            "source": "krx_open_api",
+            "as_of_date": str(row.get("BAS_DD") or row.get("TRD_DD") or ""),
+            "close": safe_float(str(row.get("CLSPRC_IDX") or row.get("TDD_CLSPRC") or "").replace(",", "")),
+            "change": safe_float(str(row.get("CMPPREVDD_IDX") or row.get("CMPPREVDD_PRC") or "").replace(",", "")),
+            "change_pct": safe_float(str(row.get("FLUC_RT") or "").replace(",", "")),
+            "volume": parse_int_value(row.get("ACC_TRDVOL")),
+            "trading_value": parse_int_value(row.get("ACC_TRDVAL")),
+        })
+
+    return stock_rows, index_rows, quality
+
+
+def collect_krx_reference(
+    holdings: list[dict[str, Any]],
+    run_date: str,
+    offline: bool,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+    stock_rows, index_rows, quality = collect_krx_open_api_reference(holdings, run_date, offline)
+    if offline or (stock_rows and index_rows):
+        return stock_rows, index_rows, quality
+
+    fallback_rows, fallback_indices, fallback_quality = collect_pykrx_fallback_reference(holdings, run_date)
+    existing_symbols = {row.get("symbol") for row in stock_rows}
+    existing_indices = {row.get("name") for row in index_rows}
+    merged_rows = stock_rows + [row for row in fallback_rows if row.get("symbol") not in existing_symbols]
+    merged_indices = index_rows + [row for row in fallback_indices if row.get("name") not in existing_indices]
+    return merged_rows, merged_indices, quality + fallback_quality
+
+
+def collect_pykrx_fallback_reference(
+    holdings: list[dict[str, Any]],
+    run_date: str,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
+    stock_rows: list[dict[str, Any]] = []
+    index_rows: list[dict[str, Any]] = []
+    quality: list[dict[str, Any]] = []
+
+    if not os.getenv("KRX_ID") or not os.getenv("KRX_PW"):
+        return stock_rows, index_rows, [{
+            "source": "pykrx_fallback",
+            "status": "skipped",
+            "reason": "KRX_ID or KRX_PW not set",
+        }]
+
+    try:
+        from pykrx import stock  # type: ignore
+    except ImportError:
+        return stock_rows, index_rows, [{
+            "source": "pykrx_fallback",
+            "status": "failed",
+            "reason": "package not installed",
+        }]
+
+    dates = candidate_market_dates(run_date)
+    domestic_names = {
+        holding["symbol"]: holding["name"]
+        for holding in holdings
+        if holding.get("market") == "KR"
+    }
+
+    stock_frames: list[tuple[str, Any, str]] = []
+    for market in ("KOSPI", "KOSDAQ"):
+        for date in dates:
+            try:
+                frame = stock.get_market_ohlcv_by_ticker(date, market=market)
+            except Exception as exc:  # noqa: BLE001
+                quality.append({
+                    "source": "pykrx_fallback",
+                    "market": market,
+                    "status": "failed",
+                    "reason": str(exc),
+                })
+                break
+            if not getattr(frame, "empty", True):
+                stock_frames.append((market, frame, date))
+                break
+
+    seen_symbols: set[str] = set()
+    for _market, frame, date in stock_frames:
+        for symbol, name in domestic_names.items():
+            if symbol in seen_symbols or symbol not in frame.index:
+                continue
+            row = frame.loc[symbol]
+            stock_rows.append({
+                "symbol": symbol,
+                "name": name,
+                "source": "pykrx_fallback",
+                "as_of_date": date,
+                "price": parse_int_value(row.get("종가")),
+                "change": parse_int_value(row.get("대비")),
+                "change_pct": safe_float(row.get("등락률")),
+                "volume": parse_int_value(row.get("거래량")),
+                "trading_value": parse_int_value(row.get("거래대금")),
+            })
+            seen_symbols.add(symbol)
+
+    for index_code, name in (("1001", "KOSPI"), ("2001", "KOSDAQ")):
+        for date in dates:
+            try:
+                frame = stock.get_index_ohlcv_by_date(date, date, index_code)
+            except Exception as exc:  # noqa: BLE001
+                quality.append({
+                    "source": "pykrx_fallback",
+                    "index": name,
+                    "status": "failed",
+                    "reason": str(exc),
+                })
+                break
+            if getattr(frame, "empty", True):
                 continue
             row = frame.iloc[-1]
             index_rows.append({
                 "name": name,
-                "index_code": index_code,
-                "source": "pykrx",
-                "as_of_date": used_date,
+                "source": "pykrx_fallback",
+                "as_of_date": date,
                 "close": safe_float(row.get("종가")),
                 "change": safe_float(row.get("등락폭")),
                 "change_pct": safe_float(row.get("등락률")),
-                "volume": safe_int(row.get("거래량")),
-                "trading_value": safe_int(row.get("거래대금")),
+                "volume": parse_int_value(row.get("거래량")),
+                "trading_value": parse_int_value(row.get("거래대금")),
             })
-        except Exception as exc:  # noqa: BLE001
-            quality.append({"source": "pykrx", "index": name, "status": "failed", "reason": str(exc)})
+            break
 
     return stock_rows, index_rows, quality
+
+
+def first_krx_rows(api_path: str, dates: list[str]) -> tuple[list[dict[str, Any]], str | None]:
+    last_error = None
+    for date in dates:
+        payload = request_krx_open_api(api_path, {"basDd": date})
+        if payload.get("__error"):
+            last_error = str(payload["__error"])
+            continue
+        rows = krx_result_rows(payload)
+        if rows:
+            return rows, None
+    return [], last_error
+
+
+def collect_investor_flows(
+    holdings: list[dict[str, Any]],
+    run_date: str,
+    offline: bool,
+) -> tuple[dict[str, list[dict[str, Any]]], list[dict[str, Any]]]:
+    flows = {"markets": [], "holdings": []}
+    if offline:
+        return flows, [{"source": "krx_investor_flows", "status": "skipped", "reason": "offline mode"}]
+
+    if not os.getenv("KRX_AUTH_KEY"):
+        quality = [{"source": "krx_investor_flows", "status": "skipped", "reason": "KRX_AUTH_KEY not set"}]
+        fallback_flows, fallback_quality = collect_pykrx_fallback_investor_flows(holdings, run_date)
+        return fallback_flows, quality + fallback_quality
+
+    flows, quality = collect_investor_flows_from_krx_open_api(holdings, run_date)
+    if flows["markets"] or flows["holdings"]:
+        return flows, quality
+
+    fallback_flows, fallback_quality = collect_pykrx_fallback_investor_flows(holdings, run_date)
+    return fallback_flows, quality + fallback_quality
+
+
+def collect_investor_flows_from_krx_open_api(
+    holdings: list[dict[str, Any]],
+    run_date: str,
+) -> tuple[dict[str, list[dict[str, Any]]], list[dict[str, Any]]]:
+    flows = {"markets": [], "holdings": []}
+    quality: list[dict[str, Any]] = []
+    market_api_path = os.getenv("KRX_INVESTOR_MARKET_API_PATH")
+    holding_api_path = os.getenv("KRX_INVESTOR_HOLDING_API_PATH")
+
+    if not market_api_path and not holding_api_path:
+        return flows, [{
+            "source": "krx_investor_flows",
+            "status": "skipped",
+            "reason": "KRX investor flow Open API path not configured",
+        }]
+
+    dates = candidate_market_dates(run_date)
+    if market_api_path:
+        for market in ("KOSPI", "KOSDAQ"):
+            row = fetch_krx_market_investor_flow(market_api_path, market, dates)
+            if row:
+                flows["markets"].append(row)
+            else:
+                quality.append({
+                    "source": "krx_investor_flows",
+                    "scope": "market",
+                    "market": market,
+                    "status": "missing",
+                    "reason": "empty investor flow data",
+                })
+
+    if holding_api_path:
+        for holding in holdings:
+            if holding.get("market") != "KR":
+                continue
+            symbol = str(holding["symbol"])
+            row = fetch_krx_holding_investor_flow(holding_api_path, symbol, str(holding["name"]), dates)
+            if row:
+                flows["holdings"].append(row)
+            else:
+                quality.append({
+                    "source": "krx_investor_flows",
+                    "scope": "holding",
+                    "symbol": symbol,
+                    "name": holding["name"],
+                    "status": "missing",
+                    "reason": "empty investor flow data",
+                })
+
+    return flows, quality
+
+
+def fetch_krx_market_investor_flow(api_path: str, market: str, dates: list[str]) -> dict[str, Any] | None:
+    for date in dates:
+        payload = request_krx_open_api(api_path, krx_query_params(date, market=market))
+        row = investor_flow_from_krx_rows(krx_result_rows(payload))
+        if row:
+            row.update({"scope": "market", "market": market, "as_of_date": date})
+            return row
+    return None
+
+
+def fetch_krx_holding_investor_flow(api_path: str, symbol: str, name: str, dates: list[str]) -> dict[str, Any] | None:
+    for date in dates:
+        payload = request_krx_open_api(api_path, krx_query_params(date, symbol=symbol))
+        row = investor_flow_from_krx_rows(krx_result_rows(payload))
+        if row:
+            row.update({"scope": "holding", "symbol": symbol, "name": name, "as_of_date": date})
+            return row
+    return None
+
+
+def collect_pykrx_fallback_investor_flows(
+    holdings: list[dict[str, Any]],
+    run_date: str,
+) -> tuple[dict[str, list[dict[str, Any]]], list[dict[str, Any]]]:
+    flows = {"markets": [], "holdings": []}
+    quality: list[dict[str, Any]] = []
+
+    if not os.getenv("KRX_ID") or not os.getenv("KRX_PW"):
+        return flows, [{
+            "source": "pykrx_fallback",
+            "status": "skipped",
+            "reason": "KRX_ID or KRX_PW not set",
+        }]
+
+    try:
+        from pykrx import stock  # type: ignore
+    except ImportError:
+        return flows, [{
+            "source": "pykrx_fallback",
+            "status": "failed",
+            "reason": "package not installed",
+        }]
+
+    dates = candidate_market_dates(run_date)
+    for market in ("KOSPI", "KOSDAQ"):
+        row = fetch_pykrx_market_investor_flow(stock, market, dates)
+        if row:
+            flows["markets"].append(row)
+        else:
+            quality.append({
+                "source": "pykrx_fallback",
+                "scope": "market",
+                "market": market,
+                "status": "missing",
+                "reason": "empty investor flow data",
+            })
+
+    for holding in holdings:
+        if holding.get("market") != "KR":
+            continue
+        symbol = str(holding["symbol"])
+        row = fetch_pykrx_holding_investor_flow(stock, symbol, str(holding["name"]), dates)
+        if row:
+            flows["holdings"].append(row)
+        else:
+            quality.append({
+                "source": "pykrx_fallback",
+                "scope": "holding",
+                "symbol": symbol,
+                "name": holding["name"],
+                "status": "missing",
+                "reason": "empty investor flow data",
+            })
+
+    return flows, quality
+
+
+def fetch_pykrx_market_investor_flow(stock: Any, market: str, dates: list[str]) -> dict[str, Any] | None:
+    for date in dates:
+        try:
+            frame = stock.get_market_trading_value_by_investor(date, date, market)
+        except Exception:
+            continue
+        row = investor_flow_from_pykrx_frame(frame)
+        if row:
+            row.update({"scope": "market", "market": market, "as_of_date": date})
+            seven_day_total = pykrx_seven_day_flow_total(stock, market, date)
+            if seven_day_total:
+                row["seven_day_total"] = seven_day_total
+            return row
+    return None
+
+
+def fetch_pykrx_holding_investor_flow(stock: Any, symbol: str, name: str, dates: list[str]) -> dict[str, Any] | None:
+    for date in dates:
+        try:
+            frame = stock.get_market_trading_value_by_date(date, date, symbol)
+        except Exception:
+            continue
+        row = investor_flow_from_pykrx_frame(frame)
+        if row:
+            row.update({"scope": "holding", "symbol": symbol, "name": name, "as_of_date": date})
+            seven_day_total = pykrx_seven_day_flow_total(stock, symbol, date)
+            if seven_day_total:
+                row["seven_day_total"] = seven_day_total
+            return row
+    return None
+
+
+def pykrx_seven_day_flow_total(stock: Any, ticker: str, end_date: str) -> dict[str, Any] | None:
+    start_date = (
+        dt.datetime.strptime(end_date, "%Y%m%d").date() - dt.timedelta(days=14)
+    ).strftime("%Y%m%d")
+    try:
+        frame = stock.get_market_trading_value_by_date(start_date, end_date, ticker)
+    except Exception:
+        return None
+    return investor_flow_sum_from_pykrx_frame(frame)
+
+
+def investor_flow_sum_from_pykrx_frame(frame: Any, limit: int = 7) -> dict[str, Any] | None:
+    if getattr(frame, "empty", True):
+        return None
+    recent = frame.tail(limit)
+    totals = {
+        "individual": pykrx_column_sum(recent, ("개인",)),
+        "institution": pykrx_column_sum(recent, ("기관합계", "기관")),
+        "foreign": pykrx_column_sum(recent, ("외국인합계", "외국인")),
+    }
+    if all(value is None for value in totals.values()):
+        return None
+    return {
+        "available": True,
+        "trading_days": len(recent),
+        "individual": totals["individual"] or 0,
+        "institution": totals["institution"] or 0,
+        "foreign": totals["foreign"] or 0,
+    }
+
+
+def pykrx_column_sum(frame: Any, labels: tuple[str, ...]) -> int | None:
+    for label in labels:
+        if label in frame.columns:
+            total = 0
+            found = False
+            for value in frame[label]:
+                parsed = parse_int_value(value)
+                if parsed is not None:
+                    total += parsed
+                    found = True
+            return total if found else None
+    return None
+
+
+def investor_flow_from_pykrx_frame(frame: Any) -> dict[str, Any] | None:
+    if getattr(frame, "empty", True):
+        return None
+
+    totals = {
+        "individual": pykrx_value(frame, ("개인",)),
+        "institution": pykrx_value(frame, ("기관합계", "기관")),
+        "foreign": pykrx_value(frame, ("외국인합계", "외국인")),
+    }
+    if totals["institution"] is None:
+        totals["institution"] = pykrx_institution_sum(frame)
+    if all(value is None for value in totals.values()):
+        return None
+
+    numeric_totals = {key: value or 0 for key, value in totals.items()}
+    row = {
+        "source": "pykrx_fallback",
+        "unit": "KRW",
+        "individual": numeric_totals["individual"],
+        "institution": numeric_totals["institution"],
+        "foreign": numeric_totals["foreign"],
+    }
+    buy_key = max(numeric_totals, key=lambda key: numeric_totals[key])
+    sell_key = min(numeric_totals, key=lambda key: numeric_totals[key])
+    row["buy_leader"] = INVESTOR_NAME_KO[buy_key] if numeric_totals[buy_key] > 0 else ""
+    row["sell_leader"] = INVESTOR_NAME_KO[sell_key] if numeric_totals[sell_key] < 0 else ""
+    return row
+
+
+def pykrx_value(frame: Any, labels: tuple[str, ...]) -> int | None:
+    for label in labels:
+        if label in frame.index and "순매수" in frame.columns:
+            return parse_int_value(frame.loc[label, "순매수"])
+        if label in frame.columns:
+            values = frame[label]
+            if len(values) > 0:
+                return parse_int_value(values.iloc[-1])
+    return None
+
+
+def pykrx_institution_sum(frame: Any) -> int | None:
+    if "순매수" not in frame.columns:
+        return None
+    excluded = {"개인", "외국인", "외국인합계", "기타법인", "전체"}
+    total = 0
+    found = False
+    for label in frame.index:
+        if str(label) in excluded:
+            continue
+        value = parse_int_value(frame.loc[label, "순매수"])
+        if value is not None:
+            total += value
+            found = True
+    return total if found else None
+
+
+def request_krx_open_api(api_path: str, params: dict[str, str], timeout: int = 20) -> dict[str, Any]:
+    auth_key = os.getenv("KRX_AUTH_KEY")
+    if not auth_key:
+        return {}
+    base_url = os.getenv("KRX_OPEN_API_BASE", KRX_OPEN_API_BASE).rstrip("/")
+    normalized_path = api_path.strip().strip("/")
+    if normalized_path.startswith("apis/"):
+        normalized_path = normalized_path[5:]
+    last_error = None
+    for url in krx_open_api_urls(base_url, normalized_path, params):
+        try:
+            return fetch_json(url, headers={"AUTH_KEY": auth_key, "User-Agent": "Mozilla/5.0 KSS/0.1"}, timeout=timeout)
+        except urllib.error.HTTPError as exc:
+            last_error = f"HTTP {exc.code}: {exc.reason}"
+        except Exception as exc:  # noqa: BLE001
+            last_error = str(exc)
+    return {"__error": last_error or "request failed"}
+
+
+def krx_open_api_urls(base_url: str, api_path: str, params: dict[str, str]) -> list[str]:
+    query = urlencode(params)
+    path_url = f"{base_url}/{api_path}"
+    if api_path.endswith(".json"):
+        return [f"{path_url}?{query}"]
+    return [
+        f"{path_url}?{query}",
+        f"{path_url}.json?{query}",
+    ]
+
+
+def krx_query_params(date: str, market: str | None = None, symbol: str | None = None) -> dict[str, str]:
+    params = {"basDd": date}
+    if market:
+        params.update({
+            "mktId": {"KOSPI": "STK", "KOSDAQ": "KSQ"}.get(market, market),
+            "mktNm": market,
+        })
+    if symbol:
+        params.update({"isuCd": symbol, "isuSrtCd": symbol})
+    return params
+
+
+def krx_result_rows(payload: dict[str, Any]) -> list[dict[str, Any]]:
+    if not isinstance(payload, dict):
+        return []
+    output = payload.get("output")
+    if isinstance(output, dict):
+        for key in ("result", "OutBlock_1"):
+            rows = output.get(key)
+            if isinstance(rows, list):
+                return [row for row in rows if isinstance(row, dict)]
+    for key in ("result", "OutBlock_1"):
+        rows = payload.get(key)
+        if isinstance(rows, list):
+            return [row for row in rows if isinstance(row, dict)]
+    return []
+
+
+def investor_flow_from_krx_rows(rows: list[dict[str, Any]]) -> dict[str, Any] | None:
+    totals = {"individual": 0, "institution": 0, "foreign": 0}
+    found = False
+    for row in rows:
+        values = {
+            "individual": investor_value_from_krx_row(row, ("개인", "IND", "INDI", "INVST_TP_CD_1000")),
+            "institution": investor_value_from_krx_row(row, ("기관", "기관합계", "INS", "INST", "INVST_TP_CD_3000")),
+            "foreign": investor_value_from_krx_row(row, ("외국인", "외국인합계", "FRG", "FOR", "INVST_TP_CD_9000")),
+        }
+        for key, value in values.items():
+            if value is not None:
+                totals[key] += value
+                found = True
+    if not found:
+        return None
+    row = {
+        "source": "krx_open_api",
+        "unit": "KRW",
+        "individual": totals["individual"],
+        "institution": totals["institution"],
+        "foreign": totals["foreign"],
+    }
+    numeric_values = {key: value for key, value in totals.items()}
+    buy_key = max(numeric_values, key=lambda key: numeric_values[key])
+    sell_key = min(numeric_values, key=lambda key: numeric_values[key])
+    row["buy_leader"] = INVESTOR_NAME_KO[buy_key] if numeric_values[buy_key] > 0 else ""
+    row["sell_leader"] = INVESTOR_NAME_KO[sell_key] if numeric_values[sell_key] < 0 else ""
+    return row
+
+
+def investor_value_from_krx_row(row: dict[str, Any], labels: tuple[str, ...]) -> int | None:
+    investor_text = " ".join(str(row.get(key, "")) for key in ("INVST_TP_NM", "INVST_TP_CD", "INVST_NM", "TRD_NM"))
+    for label in labels:
+        if label and label in investor_text:
+            return first_int_from_fields(row, (
+                "NET_BUY_TRDVAL",
+                "NETBID_TRDVAL",
+                "NET_BUY_VAL",
+                "NETBID_VAL",
+                "ACC_NETBID_TRDVAL",
+                "순매수거래대금",
+                "순매수",
+            ))
+    for label in labels:
+        value = row.get(label)
+        if value is not None:
+            return parse_int_value(value)
+    return None
+
+
+def first_int_from_fields(row: dict[str, Any], fields: tuple[str, ...]) -> int | None:
+    for field in fields:
+        if field in row:
+            value = parse_int_value(row[field])
+            if value is not None:
+                return value
+    return None
+
+
+def parse_int_value(value: Any) -> int | None:
+    if value is None:
+        return None
+    text = str(value).strip().replace(",", "")
+    if not text or text == "-":
+        return None
+    try:
+        return int(float(text))
+    except ValueError:
+        return None
 
 
 def candidate_market_dates(run_date: str, lookback_days: int = 8) -> list[str]:
@@ -498,19 +1060,6 @@ def candidate_market_dates(run_date: str, lookback_days: int = 8) -> list[str]:
         (end_date - dt.timedelta(days=offset)).strftime("%Y%m%d")
         for offset in range(lookback_days)
     ]
-
-
-def has_columns(frame: Any, columns: list[str]) -> bool:
-    return all(column in frame.columns for column in columns)
-
-
-def safe_int(value: Any) -> int | None:
-    if value is None:
-        return None
-    try:
-        return int(value)
-    except (TypeError, ValueError):
-        return None
 
 
 def safe_float(value: Any) -> float | None:
@@ -685,7 +1234,8 @@ def build_snapshot(run_date: str, offline: bool) -> dict[str, Any]:
     us_quotes, us_quality = collect_yfinance(holdings, offline)
     indicators, indicator_quality = collect_market_indicators(offline)
     kr_quotes, kr_quality = collect_naver(holdings, offline)
-    pykrx_quotes, kr_indices, pykrx_quality = collect_pykrx(holdings, run_date, offline)
+    krx_quotes, kr_indices, krx_quality = collect_krx_reference(holdings, run_date, offline)
+    investor_flows, investor_flow_quality = collect_investor_flows(holdings, run_date, offline)
     rss_news, rss_quality = collect_rss(offline)
     naver_news, naver_news_quality = collect_naver_news(holdings, offline)
     yf_news, yf_news_quality = collect_yfinance_news(holdings, offline)
@@ -701,8 +1251,9 @@ def build_snapshot(run_date: str, offline: bool) -> dict[str, Any]:
             "us_quotes": us_quotes,
             "market_indicators": indicators,
             "kr_quotes": kr_quotes,
-            "pykrx_quotes": pykrx_quotes,
+            "krx_quotes": krx_quotes,
             "kr_indices": kr_indices,
+            "investor_flows": investor_flows,
         },
         "news": news,
         "disclosures": disclosures,
@@ -711,14 +1262,15 @@ def build_snapshot(run_date: str, offline: bool) -> dict[str, Any]:
             us_quality
             + indicator_quality
             + kr_quality
-            + pykrx_quality
+            + krx_quality
+            + investor_flow_quality
             + rss_quality
             + naver_news_quality
             + yf_news_quality
             + dart_quality
         ),
         "notes": [
-            "v0.1 collector uses yfinance quotes/news, Naver Finance prices, Naver Search news, CNBC RSS, pykrx, and DART when DART_API_KEY is set.",
+            "v0.1 collector uses yfinance quotes/news, Naver Finance prices, Naver Search news, CNBC RSS, KRX Open API with pykrx fallback, and DART when DART_API_KEY is set.",
             "FRED and ECOS collectors are planned next.",
         ],
     }
