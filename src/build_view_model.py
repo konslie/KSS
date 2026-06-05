@@ -18,6 +18,7 @@ def build_view_model(source: dict[str, Any]) -> dict[str, Any]:
     news = source.get("news", [])
     disclosures = source.get("disclosures", [])
     flows = market_data.get("investor_flows", {})
+    indicator_rows = market_indicator_rows(market_data)
     holdings = [
         holding_model(holding, source, news, disclosures)
         for holding in source.get("portfolio", [])
@@ -28,10 +29,10 @@ def build_view_model(source: dict[str, Any]) -> dict[str, Any]:
         "date": source.get("date"),
         "as_of": source.get("as_of"),
         "timezone": source.get("timezone"),
-        "market_status": market_status_model(market_data),
+        "market_status": market_status_model({"market_indicators": indicator_rows}),
         "market_indicators": [
             market_indicator_model(row, index)
-            for index, row in enumerate(market_data.get("market_indicators", []))
+            for index, row in enumerate(indicator_rows)
         ],
         "holdings": holdings,
         "market_flows": [
@@ -51,6 +52,53 @@ def build_view_model(source: dict[str, Any]) -> dict[str, Any]:
             ),
         },
     }
+
+
+def market_indicator_rows(market_data: dict[str, Any]) -> list[dict[str, Any]]:
+    kr_indices = market_data.get("kr_indices", [])
+    return [
+        merge_domestic_index_indicator(row, find_by_name(kr_indices, str(row.get("name") or "")))
+        for row in market_data.get("market_indicators", [])
+    ]
+
+
+def merge_domestic_index_indicator(row: dict[str, Any], reference: dict[str, Any] | None) -> dict[str, Any]:
+    name = str(row.get("name") or "")
+    if name not in {"KOSPI", "KOSDAQ"} or not reference:
+        return row
+    reference_close = clean_number(reference.get("close"))
+    reference_date = normalize_date_token(reference.get("as_of_date"))
+    row_date = normalize_date_token(row.get("as_of_date"))
+    if reference_close is None or (row_date and reference_date <= row_date):
+        return row
+
+    previous = clean_number(row.get("close")) or clean_number(row.get("previous_close"))
+    change = reference_close - previous if previous is not None else clean_number(reference.get("change"))
+    change_pct = (
+        (change / previous) * 100
+        if previous not in (None, 0) and change is not None
+        else clean_number(reference.get("change_pct"))
+    )
+    recent = numeric_list(row.get("recent_closes", []))
+    recent_dates = list(row.get("recent_dates", []))
+    if not recent_dates or reference_date not in recent_dates:
+        recent = recent + [reference_close]
+        recent_dates = recent_dates + [format_compact_date(reference_date)]
+
+    merged = dict(row)
+    merged.update({
+        "source": reference.get("source") or row.get("source"),
+        "as_of_date": format_compact_date(reference_date),
+        "close": reference_close,
+        "previous_close": previous,
+        "change": clean_number(change),
+        "change_pct": clean_number(change_pct),
+        "recent_closes": recent[-7:],
+        "recent_dates": recent_dates[-7:],
+        "volume": clean_number(reference.get("volume")) or row.get("volume"),
+        "trading_value": clean_number(reference.get("trading_value")),
+    })
+    return merged
 
 
 def market_status_model(market_data: dict[str, Any]) -> dict[str, Any]:
@@ -500,6 +548,19 @@ def numeric_list(values: list[Any]) -> list[float | None]:
 
 def first_number(values: list[float | None]) -> float | None:
     return next((value for value in values if value is not None), None)
+
+
+def normalize_date_token(value: Any) -> str:
+    text = str(value or "").strip()
+    digits = "".join(char for char in text if char.isdigit())
+    return digits[:8]
+
+
+def format_compact_date(value: Any) -> str:
+    digits = normalize_date_token(value)
+    if len(digits) != 8:
+        return str(value or "")
+    return f"{digits[:4]}-{digits[4:6]}-{digits[6:]}"
 
 
 def clean_number(value: Any) -> float | int | None:

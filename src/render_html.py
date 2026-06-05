@@ -1594,11 +1594,37 @@ function renderDataDashboard(viewModel, report) {
   const section = document.createElement("section");
   section.className = "data-dashboard";
   section.append(renderHero(report, viewModel));
-  section.append(renderSectionHeader("주요 지표", `기준: ${escapeHtml(viewModel.date || report.date || "")} 장 마감`, "violet"));
+  section.append(renderSectionHeader("주요 지표", marketDateMeta(viewModel.market_indicators || [], viewModel.date || report.date || ""), "violet"));
   section.append(renderMarketCards(viewModel.market_indicators || []));
   section.append(renderSectionHeader("포트폴리오 현황", "", "gold", sourceLegend()));
   section.append(renderHoldingMatrix(viewModel.holdings || []));
   return section;
+}
+
+function marketDateMeta(indicators, fallbackDate) {
+  const domestic = indicators.filter((item) => ["KOSPI", "KOSDAQ"].includes(item.name));
+  const global = indicators.filter((item) => !["KOSPI", "KOSDAQ"].includes(item.name));
+  const domesticDate = groupedDateLabel(domestic, fallbackDate);
+  const globalDate = groupedDateLabel(global, fallbackDate);
+  return `한국 지표: ${domesticDate} 장 마감 · 미국/글로벌 지표: ${globalDate} 장 마감`;
+}
+
+function groupedDateLabel(items, fallbackDate) {
+  const dates = uniqueValues(items.map((item) => normalizeDisplayDate(item.as_of_date)));
+  if (dates.length === 1) return dates[0];
+  if (dates.length > 1) return dates.join(", ");
+  return normalizeDisplayDate(fallbackDate);
+}
+
+function uniqueValues(values) {
+  return [...new Set(values.filter(Boolean))];
+}
+
+function normalizeDisplayDate(value) {
+  const text = String(value || "").trim();
+  const digits = text.replace(/\D/g, "");
+  if (digits.length >= 8) return `${digits.slice(0, 4)}-${digits.slice(4, 6)}-${digits.slice(6, 8)}`;
+  return text;
 }
 
 function renderHero(report, viewModel) {

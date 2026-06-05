@@ -444,90 +444,94 @@
     "as_of": "2026-06-06T00:26:51.339160+09:00",
     "timezone": "Asia/Seoul",
     "market_status": {
-      "label": "주의",
-      "score": 2,
+      "label": "위험",
+      "score": 4,
       "reasons": [
+        "KOSPI 급락",
+        "KOSDAQ 급락",
         "환율 상승",
         "VIX 상승"
       ],
-      "reason": "환율 상승 · VIX 상승"
+      "reason": "KOSPI 급락 · KOSDAQ 급락"
     },
     "market_indicators": [
       {
         "name": "KOSPI",
         "symbol": "^KS11",
-        "source": "yfinance",
-        "as_of_date": "2026-06-04",
+        "source": "pykrx_fallback",
+        "as_of_date": "2026-06-05",
         "display_order": 0,
         "unit": "index",
-        "risk_tags": [],
-        "short_comment": "약세",
+        "risk_tags": [
+          "시장 약세"
+        ],
+        "short_comment": "급락",
         "price": {
-          "latest_close": 8639.4102,
-          "previous_close": 8801.4902,
-          "close_7d_ago": 8047.5098,
+          "latest_close": 8160.59,
+          "previous_close": 8639.4102,
+          "close_7d_ago": 8228.7002,
           "recent_closes": [
-            8047.5098,
             8228.7002,
             8185.29,
             8476.1504,
             8788.3799,
             8801.4902,
-            8639.4102
+            8639.4102,
+            8160.59
           ],
           "recent_dates": [
-            "2026-05-26",
             "2026-05-27",
             "2026-05-28",
             "2026-05-29",
             "2026-06-01",
             "2026-06-02",
-            "2026-06-04"
+            "2026-06-04",
+            "2026-06-05"
           ],
-          "change": -162.0801,
-          "change_pct": -1.84,
+          "change": -478.8202,
+          "change_pct": -5.5423,
           "trend": "down"
         },
-        "volume": 437900
+        "volume": 463197407
       },
       {
         "name": "KOSDAQ",
         "symbol": "^KQ11",
-        "source": "yfinance",
-        "as_of_date": "2026-06-04",
+        "source": "pykrx_fallback",
+        "as_of_date": "2026-06-05",
         "display_order": 1,
         "unit": "index",
         "risk_tags": [
-          "시장 강세"
+          "시장 약세"
         ],
-        "short_comment": "강세",
+        "short_comment": "급락",
         "price": {
-          "latest_close": 1049.73,
-          "previous_close": 1026.03,
-          "close_7d_ago": 1172.52,
+          "latest_close": 1002.44,
+          "previous_close": 1049.73,
+          "close_7d_ago": 1133.13,
           "recent_closes": [
-            1172.52,
             1133.13,
             1104.36,
             1074.8,
             1050.03,
             1026.03,
-            1049.73
+            1049.73,
+            1002.44
           ],
           "recent_dates": [
-            "2026-05-26",
             "2026-05-27",
             "2026-05-28",
             "2026-05-29",
             "2026-06-01",
             "2026-06-02",
-            "2026-06-04"
+            "2026-06-04",
+            "2026-06-05"
           ],
-          "change": 23.7,
-          "change_pct": 2.31,
-          "trend": "up"
+          "change": -47.29,
+          "change_pct": -4.505,
+          "trend": "down"
         },
-        "volume": 623000
+        "volume": 724352334
       },
       {
         "name": "Nasdaq",

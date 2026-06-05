@@ -102,6 +102,47 @@ class BuildViewModelTests(unittest.TestCase):
         self.assertEqual(holding["news"][0]["title"], "외국인 매도")
         self.assertEqual(holding["disclosures"][0]["source"], "dart")
 
+    def test_domestic_index_indicator_prefers_newer_krx_reference(self) -> None:
+        source = {
+            "date": "2026-06-05",
+            "portfolio": [],
+            "market_data": {
+                "market_indicators": [{
+                    "name": "KOSPI",
+                    "symbol": "^KS11",
+                    "source": "yfinance",
+                    "as_of_date": "2026-06-04",
+                    "close": 8639.41,
+                    "previous_close": 8801.49,
+                    "change": -162.08,
+                    "change_pct": -1.84,
+                    "recent_closes": [8185.29, 8801.49, 8639.41],
+                    "recent_dates": ["2026-05-28", "2026-06-02", "2026-06-04"],
+                }],
+                "kr_indices": [{
+                    "name": "KOSPI",
+                    "source": "pykrx_fallback",
+                    "as_of_date": "20260605",
+                    "close": 8160.59,
+                    "volume": 463197407,
+                }],
+            },
+            "news": [],
+            "disclosures": [],
+            "data_quality": [],
+        }
+
+        view_model = build_view_model.build_view_model(source)
+        indicator = view_model["market_indicators"][0]
+
+        self.assertEqual(indicator["source"], "pykrx_fallback")
+        self.assertEqual(indicator["as_of_date"], "2026-06-05")
+        self.assertEqual(indicator["price"]["latest_close"], 8160.59)
+        self.assertEqual(indicator["price"]["previous_close"], 8639.41)
+        self.assertEqual(indicator["price"]["change"], -478.82)
+        self.assertEqual(indicator["price"]["change_pct"], -5.5423)
+        self.assertEqual(indicator["price"]["recent_dates"][-1], "2026-06-05")
+
     def test_main_writes_view_model(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             tmp_path = Path(tmp)
