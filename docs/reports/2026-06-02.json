@@ -1,20 +1,4 @@
-<!doctype html>
-<html lang="ko">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KO 데일리 브리핑 (26.06.02)</title>
-  <link rel="stylesheet" href="../assets/report.css">
-</head>
-<body>
-  <main id="app"
-    data-report-json="2026-06-02.json"
-    data-current-date="2026-06-02"
-    data-archive-dates="[&quot;2026-06-04&quot;, &quot;2026-06-02&quot;]"
-    data-in-archive="true">
-    <section class="app-loading">리포트를 불러오는 중입니다.</section>
-  </main>
-  <script id="report-data" type="application/json">{
+{
   "schema": "kss-report.v1",
   "date": "2026-06-02",
   "title": "KO 데일리 브리핑 (26.06.02)",
@@ -232,7 +216,4 @@
       "autoBold": false
     }
   ]
-}</script>
-  <script src="../assets/report.js" defer></script>
-</body>
-</html>
+}
