@@ -1,16 +1,16 @@
 {
   "schema": "kss-page.v1",
   "date": "2026-06-05",
-  "title": "KO_데일리브리핑(26.0605)",
+  "title": "KO_데일리브리핑(26.06.05)",
   "report": {
     "schema": "kss-report.v1",
     "date": "2026-06-05",
-    "title": "KO_데일리브리핑(26.0605)",
+    "title": "KO_데일리브리핑(26.06.05)",
     "elements": [
       {
         "type": "heading",
         "level": 1,
-        "text": "KO_데일리브리핑(26.0605)"
+        "text": "KO_데일리브리핑(26.06.05)"
       },
       {
         "type": "heading",

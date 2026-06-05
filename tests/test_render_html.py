@@ -31,8 +31,8 @@ class RenderHtmlTests(unittest.TestCase):
             report_date="2026-06-04",
         )
 
-        self.assertEqual(report["title"], "KO_데일리브리핑(26.0604)")
-        self.assertEqual(report["elements"][0]["text"], "KO_데일리브리핑(26.0604)")
+        self.assertEqual(report["title"], "KO_데일리브리핑(26.06.04)")
+        self.assertEqual(report["elements"][0]["text"], "KO_데일리브리핑(26.06.04)")
         self.assertIn("2026-06-04 08:00 KST 수집 기준", report["elements"][2]["text"])
 
     def test_metrics_table_uses_requested_order(self) -> None:
@@ -144,7 +144,7 @@ class RenderHtmlTests(unittest.TestCase):
             self.assertTrue((docs_dir / "assets" / "report.js").exists())
             self.assertIn('id="report-data"', (docs_dir / "index.html").read_text(encoding="utf-8"))
             data = json.loads(json_path.read_text(encoding="utf-8"))
-            self.assertEqual(data["title"], "KO_데일리브리핑(26.0604)")
+            self.assertEqual(data["title"], "KO_데일리브리핑(26.06.04)")
             self.assertEqual(data["schema"], "kss-page.v1")
             self.assertIn("report", data)
             self.assertIn("view_model", data)

@@ -243,17 +243,12 @@ function renderHoldingMatrix(holdings) {
 }
 
 function holdingBriefSummary(holding) {
-  const disclosures = holding.disclosures || [];
   const news = holding.news || [];
-  const disclosure = disclosures.find((item) => item.title || item.report_name || item.name);
   const article = news.find((item) => item.title || item.summary);
-  if (disclosure) {
-    return truncateText(`공시: ${disclosure.title || disclosure.report_name || disclosure.name}`, 74);
-  }
   if (article) {
     return truncateText(`뉴스: ${article.title || article.summary}`, 74);
   }
-  return holding.primary_issue || "확인된 뉴스/공시 없음";
+  return "확인된 뉴스 없음";
 }
 
 function truncateText(text, limit) {
