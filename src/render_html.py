@@ -222,7 +222,7 @@ def app_shell(
 ) -> str:
     archives = html.escape(json.dumps(archive_dates[:5], ensure_ascii=False), quote=True)
     date_version = re.sub(r"\D", "", current_date) or "1"
-    asset_version = f"{date_version}-layout2"
+    asset_version = f"{date_version}-layout3"
     embedded_report = ""
     if report_data is not None:
         payload = (
@@ -1839,7 +1839,7 @@ function renderHoldingMatrix(holdings) {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>
-        <strong>${escapeHtml(holding.name || "")}</strong>
+        <strong>${breakByUtf8Bytes(holding.name || "", 13)}</strong>
         <span>${escapeHtml(holding.symbol || "")} · ${escapeHtml(holding.market || "")}</span>
       </td>
       <td>${priceGrid(price, holding.market, tone)}</td>
@@ -1870,6 +1870,31 @@ function priceGrid(price, market, tone) {
       <span class="price-amount">${formatSignedNumber(price.change, market)}</span>
     </div>
   `;
+}
+
+function breakByUtf8Bytes(value, limit) {
+  const text = String(value || "");
+  if (utf8Bytes(text) <= limit) return escapeHtml(text);
+  const parts = [];
+  let current = "";
+  let currentBytes = 0;
+  for (const char of text) {
+    const charBytes = utf8Bytes(char);
+    if (current && currentBytes + charBytes > limit) {
+      parts.push(current);
+      current = char;
+      currentBytes = charBytes;
+    } else {
+      current += char;
+      currentBytes += charBytes;
+    }
+  }
+  if (current) parts.push(current);
+  return parts.map((part) => escapeHtml(part)).join("<br>");
+}
+
+function utf8Bytes(value) {
+  return new TextEncoder().encode(String(value || "")).length;
 }
 
 function holdingBriefSummary(holding) {
