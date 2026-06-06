@@ -240,7 +240,7 @@ function renderHoldingMatrix(holdings) {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>
-        <strong>${breakByUtf8Bytes(holding.name || "", 13)}</strong>
+        <strong>${breakHoldingName(holding.name || "")}</strong>
         <span>${escapeHtml(holding.symbol || "")} · ${escapeHtml(holding.market || "")}</span>
       </td>
       <td>${priceGrid(price, holding.market, tone)}</td>
@@ -273,29 +273,49 @@ function priceGrid(price, market, tone) {
   `;
 }
 
-function breakByUtf8Bytes(value, limit) {
+function breakHoldingName(value) {
   const text = String(value || "");
-  if (utf8Bytes(text) <= limit) return escapeHtml(text);
+  const limit = /[가-힣]/.test(text) ? 6 : 12;
+  if (Array.from(text).length <= limit) return escapeHtml(text);
+  return breakTextByWords(text, limit).map((part) => escapeHtml(part)).join("<br>");
+}
+
+function breakTextByWords(text, limit) {
+  const words = text.trim().split(/\s+/).filter(Boolean);
+  if (words.length <= 1) return chunkText(text, limit);
   const parts = [];
   let current = "";
-  let currentBytes = 0;
-  for (const char of text) {
-    const charBytes = utf8Bytes(char);
-    if (current && currentBytes + charBytes > limit) {
-      parts.push(current);
-      current = char;
-      currentBytes = charBytes;
+  for (const word of words) {
+    const candidate = current ? `${current} ${word}` : word;
+    if (Array.from(candidate).length <= limit) {
+      current = candidate;
     } else {
-      current += char;
-      currentBytes += charBytes;
+      if (current) parts.push(current);
+      if (Array.from(word).length > limit) {
+        parts.push(...chunkText(word, limit));
+        current = "";
+      } else {
+        current = word;
+      }
     }
   }
   if (current) parts.push(current);
-  return parts.map((part) => escapeHtml(part)).join("<br>");
+  return parts;
 }
 
-function utf8Bytes(value) {
-  return new TextEncoder().encode(String(value || "")).length;
+function chunkText(text, limit) {
+  const parts = [];
+  let current = "";
+  for (const char of text) {
+    if (current && Array.from(current + char).length > limit) {
+      parts.push(current);
+      current = char;
+    } else {
+      current += char;
+    }
+  }
+  if (current) parts.push(current);
+  return parts;
 }
 
 function holdingBriefSummary(holding) {
