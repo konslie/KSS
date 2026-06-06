@@ -328,7 +328,7 @@ def impact_model(
     reasons = []
     pct = clean_number(quote.get("change_pct"))
     if pct is None:
-        reasons.append("최신 가격 확인 필요")
+        reasons.append("최근 종가 확인 필요")
     elif pct >= 1:
         score += 1
         reasons.append("가격 상승")
@@ -373,7 +373,7 @@ def primary_issue(
 ) -> str:
     pct = clean_number(quote.get("change_pct"))
     if pct is None:
-        return "최신 가격 확인 필요"
+        return "최근 종가 확인 필요"
     bias = flow_bias(flow)
     if pct <= -3 and bias in {"institution_foreign_sell", "foreign_sell"}:
         return "가격 약세와 외인 매도"

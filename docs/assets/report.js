@@ -220,8 +220,7 @@ function renderHoldingMatrix(holdings) {
     <thead>
       <tr>
         <th>종목</th>
-        <th>최신 가격</th>
-        <th>등락</th>
+        <th>최근 종가</th>
         <th>추이 (7일)</th>
         <th>수급</th>
         <th>영향</th>
@@ -244,18 +243,14 @@ function renderHoldingMatrix(holdings) {
         <strong>${escapeHtml(holding.name || "")}</strong>
         <span>${escapeHtml(holding.symbol || "")} · ${escapeHtml(holding.market || "")}</span>
       </td>
-      <td>${formatHoldingPrice(price.latest_close, holding.market)}</td>
-      <td>
-        <span class="change-pill change-${tone}">${formatSignedPercent(price.change_pct)}</span>
-        <span class="change-detail">${formatSignedNumber(price.change, holding.market)}</span>
-      </td>
+      <td>${priceGrid(price, holding.market, tone)}</td>
       <td>${numericSparkline(price.recent_closes || [], tone)}</td>
-      <td>${hasDomesticFlow ? compactFlowBlock(latest, seven) : `<span class="muted-cell">국내 종목만</span>`}</td>
+      <td>${hasDomesticFlow ? compactFlowBlock(latest, seven) : ""}</td>
       <td><span class="impact-pill impact-${impactTone(holding.impact?.label)}">${escapeHtml(holding.impact?.label || "중립")}</span></td>
       <td>
         <div class="issue-cell">
-          <strong>${escapeHtml(holding.primary_issue || "특이 신호 제한")}</strong>
-          ${tagList((holding.impact?.reasons || []).slice(0, 2))}
+          <strong>${escapeHtml(holdingIssueTitle(holding))}</strong>
+          ${holdingIssueMeta(holding)}
           ${dataStatusFlags(holding.data_status || {})}
         </div>
       </td>
@@ -268,13 +263,46 @@ function renderHoldingMatrix(holdings) {
   return wrap;
 }
 
+function priceGrid(price, market, tone) {
+  return `
+    <div class="price-grid price-${tone}">
+      <strong>${formatHoldingPrice(price.latest_close, market)}</strong>
+      <span class="price-rate">${formatSignedPercent(price.change_pct)}</span>
+      <span class="price-amount">${formatSignedNumber(price.change, market)}</span>
+    </div>
+  `;
+}
+
 function holdingBriefSummary(holding) {
   const news = holding.news || [];
   const article = news.find((item) => item.title || item.summary);
   if (article) {
-    return truncateText(`뉴스: ${article.title || article.summary}`, 74);
+    return truncateText(article.title || article.summary, 74);
   }
   return "확인된 뉴스 없음";
+}
+
+function holdingIssueTitle(holding) {
+  const primary = String(holding.primary_issue || "").trim();
+  const generic = new Set(["뉴스 확인", "공시 확인", "최근 종가 확인 필요", "특이 신호 제한"]);
+  const isGeneric = generic.has(primary) || primary.includes("가격 확인 필요") || /^뉴스 \d+건$/.test(primary) || /^공시 \d+건$/.test(primary);
+  if (primary && !isGeneric) {
+    return primary;
+  }
+  const item = [...(holding.news || []), ...(holding.disclosures || [])].find((row) => row.title || row.report_name || row.headline);
+  if (!item) return primary || "특이 신호 제한";
+  return truncateText(item.title || item.report_name || item.headline, 42);
+}
+
+function holdingIssueMeta(holding) {
+  const first = [...(holding.news || []), ...(holding.disclosures || [])].find((row) => row.title || row.report_name || row.headline);
+  if (!first) return "";
+  const title = String(first.title || first.report_name || first.headline || "").toLowerCase();
+  const name = String(holding.name || "").toLowerCase();
+  const symbol = String(holding.symbol || "").toLowerCase();
+  const direct = (name && title.includes(name)) || (symbol && title.includes(symbol));
+  const label = direct ? (first.source || "직접 이슈") : "관련성 확인";
+  return `<span class="issue-meta">${escapeHtml(label)}</span>`;
 }
 
 function truncateText(text, limit) {
@@ -315,11 +343,15 @@ function compactFlowBlock(latest, seven) {
   const foreign = latest.foreign;
   const institution = latest.institution;
   const sevenForeign = seven?.available ? seven.foreign : null;
+  const sevenInstitution = seven?.available ? seven.institution : null;
   return `
     <div class="compact-flow">
-      <span class="flow-${toneFromNumber(foreign)}"><b>외인</b>${formatFlow(foreign)}</span>
-      <span class="flow-${toneFromNumber(institution)}"><b>기관</b>${formatFlow(institution)}</span>
-      ${Number.isFinite(Number(sevenForeign)) ? `<small>7일 외인 ${formatFlow(sevenForeign)}</small>` : ""}
+      <span class="flow-head">외인</span>
+      <span class="flow-head">기관</span>
+      <span class="flow-${toneFromNumber(foreign)}"><b>전일</b>${formatFlow(foreign)}</span>
+      <span class="flow-${toneFromNumber(institution)}"><b>전일</b>${formatFlow(institution)}</span>
+      <span class="flow-${toneFromNumber(sevenForeign)}"><b>7일</b>${formatFlow(sevenForeign)}</span>
+      <span class="flow-${toneFromNumber(sevenInstitution)}"><b>7일</b>${formatFlow(sevenInstitution)}</span>
     </div>
   `;
 }
@@ -605,7 +637,7 @@ function formatSignedNumber(value, market) {
   if (!Number.isFinite(number)) return "확인 필요";
   const sign = number > 0 ? "+" : "";
   if (market === "US") return `${sign}$${number.toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
-  return `${sign}${number.toLocaleString("ko-KR", { maximumFractionDigits: 0 })}`;
+  return `${sign}${number.toLocaleString("ko-KR", { maximumFractionDigits: 0 })}원`;
 }
 
 function formatSignedPercent(value) {

@@ -29,6 +29,8 @@ Report rules:
 - Use `view_model.json` as the primary structured input for prices, 7-day closes, flows, news, disclosures, and data availability.
 - Use `analysis_context.json` as the primary grouped context for Executive Summary, sector briefings, observation points, and data-quality interpretation.
 - The frontend renders the main hero, market indicators, portfolio status table, source badges, and line sparklines from `view_model.json`; `final.md` should focus on written interpretation and concise rationale.
+- Do not write sector briefings as a list of price changes. For each sector, explain how news, disclosures, and investor flows affect the portfolio names, using `analysis_context.sector_contexts[].interpretation_cues` and `holding_contexts[].interpretation_cues` when available.
+- Treat price as evidence, not the conclusion. A useful paragraph should answer: what the news/disclosure issue is, whether foreign/institutional flow confirms or conflicts with the price move, and what risk or observation point follows for the portfolio.
 - Follow the screen planning rules in `FRONTEND_REDESIGN.md` when deciding what belongs in frontend data versus written interpretation.
 - Follow `DATA_SCHEMA.md` when interpreting source, view model, analysis context, final report, and packaged page JSON responsibilities.
 - Do not recommend buying or selling.
@@ -36,10 +38,12 @@ Report rules:
 - Do not make certain forecasts.
 - Preserve source names and URLs when available.
 - Mark unclear news as `확인 필요`.
+- If the only available fact is a price move, explicitly say that the signal is limited instead of padding the briefing with repeated price narration.
 - In portfolio impact rationale, mention the source names and briefly state the actual issue behind the news or disclosure. Keep it concise, but do not stop at generic wording such as "AI/semiconductor issue".
 - In the portfolio impact table, use columns: 종목, 영향도, 가격, 기관, 외인, 7일, 근거.
 - For 가격, write `종가<br>등락폭 (등락률)`. Keep positive changes with `+` and negative changes with `-`.
 - For 기관 and 외인, include domestic 순매수/순매도 direction and a compact scale when available. Leave US/Nasdaq holdings blank in those columns.
+- Use `최근 종가` or `전일 종가` for collected closing prices. Do not call collected close data `최신 가격` because the report is not real time.
 - Use Markdown bold for key labels and important terms in Executive Summary and each sector briefing.
 - Include user-relevant failed collectors and missing data in the Data Quality section.
 - If `DART_API_KEY` is missing, do not ask for the key in chat. Report DART as skipped.

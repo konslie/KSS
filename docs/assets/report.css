@@ -438,7 +438,8 @@ main {
 
 .holding-data-table {
   width: 100%;
-  min-width: 1320px;
+  min-width: 1180px;
+  table-layout: fixed;
   border-collapse: collapse;
   font-size: 14px;
 }
@@ -446,9 +447,39 @@ main {
 .holding-data-table th,
 .holding-data-table td {
   border-bottom: 0.5px solid var(--line);
-  padding: 18px 20px;
+  padding: 14px 14px;
   text-align: left;
   vertical-align: middle;
+}
+
+.holding-data-table th:nth-child(1),
+.holding-data-table td:nth-child(1) {
+  width: 128px;
+}
+
+.holding-data-table th:nth-child(2),
+.holding-data-table td:nth-child(2) {
+  width: 136px;
+}
+
+.holding-data-table th:nth-child(3),
+.holding-data-table td:nth-child(3) {
+  width: 116px;
+}
+
+.holding-data-table th:nth-child(4),
+.holding-data-table td:nth-child(4) {
+  width: 236px;
+}
+
+.holding-data-table th:nth-child(5),
+.holding-data-table td:nth-child(5) {
+  width: 82px;
+}
+
+.holding-data-table th:nth-child(6),
+.holding-data-table td:nth-child(6) {
+  width: 172px;
 }
 
 .holding-data-table th {
@@ -467,8 +498,9 @@ main {
 .holding-data-table td:first-child strong {
   display: block;
   color: var(--text);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 750;
+  line-height: 1.3;
 }
 
 .holding-data-table td:first-child span {
@@ -513,6 +545,56 @@ main {
   font-size: 12px;
 }
 
+.price-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px 6px;
+  align-items: center;
+  width: 100%;
+  font-variant-numeric: tabular-nums;
+}
+
+.price-grid strong {
+  grid-column: 1 / -1;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.price-grid span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  padding: 2px 6px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.price-up .price-rate,
+.price-up .price-amount {
+  border: 0.5px solid var(--up-border);
+  background: var(--up-bg);
+  color: var(--up);
+}
+
+.price-down .price-rate,
+.price-down .price-amount {
+  border: 0.5px solid var(--down-border);
+  background: var(--down-bg);
+  color: var(--down);
+}
+
+.price-neutral .price-rate,
+.price-neutral .price-amount {
+  border: 0.5px solid var(--line-2);
+  background: rgba(148,163,184,0.1);
+  color: var(--muted);
+}
+
 .impact-pill {
   display: inline-flex;
   min-width: 74px;
@@ -543,7 +625,7 @@ main {
 }
 
 .issue-cell {
-  min-width: 180px;
+  min-width: 0;
 }
 
 .issue-cell strong {
@@ -551,24 +633,56 @@ main {
   color: var(--text);
   font-size: 13px;
   font-weight: 750;
+  line-height: 1.4;
+}
+
+.issue-meta {
+  display: inline-flex;
+  margin-top: 7px;
+  padding: 2px 7px;
+  border: 0.5px solid var(--line-2);
+  border-radius: 999px;
+  color: var(--faint);
+  font-size: 10px;
+  font-weight: 700;
 }
 
 .compact-flow {
   display: grid;
-  gap: 5px;
-  min-width: 180px;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px 6px;
+  min-width: 0;
+  font-variant-numeric: tabular-nums;
 }
 
 .compact-flow span {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  display: grid;
+  gap: 2px;
+  min-height: 34px;
+  align-content: center;
+  padding: 4px 6px;
+  border: 0.5px solid var(--line);
+  border-radius: 7px;
+  background: rgba(148,163,184,0.055);
   color: var(--muted);
-  font-size: 12px;
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.compact-flow .flow-head {
+  min-height: 20px;
+  justify-content: center;
+  text-align: center;
+  border: 0;
+  background: transparent;
+  color: var(--faint) !important;
+  font-size: 10px;
+  font-weight: 800;
 }
 
 .compact-flow b {
   color: var(--faint);
+  font-size: 10px;
 }
 
 .compact-flow small {
@@ -603,7 +717,7 @@ main {
 }
 
 .brief-summary {
-  max-width: 260px;
+  max-width: 240px;
   margin: 0;
   color: var(--muted);
   font-size: 12px;

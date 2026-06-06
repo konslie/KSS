@@ -73,6 +73,7 @@ def sector_contexts(holdings: list[dict[str, Any]]) -> list[dict[str, Any]]:
             "news_summary": summarize_counts(rows, "news"),
             "disclosure_summary": summarize_counts(rows, "disclosures"),
             "risks": sector_risks(rows),
+            "interpretation_cues": sector_interpretation_cues(rows),
         }
         for sector, rows in sorted(groups.items())
     ]
@@ -104,6 +105,7 @@ def holding_context(holding: dict[str, Any]) -> dict[str, Any]:
             "latest": latest_flow,
             "seven_day_total": seven_flow,
         },
+        "interpretation_cues": holding_interpretation_cues(holding),
         "news_summary": item_summary(holding.get("news", []), "news"),
         "disclosure_summary": item_summary(holding.get("disclosures", []), "disclosure"),
         "data_status": holding.get("data_status", {}),
@@ -214,10 +216,124 @@ def sector_risks(rows: list[dict[str, Any]]) -> list[str]:
     if any((number(row.get("price", {}).get("change_pct")) or 0) <= -3 for row in rows):
         risks.append("가격 급락 종목 포함")
     if any(row.get("data_status", {}).get("price") == "missing" for row in rows):
-        risks.append("최신 가격 누락")
+        risks.append("최근 종가 누락")
     if any(row.get("impact", {}).get("label") in {"부정", "중립~부정"} for row in rows):
         risks.append("부정적 영향도 포함")
     return risks
+
+
+def sector_interpretation_cues(rows: list[dict[str, Any]]) -> list[str]:
+    cues = []
+    aligned = []
+    diverged = []
+    for row in rows:
+        signal = price_flow_signal(row)
+        if signal == "confirmed":
+            aligned.append(row.get("name") or row.get("symbol"))
+        elif signal == "diverged":
+            diverged.append(row.get("name") or row.get("symbol"))
+    if aligned:
+        cues.append(f"가격 방향과 외인/기관 수급이 같은 종목: {', '.join(aligned[:4])}")
+    if diverged:
+        cues.append(f"가격 방향과 외인/기관 수급이 엇갈린 종목: {', '.join(diverged[:4])}")
+    news_titles = [
+        title
+        for row in rows
+        for title in key_titles(row.get("news", []), "news")
+    ]
+    disclosure_titles = [
+        title
+        for row in rows
+        for title in key_titles(row.get("disclosures", []), "disclosure")
+    ]
+    if news_titles:
+        cues.append(f"뉴스 해석 초점: {' / '.join(news_titles[:3])}")
+    if disclosure_titles:
+        cues.append(f"공시 해석 초점: {' / '.join(disclosure_titles[:3])}")
+    return cues
+
+
+def holding_interpretation_cues(holding: dict[str, Any]) -> dict[str, Any]:
+    signal = price_flow_signal(holding)
+    issue_titles = key_titles(holding.get("news", []), "news") + key_titles(holding.get("disclosures", []), "disclosure")
+    return {
+        "price_flow_signal": signal,
+        "price_flow_note": price_flow_note(holding, signal),
+        "issue_titles": issue_titles[:5],
+        "issue_directness": issue_directness(holding, issue_titles[:5]),
+        "briefing_focus": briefing_focus(holding, signal, issue_titles),
+    }
+
+
+def price_flow_signal(holding: dict[str, Any]) -> str:
+    pct = number(holding.get("price", {}).get("change_pct"))
+    latest = holding.get("flow", {}).get("latest", {})
+    foreign = number(latest.get("foreign"))
+    institution = number(latest.get("institution"))
+    if pct is None or (foreign is None and institution is None):
+        return "insufficient_data"
+    flow_total = sum(value for value in (foreign, institution) if value is not None)
+    if flow_total == 0 or abs(pct) < 1:
+        return "mixed_or_weak"
+    if (pct > 0 and flow_total > 0) or (pct < 0 and flow_total < 0):
+        return "confirmed"
+    return "diverged"
+
+
+def price_flow_note(holding: dict[str, Any], signal: str) -> str:
+    name = holding.get("name") or holding.get("symbol") or "해당 종목"
+    if signal == "confirmed":
+        return f"{name}은 가격 방향과 외인/기관 합산 수급이 같은 방향이라 당일 움직임이 수급으로 확인되는지 봐야 한다."
+    if signal == "diverged":
+        return f"{name}은 가격 방향과 외인/기관 합산 수급이 엇갈려 단기 매도/매수 주체와 뉴스 재료의 우선순위를 분리해서 봐야 한다."
+    if signal == "mixed_or_weak":
+        return f"{name}은 가격 또는 수급 신호가 약해 뉴스·공시의 실제 관련성을 먼저 확인해야 한다."
+    return f"{name}은 가격 또는 수급 데이터가 부족해 확인 가능한 뉴스·공시만 해석 근거로 써야 한다."
+
+
+def briefing_focus(holding: dict[str, Any], signal: str, issue_titles: list[str]) -> str:
+    primary_issue = holding.get("primary_issue") or "특이 신호"
+    issue_phrase = f"{primary_issue}{object_particle(primary_issue)}"
+    if issue_titles:
+        directness = issue_directness(holding, issue_titles[:1])[0]
+        caution = "" if directness == "direct" else " 직접 관련성 확인 필요를 표시하고,"
+        return f"{issue_phrase} 숫자 반복으로 끝내지 말고, '{issue_titles[0]}' 이슈의{caution} 가격·수급 신호와의 관계를 설명한다."
+    if signal in {"confirmed", "diverged"}:
+        return f"{issue_phrase} 가격 변화보다 수급 확인/괴리 관점에서 설명한다."
+    return f"{primary_issue}은(는) 추가 재료가 제한적임을 명확히 표시한다."
+
+
+def issue_directness(holding: dict[str, Any], titles: list[str]) -> list[str]:
+    name = str(holding.get("name") or "").lower()
+    symbol = str(holding.get("symbol") or "").lower()
+    output = []
+    for title in titles:
+        lowered = title.lower()
+        if (name and name in lowered) or (symbol and symbol in lowered):
+            output.append("direct")
+        else:
+            output.append("needs_relevance_check")
+    return output
+
+
+def object_particle(text: str) -> str:
+    if not text:
+        return "을"
+    last = text[-1]
+    code = ord(last)
+    if 0xAC00 <= code <= 0xD7A3 and (code - 0xAC00) % 28 == 0:
+        return "를"
+    return "을"
+
+
+def key_titles(rows: list[dict[str, Any]], item_type: str) -> list[str]:
+    title_keys = ["title", "report_name", "headline"] if item_type == "news" else ["report_name", "title", "headline"]
+    titles = []
+    for row in rows:
+        title = next((row.get(key) for key in title_keys if row.get(key)), "")
+        if title:
+            titles.append(str(title).strip())
+    return titles
 
 
 def item_summary(rows: list[dict[str, Any]], item_type: str) -> list[dict[str, Any]]:

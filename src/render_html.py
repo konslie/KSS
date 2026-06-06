@@ -812,7 +812,8 @@ main {
 
 .holding-data-table {
   width: 100%;
-  min-width: 1320px;
+  min-width: 1180px;
+  table-layout: fixed;
   border-collapse: collapse;
   font-size: 14px;
 }
@@ -820,9 +821,39 @@ main {
 .holding-data-table th,
 .holding-data-table td {
   border-bottom: 0.5px solid var(--line);
-  padding: 18px 20px;
+  padding: 14px 14px;
   text-align: left;
   vertical-align: middle;
+}
+
+.holding-data-table th:nth-child(1),
+.holding-data-table td:nth-child(1) {
+  width: 128px;
+}
+
+.holding-data-table th:nth-child(2),
+.holding-data-table td:nth-child(2) {
+  width: 136px;
+}
+
+.holding-data-table th:nth-child(3),
+.holding-data-table td:nth-child(3) {
+  width: 116px;
+}
+
+.holding-data-table th:nth-child(4),
+.holding-data-table td:nth-child(4) {
+  width: 236px;
+}
+
+.holding-data-table th:nth-child(5),
+.holding-data-table td:nth-child(5) {
+  width: 82px;
+}
+
+.holding-data-table th:nth-child(6),
+.holding-data-table td:nth-child(6) {
+  width: 172px;
 }
 
 .holding-data-table th {
@@ -841,8 +872,9 @@ main {
 .holding-data-table td:first-child strong {
   display: block;
   color: var(--text);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 750;
+  line-height: 1.3;
 }
 
 .holding-data-table td:first-child span {
@@ -887,6 +919,56 @@ main {
   font-size: 12px;
 }
 
+.price-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px 6px;
+  align-items: center;
+  width: 100%;
+  font-variant-numeric: tabular-nums;
+}
+
+.price-grid strong {
+  grid-column: 1 / -1;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.price-grid span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  padding: 2px 6px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.price-up .price-rate,
+.price-up .price-amount {
+  border: 0.5px solid var(--up-border);
+  background: var(--up-bg);
+  color: var(--up);
+}
+
+.price-down .price-rate,
+.price-down .price-amount {
+  border: 0.5px solid var(--down-border);
+  background: var(--down-bg);
+  color: var(--down);
+}
+
+.price-neutral .price-rate,
+.price-neutral .price-amount {
+  border: 0.5px solid var(--line-2);
+  background: rgba(148,163,184,0.1);
+  color: var(--muted);
+}
+
 .impact-pill {
   display: inline-flex;
   min-width: 74px;
@@ -917,7 +999,7 @@ main {
 }
 
 .issue-cell {
-  min-width: 180px;
+  min-width: 0;
 }
 
 .issue-cell strong {
@@ -925,24 +1007,56 @@ main {
   color: var(--text);
   font-size: 13px;
   font-weight: 750;
+  line-height: 1.4;
+}
+
+.issue-meta {
+  display: inline-flex;
+  margin-top: 7px;
+  padding: 2px 7px;
+  border: 0.5px solid var(--line-2);
+  border-radius: 999px;
+  color: var(--faint);
+  font-size: 10px;
+  font-weight: 700;
 }
 
 .compact-flow {
   display: grid;
-  gap: 5px;
-  min-width: 180px;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px 6px;
+  min-width: 0;
+  font-variant-numeric: tabular-nums;
 }
 
 .compact-flow span {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  display: grid;
+  gap: 2px;
+  min-height: 34px;
+  align-content: center;
+  padding: 4px 6px;
+  border: 0.5px solid var(--line);
+  border-radius: 7px;
+  background: rgba(148,163,184,0.055);
   color: var(--muted);
-  font-size: 12px;
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.compact-flow .flow-head {
+  min-height: 20px;
+  justify-content: center;
+  text-align: center;
+  border: 0;
+  background: transparent;
+  color: var(--faint) !important;
+  font-size: 10px;
+  font-weight: 800;
 }
 
 .compact-flow b {
   color: var(--faint);
+  font-size: 10px;
 }
 
 .compact-flow small {
@@ -977,7 +1091,7 @@ main {
 }
 
 .brief-summary {
-  max-width: 260px;
+  max-width: 240px;
   margin: 0;
   color: var(--muted);
   font-size: 12px;
@@ -1692,8 +1806,7 @@ function renderHoldingMatrix(holdings) {
     <thead>
       <tr>
         <th>종목</th>
-        <th>최신 가격</th>
-        <th>등락</th>
+        <th>최근 종가</th>
         <th>추이 (7일)</th>
         <th>수급</th>
         <th>영향</th>
@@ -1716,18 +1829,14 @@ function renderHoldingMatrix(holdings) {
         <strong>${escapeHtml(holding.name || "")}</strong>
         <span>${escapeHtml(holding.symbol || "")} · ${escapeHtml(holding.market || "")}</span>
       </td>
-      <td>${formatHoldingPrice(price.latest_close, holding.market)}</td>
-      <td>
-        <span class="change-pill change-${tone}">${formatSignedPercent(price.change_pct)}</span>
-        <span class="change-detail">${formatSignedNumber(price.change, holding.market)}</span>
-      </td>
+      <td>${priceGrid(price, holding.market, tone)}</td>
       <td>${numericSparkline(price.recent_closes || [], tone)}</td>
-      <td>${hasDomesticFlow ? compactFlowBlock(latest, seven) : `<span class="muted-cell">국내 종목만</span>`}</td>
+      <td>${hasDomesticFlow ? compactFlowBlock(latest, seven) : ""}</td>
       <td><span class="impact-pill impact-${impactTone(holding.impact?.label)}">${escapeHtml(holding.impact?.label || "중립")}</span></td>
       <td>
         <div class="issue-cell">
-          <strong>${escapeHtml(holding.primary_issue || "특이 신호 제한")}</strong>
-          ${tagList((holding.impact?.reasons || []).slice(0, 2))}
+          <strong>${escapeHtml(holdingIssueTitle(holding))}</strong>
+          ${holdingIssueMeta(holding)}
           ${dataStatusFlags(holding.data_status || {})}
         </div>
       </td>
@@ -1740,13 +1849,46 @@ function renderHoldingMatrix(holdings) {
   return wrap;
 }
 
+function priceGrid(price, market, tone) {
+  return `
+    <div class="price-grid price-${tone}">
+      <strong>${formatHoldingPrice(price.latest_close, market)}</strong>
+      <span class="price-rate">${formatSignedPercent(price.change_pct)}</span>
+      <span class="price-amount">${formatSignedNumber(price.change, market)}</span>
+    </div>
+  `;
+}
+
 function holdingBriefSummary(holding) {
   const news = holding.news || [];
   const article = news.find((item) => item.title || item.summary);
   if (article) {
-    return truncateText(`뉴스: ${article.title || article.summary}`, 74);
+    return truncateText(article.title || article.summary, 74);
   }
   return "확인된 뉴스 없음";
+}
+
+function holdingIssueTitle(holding) {
+  const primary = String(holding.primary_issue || "").trim();
+  const generic = new Set(["뉴스 확인", "공시 확인", "최근 종가 확인 필요", "특이 신호 제한"]);
+  const isGeneric = generic.has(primary) || primary.includes("가격 확인 필요") || /^뉴스 \d+건$/.test(primary) || /^공시 \d+건$/.test(primary);
+  if (primary && !isGeneric) {
+    return primary;
+  }
+  const item = [...(holding.news || []), ...(holding.disclosures || [])].find((row) => row.title || row.report_name || row.headline);
+  if (!item) return primary || "특이 신호 제한";
+  return truncateText(item.title || item.report_name || item.headline, 42);
+}
+
+function holdingIssueMeta(holding) {
+  const first = [...(holding.news || []), ...(holding.disclosures || [])].find((row) => row.title || row.report_name || row.headline);
+  if (!first) return "";
+  const title = String(first.title || first.report_name || first.headline || "").toLowerCase();
+  const name = String(holding.name || "").toLowerCase();
+  const symbol = String(holding.symbol || "").toLowerCase();
+  const direct = (name && title.includes(name)) || (symbol && title.includes(symbol));
+  const label = direct ? (first.source || "직접 이슈") : "관련성 확인";
+  return `<span class="issue-meta">${escapeHtml(label)}</span>`;
 }
 
 function truncateText(text, limit) {
@@ -1787,11 +1929,15 @@ function compactFlowBlock(latest, seven) {
   const foreign = latest.foreign;
   const institution = latest.institution;
   const sevenForeign = seven?.available ? seven.foreign : null;
+  const sevenInstitution = seven?.available ? seven.institution : null;
   return `
     <div class="compact-flow">
-      <span class="flow-${toneFromNumber(foreign)}"><b>외인</b>${formatFlow(foreign)}</span>
-      <span class="flow-${toneFromNumber(institution)}"><b>기관</b>${formatFlow(institution)}</span>
-      ${Number.isFinite(Number(sevenForeign)) ? `<small>7일 외인 ${formatFlow(sevenForeign)}</small>` : ""}
+      <span class="flow-head">외인</span>
+      <span class="flow-head">기관</span>
+      <span class="flow-${toneFromNumber(foreign)}"><b>전일</b>${formatFlow(foreign)}</span>
+      <span class="flow-${toneFromNumber(institution)}"><b>전일</b>${formatFlow(institution)}</span>
+      <span class="flow-${toneFromNumber(sevenForeign)}"><b>7일</b>${formatFlow(sevenForeign)}</span>
+      <span class="flow-${toneFromNumber(sevenInstitution)}"><b>7일</b>${formatFlow(sevenInstitution)}</span>
     </div>
   `;
 }
@@ -2077,7 +2223,7 @@ function formatSignedNumber(value, market) {
   if (!Number.isFinite(number)) return "확인 필요";
   const sign = number > 0 ? "+" : "";
   if (market === "US") return `${sign}$${number.toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
-  return `${sign}${number.toLocaleString("ko-KR", { maximumFractionDigits: 0 })}`;
+  return `${sign}${number.toLocaleString("ko-KR", { maximumFractionDigits: 0 })}원`;
 }
 
 function formatSignedPercent(value) {

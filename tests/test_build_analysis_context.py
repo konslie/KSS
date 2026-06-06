@@ -65,7 +65,10 @@ class BuildAnalysisContextTests(unittest.TestCase):
         self.assertEqual(context["executive_summary_inputs"]["market_status"]["label"], "주의")
         self.assertEqual(context["market_context"]["indicators"][0]["risk_tags"], ["시장 약세"])
         self.assertEqual(context["sector_contexts"][0]["sector"], "semiconductor")
+        self.assertIn("가격 방향과 외인/기관 수급이 같은 종목", context["sector_contexts"][0]["interpretation_cues"][0])
         self.assertEqual(context["holding_contexts"][0]["primary_issue"], "가격 약세와 외인 매도")
+        self.assertEqual(context["holding_contexts"][0]["interpretation_cues"]["price_flow_signal"], "confirmed")
+        self.assertIn("외국인 매도", context["holding_contexts"][0]["interpretation_cues"]["briefing_focus"])
         self.assertEqual(context["news_clusters"][0]["count"], 1)
         self.assertEqual(context["disclosure_clusters"][0]["count"], 1)
 
