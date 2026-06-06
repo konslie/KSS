@@ -93,8 +93,8 @@ class RenderHtmlTests(unittest.TestCase):
             },
         )
 
-        self.assertIn('href="assets/report.css?v=20260604"', html)
-        self.assertIn('src="assets/report.js?v=20260604"', html)
+        self.assertIn('href="assets/report.css?v=20260604-layout2"', html)
+        self.assertIn('src="assets/report.js?v=20260604-layout2"', html)
         self.assertIn('data-report-json="reports/2026-06-04.json"', html)
         self.assertIn('id="report-data"', html)
         self.assertIn("2026-06-03", html)

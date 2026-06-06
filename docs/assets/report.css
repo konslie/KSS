@@ -439,7 +439,7 @@ main {
 
 .holding-data-table {
   width: 100%;
-  min-width: 1180px;
+  min-width: 1320px;
   table-layout: fixed;
   border-collapse: collapse;
   font-size: 14px;
@@ -448,39 +448,51 @@ main {
 .holding-data-table th,
 .holding-data-table td {
   border-bottom: 0.5px solid var(--line);
-  padding: 14px 14px;
+  padding: 16px 18px;
   text-align: left;
   vertical-align: middle;
 }
 
 .holding-data-table th:nth-child(1),
 .holding-data-table td:nth-child(1) {
-  width: 128px;
+  width: 13%;
 }
 
 .holding-data-table th:nth-child(2),
 .holding-data-table td:nth-child(2) {
-  width: 136px;
+  width: 13%;
+  text-align: center;
 }
 
 .holding-data-table th:nth-child(3),
 .holding-data-table td:nth-child(3) {
-  width: 116px;
+  width: 12%;
+  text-align: center;
+}
+
+.holding-data-table td:nth-child(3) .numeric-spark {
+  margin: 0 auto;
 }
 
 .holding-data-table th:nth-child(4),
 .holding-data-table td:nth-child(4) {
-  width: 236px;
+  width: 22%;
 }
 
 .holding-data-table th:nth-child(5),
 .holding-data-table td:nth-child(5) {
-  width: 82px;
+  width: 9%;
+  text-align: center;
 }
 
 .holding-data-table th:nth-child(6),
 .holding-data-table td:nth-child(6) {
-  width: 172px;
+  width: 15%;
+}
+
+.holding-data-table th:nth-child(7),
+.holding-data-table td:nth-child(7) {
+  width: 16%;
 }
 
 .holding-data-table th {
@@ -551,7 +563,8 @@ main {
   grid-template-columns: 1fr 1fr;
   gap: 5px 6px;
   align-items: center;
-  width: 100%;
+  width: min(100%, 160px);
+  margin: 0 auto;
   font-variant-numeric: tabular-nums;
 }
 
@@ -651,8 +664,8 @@ main {
 .compact-flow {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 5px 6px;
-  min-width: 0;
+  gap: 6px 8px;
+  min-width: 260px;
   font-variant-numeric: tabular-nums;
 }
 
@@ -661,12 +674,12 @@ main {
   gap: 2px;
   min-height: 34px;
   align-content: center;
-  padding: 4px 6px;
+  padding: 5px 8px;
   border: 0.5px solid var(--line);
   border-radius: 7px;
   background: rgba(148,163,184,0.055);
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.2;
 }
 
@@ -718,7 +731,7 @@ main {
 }
 
 .brief-summary {
-  max-width: 240px;
+  max-width: 280px;
   margin: 0;
   color: var(--muted);
   font-size: 12px;
