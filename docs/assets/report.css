@@ -1,3 +1,4 @@
+
 :root {
   color-scheme: dark;
   --bg: #08090d;
@@ -1206,3 +1207,4 @@ ul {
   }
   .impact-legend { grid-template-columns: 1fr; }
 }
+

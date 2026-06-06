@@ -39,7 +39,7 @@ async function loadReport(app) {
   const inArchive = app.dataset.inArchive === "true";
   app.innerHTML = "";
   app.append(renderShell(report, app.dataset.currentDate, archives, inArchive, viewModel));
-  document.title = report.title || "KO_데일리브리핑";
+  document.title = report.title || "KO 데일리 브리핑";
 }
 
 async function readReportData(app) {
@@ -163,7 +163,7 @@ function renderHero(report, viewModel) {
   const statusTone = marketStatusTone(status.label);
   hero.innerHTML = `
     <p class="eyebrow">개인 포트폴리오 관련 브리핑</p>
-    <h1>${escapeHtml(report.title || "KO_데일리브리핑")}</h1>
+    <h1>${escapeHtml(report.title || "KO 데일리 브리핑")}</h1>
     <p>${escapeHtml(date)} · 국내외 시장 & 포트폴리오 요약</p>
     <div class="market-status status-${statusTone}">
       <span>${escapeHtml(status.label || "상태 확인")}</span>

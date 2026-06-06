@@ -221,6 +221,7 @@ def app_shell(
     report_data: dict[str, Any] | None = None,
 ) -> str:
     archives = html.escape(json.dumps(archive_dates[:5], ensure_ascii=False), quote=True)
+    asset_version = re.sub(r"\D", "", current_date) or "1"
     embedded_report = ""
     if report_data is not None:
         payload = (
@@ -240,7 +241,7 @@ def app_shell(
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{html.escape(title)}</title>
-  <link rel="stylesheet" href="{asset_prefix}assets/report.css">
+  <link rel="stylesheet" href="{asset_prefix}assets/report.css?v={asset_version}">
 </head>
 <body>
   <main id="app"
@@ -250,7 +251,7 @@ def app_shell(
     data-in-archive="{str(in_archive).lower()}">
     <section class="app-loading">리포트를 불러오는 중입니다.</section>
   </main>{embedded_report}
-  <script src="{asset_prefix}assets/report.js" defer></script>
+  <script src="{asset_prefix}assets/report.js?v={asset_version}" defer></script>
 </body>
 </html>
 """
@@ -301,10 +302,8 @@ def write_frontend_assets() -> None:
     ASSETS_DIR.mkdir(parents=True, exist_ok=True)
     css_path = ASSETS_DIR / "report.css"
     js_path = ASSETS_DIR / "report.js"
-    if not css_path.exists():
-        css_path.write_text(REPORT_CSS, encoding="utf-8")
-    if not js_path.exists():
-        js_path.write_text(REPORT_JS, encoding="utf-8")
+    css_path.write_text(REPORT_CSS, encoding="utf-8")
+    js_path.write_text(REPORT_JS, encoding="utf-8")
 
 
 def main(argv: list[str] | None = None) -> int:
