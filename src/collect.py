@@ -150,7 +150,11 @@ def fetch_json(url: str, headers: dict[str, str], timeout: int = 12) -> dict[str
         return json.loads(response.read().decode("utf-8", errors="replace"))
 
 
-def collect_yfinance(holdings: list[dict[str, Any]], offline: bool) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+def collect_yfinance(
+    holdings: list[dict[str, Any]],
+    offline: bool,
+    run_date: str | None = None,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     rows: list[dict[str, Any]] = []
     quality: list[dict[str, Any]] = []
     symbols = [h["symbol"] for h in holdings if h.get("market") == "US" and h.get("symbol") != "UNCONFIRMED"]
@@ -164,7 +168,7 @@ def collect_yfinance(holdings: list[dict[str, Any]], offline: bool) -> tuple[lis
         return rows, [{"source": "yfinance", "status": "failed", "reason": "package not installed"}]
 
     for symbol in symbols:
-        row, error = fetch_yfinance_quote(yf, symbol)
+        row, error = fetch_yfinance_quote(yf, symbol, run_date)
         if row:
             rows.append(row)
         if error:
@@ -234,7 +238,10 @@ def normalize_yfinance_news(symbol: str, item: dict[str, Any]) -> dict[str, Any]
     }
 
 
-def collect_market_indicators(offline: bool) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+def collect_market_indicators(
+    offline: bool,
+    run_date: str | None = None,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     rows: list[dict[str, Any]] = []
     quality: list[dict[str, Any]] = []
 
@@ -247,7 +254,7 @@ def collect_market_indicators(offline: bool) -> tuple[list[dict[str, Any]], list
         return rows, [{"source": "yfinance_indicators", "status": "failed", "reason": "package not installed"}]
 
     for symbol, name in MARKET_INDICATORS.items():
-        row, error = fetch_yfinance_quote(yf, symbol)
+        row, error = fetch_yfinance_quote(yf, symbol, run_date)
         if row:
             row["name"] = name
             rows.append(row)
@@ -257,13 +264,20 @@ def collect_market_indicators(offline: bool) -> tuple[list[dict[str, Any]], list
     return rows, quality
 
 
-def fetch_yfinance_quote(yf: Any, symbol: str) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
+def fetch_yfinance_quote(
+    yf: Any,
+    symbol: str,
+    max_date: str | None = None,
+) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
     try:
         ticker = yf.Ticker(symbol)
         history = ticker.history(period="10d", interval="1d", auto_adjust=False)
         if history.empty:
             return None, {"source": "yfinance", "symbol": symbol, "status": "missing", "reason": "empty history"}
-        valid_history = history.dropna(subset=["Close"])
+        history = filter_history_by_max_date(history, max_date)
+        valid_history = history[
+            history["Close"].apply(is_valid_close)
+        ]
         if valid_history.empty:
             return None, {
                 "source": "yfinance",
@@ -310,6 +324,15 @@ def format_yfinance_date(value: Any) -> str:
     return str(date_value)
 
 
+def filter_history_by_max_date(history: Any, max_date: str | None) -> Any:
+    if not max_date or getattr(history, "empty", True):
+        return history
+    max_date_value = dt.date.fromisoformat(max_date)
+    return history[
+        [dt.date.fromisoformat(format_yfinance_date(index)) <= max_date_value for index in history.index]
+    ]
+
+
 def is_finite_number(value: Any) -> bool:
     try:
         return math.isfinite(float(value))
@@ -317,7 +340,19 @@ def is_finite_number(value: Any) -> bool:
         return False
 
 
-def collect_naver(holdings: list[dict[str, Any]], offline: bool) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+def is_valid_close(value: Any) -> bool:
+    try:
+        close = float(value)
+    except (TypeError, ValueError):
+        return False
+    return math.isfinite(close) and close > 0
+
+
+def collect_naver(
+    holdings: list[dict[str, Any]],
+    offline: bool,
+    run_date: str | None = None,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     rows: list[dict[str, Any]] = []
     quality: list[dict[str, Any]] = []
 
@@ -354,9 +389,32 @@ def collect_naver(holdings: list[dict[str, Any]], offline: bool) -> tuple[list[d
                 "change_pct": change_pct,
             }
             if yf is not None:
-                history, history_error = fetch_yfinance_quote(yf, kr_yfinance_symbol(symbol))
+                history, history_error = fetch_yfinance_quote(yf, kr_yfinance_symbol(symbol), run_date)
                 if history and history.get("recent_closes"):
-                    row["recent_closes"] = history["recent_closes"][:-1] + ([current_price] if current_price is not None else [])
+                    use_history_close = current_price is None or is_backfill_run(run_date)
+                    row["recent_closes"] = history["recent_closes"][:-1] + (
+                        [history["recent_closes"][-1]] if use_history_close else [current_price]
+                    )
+                    row["recent_dates"] = history.get("recent_dates", [])
+                    row["as_of_date"] = history.get("as_of_date")
+                    if use_history_close:
+                        row.update({
+                            "source": "naver_finance_yfinance_fallback" if current_price is None else "yfinance_backfill",
+                            "price": history.get("close"),
+                            "previous_close": history.get("previous_close"),
+                            "change": history.get("change"),
+                            "change_pct": history.get("change_pct"),
+                        })
+                        quality.append({
+                            "source": "naver_finance",
+                            "symbol": symbol,
+                            "status": "partial",
+                            "reason": (
+                                "Naver Finance price missing; used latest valid yfinance close"
+                                if current_price is None
+                                else "backfill run; used yfinance close at or before report date"
+                            ),
+                        })
                 if history_error:
                     quality.append({
                         "source": "naver_finance_history",
@@ -373,6 +431,10 @@ def collect_naver(holdings: list[dict[str, Any]], offline: bool) -> tuple[list[d
 def kr_yfinance_symbol(symbol: str) -> str:
     suffix = "KQ" if symbol in KOSDAQ_SYMBOLS else "KS"
     return f"{symbol}.{suffix}"
+
+
+def is_backfill_run(run_date: str | None) -> bool:
+    return bool(run_date and dt.date.fromisoformat(run_date) < now_kst().date())
 
 
 def collect_naver_news(
@@ -464,7 +526,7 @@ def collect_krx_open_api_reference(
     }
 
     for market, api_path in KRX_STOCK_API_PATHS.items():
-        rows, error = first_krx_rows(api_path, dates)
+        rows, error = first_krx_rows(api_path, dates, ("TDD_CLSPRC",))
         if not rows:
             quality.append({
                 "source": "krx_open_api",
@@ -490,7 +552,7 @@ def collect_krx_open_api_reference(
             })
 
     for name, api_path in KRX_INDEX_API_PATHS.items():
-        rows, error = first_krx_rows(api_path, dates)
+        rows, error = first_krx_rows(api_path, dates, ("CLSPRC_IDX", "TDD_CLSPRC"))
         if not rows:
             quality.append({
                 "source": "krx_open_api",
@@ -575,7 +637,7 @@ def collect_pykrx_fallback_reference(
                     "reason": str(exc),
                 })
                 break
-            if not getattr(frame, "empty", True):
+            if pykrx_frame_has_valid_close(frame, "종가"):
                 stock_frames.append((market, frame, date))
                 break
 
@@ -610,7 +672,7 @@ def collect_pykrx_fallback_reference(
                     "reason": str(exc),
                 })
                 break
-            if getattr(frame, "empty", True):
+            if not pykrx_frame_has_valid_close(frame, "종가"):
                 continue
             row = frame.iloc[-1]
             index_rows.append({
@@ -628,7 +690,11 @@ def collect_pykrx_fallback_reference(
     return stock_rows, index_rows, quality
 
 
-def first_krx_rows(api_path: str, dates: list[str]) -> tuple[list[dict[str, Any]], str | None]:
+def first_krx_rows(
+    api_path: str,
+    dates: list[str],
+    close_fields: tuple[str, ...],
+) -> tuple[list[dict[str, Any]], str | None]:
     last_error = None
     for date in dates:
         payload = request_krx_open_api(api_path, {"basDd": date})
@@ -636,9 +702,22 @@ def first_krx_rows(api_path: str, dates: list[str]) -> tuple[list[dict[str, Any]
             last_error = str(payload["__error"])
             continue
         rows = krx_result_rows(payload)
-        if rows:
+        if rows and any(row_has_valid_close(row, close_fields) for row in rows):
             return rows, None
     return [], last_error
+
+
+def row_has_valid_close(row: dict[str, Any], fields: tuple[str, ...]) -> bool:
+    return any(is_valid_close(str(row.get(field, "")).replace(",", "")) for field in fields)
+
+
+def pykrx_frame_has_valid_close(frame: Any, column: str) -> bool:
+    if getattr(frame, "empty", True) or not hasattr(frame, "__contains__") or column not in frame:
+        return False
+    try:
+        return any(is_valid_close(value) for value in frame[column])
+    except Exception:  # noqa: BLE001
+        return False
 
 
 def collect_investor_flows(
@@ -1231,9 +1310,9 @@ def get_dart_corp_map(api_key: str) -> dict[str, str]:
 def build_snapshot(run_date: str, offline: bool) -> dict[str, Any]:
     load_env()
     holdings = read_portfolio()
-    us_quotes, us_quality = collect_yfinance(holdings, offline)
-    indicators, indicator_quality = collect_market_indicators(offline)
-    kr_quotes, kr_quality = collect_naver(holdings, offline)
+    us_quotes, us_quality = collect_yfinance(holdings, offline, run_date)
+    indicators, indicator_quality = collect_market_indicators(offline, run_date)
+    kr_quotes, kr_quality = collect_naver(holdings, offline, run_date)
     krx_quotes, kr_indices, krx_quality = collect_krx_reference(holdings, run_date, offline)
     investor_flows, investor_flow_quality = collect_investor_flows(holdings, run_date, offline)
     rss_news, rss_quality = collect_rss(offline)

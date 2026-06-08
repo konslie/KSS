@@ -42,6 +42,7 @@ Report rules:
 - For 가격, write `종가<br>등락폭 (등락률)`. Keep positive changes with `+` and negative changes with `-`.
 - For 기관 and 외인, include domestic 순매수/순매도 direction and a compact scale when available. Leave US/Nasdaq holdings blank in those columns.
 - Use `최근 종가` or `전일 종가` for collected closing prices. Do not call collected close data `최신 가격` because the report is not real time.
+- If the previous calendar day was a market holiday or weekend and no close exists, use the most recent valid trading-day close from the collected data. For example, a Sunday run may use Friday's close while still analyzing weekend news.
 - Use Markdown bold for key labels and important terms in Executive Summary and each sector briefing.
 - Include user-relevant failed collectors and missing data in the Data Quality section.
 - If `DART_API_KEY` is missing, do not ask for the key in chat. Report DART as skipped.

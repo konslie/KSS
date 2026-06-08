@@ -131,6 +131,8 @@ The current frontend is a static JavaScript/CSS app under `docs/assets/`. `view_
 
 `data/` outputs are local run artifacts and are intentionally ignored by Git. The GitHub Pages archive should be kept under `docs/`.
 
+Collectors are holiday-aware for prices and indicators. If a weekend or holiday run has no close for the previous calendar day, the pipeline falls back to the most recent valid trading-day close while still collecting and analyzing newer news.
+
 After connecting this directory to a GitHub repository:
 
 ```bash

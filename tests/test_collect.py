@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import json
 import math
+import sys
 import tempfile
+import types
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -201,6 +203,100 @@ class CollectTests(unittest.TestCase):
         self.assertEqual(row["recent_closes"], [16.42, 16.53, 15.875])
         self.assertEqual(row["recent_dates"], ["2026-06-03", "2026-06-04", "2026-06-05"])
         self.assertEqual(warning["status"], "partial")
+
+    def test_fetch_yfinance_quote_does_not_use_rows_after_report_date(self) -> None:
+        class FakeTicker:
+            def history(self, period: str, interval: str, auto_adjust: bool) -> pd.DataFrame:
+                return pd.DataFrame({
+                    "Close": [16.53, 15.875, 17.25],
+                    "Volume": [11900900, 3452975, 9999999],
+                }, index=pd.to_datetime([
+                    "2026-06-04",
+                    "2026-06-05",
+                    "2026-06-08",
+                ]))
+
+        class FakeYFinance:
+            @staticmethod
+            def Ticker(symbol: str) -> FakeTicker:
+                return FakeTicker()
+
+        row, warning = collect.fetch_yfinance_quote(FakeYFinance, "CPNG", max_date="2026-06-07")
+
+        self.assertIsNotNone(row)
+        self.assertIsNone(warning)
+        self.assertEqual(row["close"], 15.875)
+        self.assertEqual(row["previous_close"], 16.53)
+        self.assertEqual(row["as_of_date"], "2026-06-05")
+
+    def test_naver_price_falls_back_to_latest_valid_yfinance_close(self) -> None:
+        holdings = [{"market": "KR", "name": "삼성전자", "symbol": "005930"}]
+        history = {
+            "close": 70100,
+            "previous_close": 69500,
+            "change": 600,
+            "change_pct": 0.86,
+            "as_of_date": "2026-06-05",
+            "recent_closes": [69000, 69500, 70100],
+            "recent_dates": ["2026-06-03", "2026-06-04", "2026-06-05"],
+        }
+        fake_yfinance = types.SimpleNamespace()
+
+        with mock.patch.dict(sys.modules, {"yfinance": fake_yfinance}):
+            with mock.patch.object(collect, "fetch_url", return_value="<html></html>"):
+                with mock.patch.object(collect, "fetch_yfinance_quote", return_value=(history, None)):
+                    rows, quality = collect.collect_naver(holdings, offline=False)
+
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["source"], "naver_finance_yfinance_fallback")
+        self.assertEqual(rows[0]["price"], 70100)
+        self.assertEqual(rows[0]["previous_close"], 69500)
+        self.assertEqual(rows[0]["as_of_date"], "2026-06-05")
+        self.assertEqual(rows[0]["recent_closes"], [69000, 69500, 70100])
+        self.assertEqual(quality[0]["status"], "partial")
+
+    def test_naver_backfill_uses_yfinance_close_at_or_before_report_date(self) -> None:
+        holdings = [{"market": "KR", "name": "삼성전자", "symbol": "005930"}]
+        page = '''
+            <p class="no_today"><span class="blind">75,000</span></p>
+            <p class="no_exday"><span class="blind">+2.00</span></p>
+        '''
+        history = {
+            "close": 70100,
+            "previous_close": 69500,
+            "change": 600,
+            "change_pct": 0.86,
+            "as_of_date": "2026-06-05",
+            "recent_closes": [69000, 69500, 70100],
+            "recent_dates": ["2026-06-03", "2026-06-04", "2026-06-05"],
+        }
+        fake_yfinance = types.SimpleNamespace()
+        fake_now = collect.dt.datetime(2026, 6, 8, 7, 0, tzinfo=collect.dt.timezone(collect.dt.timedelta(hours=9)))
+
+        with mock.patch.dict(sys.modules, {"yfinance": fake_yfinance}):
+            with mock.patch.object(collect, "now_kst", return_value=fake_now):
+                with mock.patch.object(collect, "fetch_url", return_value=page):
+                    with mock.patch.object(collect, "fetch_yfinance_quote", return_value=(history, None)):
+                        rows, quality = collect.collect_naver(holdings, offline=False, run_date="2026-06-07")
+
+        self.assertEqual(rows[0]["source"], "yfinance_backfill")
+        self.assertEqual(rows[0]["price"], 70100)
+        self.assertEqual(rows[0]["as_of_date"], "2026-06-05")
+        self.assertEqual(quality[0]["reason"], "backfill run; used yfinance close at or before report date")
+
+    def test_first_krx_rows_skips_holiday_rows_without_valid_close(self) -> None:
+        responses = [{
+            "output": {"result": [{"BAS_DD": "20260607", "TDD_CLSPRC": "-"}]},
+        }, {
+            "output": {"result": [{"BAS_DD": "20260605", "TDD_CLSPRC": "70,100"}]},
+        }]
+
+        with mock.patch.object(collect, "request_krx_open_api", side_effect=responses):
+            rows, error = collect.first_krx_rows("sto/stk_bydd_trd", ["20260607", "20260605"], ("TDD_CLSPRC",))
+
+        self.assertIsNone(error)
+        self.assertEqual(rows[0]["BAS_DD"], "20260605")
+        self.assertEqual(rows[0]["TDD_CLSPRC"], "70,100")
 
     def test_dart_uses_common_stock_fallback_for_preferred_stock(self) -> None:
         holdings = [{"market": "KR", "name": "현대차2우B", "symbol": "005387", "tier": 1}]
