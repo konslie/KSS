@@ -22,6 +22,8 @@ graph TD
 
     VM_Script["⚙️ src/build_view_model.py<br>(make view-model)"]:::script
     ViewModelJSON["📄 data/reports/YYYY-MM-DD/view_model.json<br>(정제된 대시보드 뷰모델)"]:::data
+    AnalysisScript["⚙️ src/build_analysis_context.py<br>(make analysis-context)"]:::script
+    AnalysisJSON["📄 data/reports/YYYY-MM-DD/analysis_context.json<br>(그룹화된 작성 컨텍스트)"]:::data
 
     LLM_Writer["🤖 Codex Automation<br>(08:00 KST 실행)"]:::process
     FinalMD["📄 data/reports/YYYY-MM-DD/final.md<br>(최종 마크다운 보고서)"]:::data
@@ -49,9 +51,12 @@ graph TD
 
     SourceJSON --> VM_Script
     VM_Script --> ViewModelJSON
+    ViewModelJSON --> AnalysisScript
+    AnalysisScript --> AnalysisJSON
 
     SourceJSON -.-> LLM_Writer
     ViewModelJSON -.-> LLM_Writer
+    AnalysisJSON -.-> LLM_Writer
     NewsMD -.-> LLM_Writer
     LLM_Writer --> FinalMD
 
@@ -77,13 +82,19 @@ graph TD
    - **출력**:
      - `data/reports/YYYY-MM-DD/view_model.json` (대시보드 차트 및 표 렌더링에 적합하도록 정제/표준화된 스키마 데이터)
 
-3. **서면 브리핑 작성 (Written Briefing - Codex)**
+3. **분석 컨텍스트 생성 (Analysis Context Building)**
+   - **실행**: `make analysis-context` (내부적으로 `src/build_analysis_context.py` 구동)
+   - **입력**: `data/reports/YYYY-MM-DD/view_model.json`
+   - **출력**:
+     - `data/reports/YYYY-MM-DD/analysis_context.json` (시장, 섹터, 종목, 뉴스, 공시, 데이터 품질 컨텍스트)
+
+4. **서면 브리핑 작성 (Written Briefing - Codex)**
    - **실행**: 08:00 KST 스케줄러 기반 Codex Automation 작동
-   - **입력**: `source.json`, `view_model.json`, `news.md`
+   - **입력**: `source.json`, `view_model.json`, `analysis_context.json`, `news.md`
    - **출력**:
      - `data/reports/YYYY-MM-DD/final.md` (팩트 기반의 최종 마크다운 보고서)
 
-4. **HTML 렌더링 및 패키징 (HTML Rendering & Packaging)**
+5. **HTML 렌더링 및 패키징 (HTML Rendering & Packaging)**
    - **실행**: `make render-html` (내부적으로 `src/render_html.py` 구동)
    - **입력**: `final.md`, `view_model.json`
    - **출력**:
@@ -97,6 +108,7 @@ graph TD
 ```bash
 make collect-offline
 make view-model
+make analysis-context
 make render-html DATE=YYYY-MM-DD REPORT=data/reports/YYYY-MM-DD/final.md
 make test
 ```
@@ -115,6 +127,8 @@ HTML 프론트엔드는 추가적인 fetch 요청 없이 서면 브리핑과 데
 
 현재 프론트엔드는 `docs/assets/` 아래에 있는 정적 JavaScript/CSS 앱입니다. `view_model.json`은 첫 화면 히어로(hero), 시장 지표 카드, 포트폴리오 표, 그리고 SVG 라인 스파크라인을 구동합니다. 데이터 대시보드 아래의 서면 브리핑 섹션은 여전히 `final.md`에서 제공합니다.
 
+`data/` 아래 산출물은 로컬 실행 중간물이며 Git에서 의도적으로 제외합니다. GitHub Pages 아카이브는 `docs/` 아래 파일로 관리합니다.
+
 이 디렉토리를 GitHub 리포지토리에 연결한 후:
 
 ```bash
@@ -122,6 +136,17 @@ git add .
 git commit -m "Add morning investment briefing automation"
 git push
 ```
+
+일상적인 리포트 실행 후에는 배포 가능한 파일만 커밋합니다:
+
+```text
+docs/index.html
+docs/reports/YYYY-MM-DD.html
+docs/reports/YYYY-MM-DD.json
+docs/assets/*
+```
+
+`data/incoming/` 또는 `data/reports/`는 수집/작성 중간물이므로 커밋하지 않습니다.
 
 그 후 다음과 같이 GitHub Pages를 활성화합니다:
 

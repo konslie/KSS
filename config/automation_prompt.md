@@ -16,8 +16,6 @@ Each run:
    - `data/reports/YYYY-MM-DD/analysis_context.json`
    - `data/incoming/YYYY-MM-DD/news.md`
    - `config/report_format.md`
-   - `FRONTEND_REDESIGN.md`
-   - `DATA_SCHEMA.md`
 6. Write the final report to `data/reports/YYYY-MM-DD/final.md`.
 7. Run `make render-html DATE=YYYY-MM-DD REPORT=data/reports/YYYY-MM-DD/final.md`.
 8. Verify that `docs/index.html`, `docs/reports/YYYY-MM-DD.html`, and `docs/reports/YYYY-MM-DD.json` exist.
@@ -31,8 +29,8 @@ Report rules:
 - The frontend renders the main hero, market indicators, portfolio status table, source badges, and line sparklines from `view_model.json`; `final.md` should focus on written interpretation and concise rationale.
 - Do not write sector briefings as a list of price changes. For each sector, explain how news, disclosures, and investor flows affect the portfolio names, using `analysis_context.sector_contexts[].interpretation_cues` and `holding_contexts[].interpretation_cues` when available.
 - Treat price as evidence, not the conclusion. A useful paragraph should answer: what the news/disclosure issue is, whether foreign/institutional flow confirms or conflicts with the price move, and what risk or observation point follows for the portfolio.
-- Follow the screen planning rules in `FRONTEND_REDESIGN.md` when deciding what belongs in frontend data versus written interpretation.
-- Follow `DATA_SCHEMA.md` when interpreting source, view model, analysis context, final report, and packaged page JSON responsibilities.
+- Keep `data/` outputs as local run artifacts. Do not commit `data/incoming/` or `data/reports/`.
+- Commit only deployable report artifacts under `docs/`: `docs/index.html`, `docs/reports/YYYY-MM-DD.html`, `docs/reports/YYYY-MM-DD.json`, and changed `docs/assets/` files.
 - Do not recommend buying or selling.
 - Do not provide target prices.
 - Do not make certain forecasts.

@@ -129,7 +129,7 @@ The current frontend is a static JavaScript/CSS app under `docs/assets/`. `view_
 
 `analysis_context.json` is generated from `view_model.json` for Codex report writing. It groups market, sector, holding, news, disclosure, and data-quality context so the written report does not have to infer everything from raw source data.
 
-See `DATA_SCHEMA.md` for the role and expected fields of `source.json`, `view_model.json`, `analysis_context.json`, `final.md`, and packaged deploy JSON.
+`data/` outputs are local run artifacts and are intentionally ignored by Git. The GitHub Pages archive should be kept under `docs/`.
 
 After connecting this directory to a GitHub repository:
 
@@ -138,6 +138,17 @@ git add .
 git commit -m "Add morning investment briefing automation"
 git push
 ```
+
+For routine report runs, commit only deployable files:
+
+```text
+docs/index.html
+docs/reports/YYYY-MM-DD.html
+docs/reports/YYYY-MM-DD.json
+docs/assets/*
+```
+
+Do not commit `data/incoming/` or `data/reports/`; those directories contain local collection and report-generation intermediates.
 
 Then enable GitHub Pages with:
 
