@@ -1,6 +1,6 @@
 # Codex Automation Prompt
 
-Schedule: `0 8 * * 1-5` in `Asia/Seoul`.
+Schedule: every day at `07:30` in `Asia/Seoul`.
 
 Run this project-scoped automation in `/Users/konslie/Desktop/Codex/KSS`.
 
