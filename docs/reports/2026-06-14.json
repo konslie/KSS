@@ -1,0 +1,3380 @@
+{
+  "schema": "kss-page.v1",
+  "date": "2026-06-14",
+  "title": "KO_데일리브리핑(26.06.14)",
+  "report": {
+    "schema": "kss-report.v1",
+    "date": "2026-06-14",
+    "title": "KO_데일리브리핑(26.06.14)",
+    "elements": [
+      {
+        "type": "heading",
+        "level": 1,
+        "text": "KO_데일리브리핑(26.06.14)"
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "text": "1. Executive Summary"
+      },
+      {
+        "type": "list",
+        "items": [
+          "**오늘의 한줄 요약:** 일요일 브리핑은 **2026-06-12 최근 종가**를 사용한다. 국내 대형주는 강하게 반등했지만 삼성전자 등 일부 종목은 7거래일 기준 약세가 남아 있고, 미국 우주주는 SpaceX 상장 이슈 속 큰 폭으로 하락했다."
+        ],
+        "autoBold": true
+      },
+      {
+        "type": "list",
+        "items": [
+          "**시장 위험도:** **중립**. KOSPI와 KOSDAQ은 각각 +4.63%, +3.22% 상승했고 VIX는 -9.05%였지만, 금은 +3.05% 올랐으며 Nasdaq과 S&P 500은 7거래일 전보다 낮다. 위험 선호 회복과 안전자산 수요가 함께 나타난 흐름이다."
+        ],
+        "autoBold": true
+      },
+      {
+        "type": "list",
+        "items": [
+          "**핵심 이벤트 3건:**"
+        ],
+        "autoBold": true
+      },
+      {
+        "type": "paragraph",
+        "text": "1. **SpaceX 상장과 우주주 약세:** CNBC Markets는 SpaceX의 역사적 상장과 2조달러 시가총액을 다뤘다. yfinance 뉴스는 다른 우주주의 동반 약세를 전했고, Rocket Lab과 Intuitive Machines는 각각 -10.79%, -13.12%였다.",
+        "autoBold": true
+      },
+      {
+        "type": "paragraph",
+        "text": "2. **반도체 반등의 지속성 확인:** 삼성전자는 +7.86%, 필라델피아반도체지수는 +1.52%였지만 삼성전자와 Nvidia는 7거래일 전보다 각각 -8.25%, -6.16% 낮다. 국내 투자자 수급이 미수집돼 반등의 확인 신호는 제한적이다.",
+        "autoBold": true
+      },
+      {
+        "type": "paragraph",
+        "text": "3. **금융주의 주주환원·사업 확장 이슈:** 우리금융지주의 주식소각·자기주식 신탁 해지 공시, 하나금융지주의 생산적 금융 협약, DB손해보험의 보험사기 환수 뉴스가 확인됐다. 가격은 모두 상승했지만 수급 데이터 없이 추세 전환을 단정하기 어렵다.",
+        "autoBold": true
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "text": "2. 포트폴리오 영향도"
+      },
+      {
+        "type": "table",
+        "className": "portfolio-table",
+        "header": [
+          "종목",
+          "영향도",
+          "가격",
+          "기관",
+          "외인",
+          "7일",
+          "근거"
+        ],
+        "rows": [
+          [
+            "현대차2우B",
+            "중립~긍정",
+            "241,000원<br>+5,500원 (+2.34%)",
+            "미수집",
+            "미수집",
+            "주가 -9.40%",
+            "Naver Search는 현대차의 주주친화 강화와 제네시스 유럽 경쟁 확대를 전했고, DART에는 특수관계인 유가증권 매수·출자 공시가 확인됐다. 우선주에 대한 직접 영향은 **확인 필요**다."
+          ],
+          [
+            "하나금융지주",
+            "중립~긍정",
+            "121,000원<br>+6,200원 (+5.40%)",
+            "미수집",
+            "미수집",
+            "주가 +0.33%",
+            "Naver Search의 산업단지 생산적 금융 협약과 포용금융 논의, DART의 IR 개최 공시가 확인됐다. 가격은 상승했지만 수급 확인은 불가능하다."
+          ],
+          [
+            "우리금융지주",
+            "중립~긍정",
+            "31,150원<br>+1,000원 (+3.32%)",
+            "미수집",
+            "미수집",
+            "주가 +2.47%",
+            "DART의 주식소각 정정·자기주식 신탁 해지·IR 공시는 주주환원과 소통 축의 확인 사안이다. Naver Search는 금융지주 증권사 자본확충과 원앱 경쟁을 전했다."
+          ],
+          [
+            "삼성전자",
+            "중립~긍정",
+            "322,500원<br>+23,500원 (+7.86%)",
+            "미수집",
+            "미수집",
+            "주가 -8.25%",
+            "DART에는 최대주주·임원 지분 변동 공시가 확인됐다. Naver Search의 AX 뉴스는 삼성전자와의 직접 관련성이 낮아 **확인 필요**이며, 수급 없이 급등의 지속성을 판단하기 어렵다."
+          ],
+          [
+            "DB손해보험",
+            "중립~긍정",
+            "148,200원<br>+8,200원 (+5.86%)",
+            "미수집",
+            "미수집",
+            "주가 +2.42%",
+            "Naver Search는 보험사기 적발액과 DB손보의 환수 승소율을 전했다. DART의 증권발행실적보고서·투자설명서는 자본조달 축의 확인 사안이다."
+          ],
+          [
+            "현대바이오",
+            "중립~부정",
+            "8,910원<br>-170원 (-1.87%)",
+            "미수집",
+            "미수집",
+            "주가 -18.56%",
+            "Naver Search 결과는 한·이탈리아 미래산업 협력과 시장 양극화 기사로 종목 직접성이 낮아 **확인 필요**다. 확인 가능한 신호는 직전 거래일과 7일 가격 약세다."
+          ],
+          [
+            "금호석유화학",
+            "중립~긍정",
+            "123,200원<br>+3,500원 (+2.92%)",
+            "미수집",
+            "미수집",
+            "주가 -6.60%",
+            "Naver Search는 철새 서식지 복원 투자와 밸류업 지수 테마를 전했다. 직전 거래일 반등과 달리 7일 기준은 약세이며 사업 실적과의 직접 연결은 제한적이다."
+          ],
+          [
+            "이수페타시스",
+            "중립",
+            "122,400원<br>-800원 (-0.65%)",
+            "미수집",
+            "미수집",
+            "주가 -8.45%",
+            "Naver Search의 주간 외국인·기관 기사 제목은 삼성전자 중심이어서 이수페타시스에 대한 직접 근거는 **확인 필요**다. 수급 미수집 상태에서 가격 약세만 확인된다."
+          ],
+          [
+            "SCHD",
+            "중립",
+            "$32.82<br>+$0.29 (+0.89%)",
+            "",
+            "",
+            "주가 +0.71%",
+            "yfinance 뉴스는 배당소득 포트폴리오와 SCHD 장기 성과를 다룬 분석 기사 중심이다. 직전 거래일 가격은 상승했지만 새로운 기업 이슈는 제한적이다."
+          ],
+          [
+            "Apple",
+            "중립~부정",
+            "$291.13<br>-$4.50 (-1.52%)",
+            "",
+            "",
+            "주가 -6.46%",
+            "yfinance 뉴스는 Apple에 대한 대형 투자자 시각 변화를 다뤘다. 나머지 기사는 Amazon·TSMC 중심으로 직접 관련성이 낮아 **확인 필요**이며 가격은 당일·7일 모두 약세다."
+          ],
+          [
+            "Nvidia",
+            "중립",
+            "$205.19<br>+$0.32 (+0.16%)",
+            "",
+            "",
+            "주가 -6.16%",
+            "yfinance 뉴스는 호주 GPU 확장을 통한 반복형 AI 데이터센터 모델 시험을 전했다. 직전 거래일은 보합권이고 7일 기준 약세여서 사업 기대와 가격 신호가 엇갈린다."
+          ],
+          [
+            "Coupang",
+            "중립~부정",
+            "$16.82<br>-$0.43 (-2.49%)",
+            "",
+            "",
+            "주가 +1.75%",
+            "yfinance 뉴스는 개인정보 침해 관련 6,246.8억원 과징금과 글로벌 성장 부담을 전했다. 7일 기준 상승에도 직전 거래일 하락으로 규제 비용의 재평가가 이어졌다."
+          ],
+          [
+            "Rocket Lab",
+            "중립~부정",
+            "$102.39<br>-$12.39 (-10.79%)",
+            "",
+            "",
+            "주가 -14.64%",
+            "yfinance 뉴스는 SpaceX 상장 당일 다른 우주주의 급락을 전했다. CNBC Markets의 SpaceX 상장 강세와 Rocket Lab의 가격 약세가 경쟁·자금 집중 부담을 보여준다."
+          ],
+          [
+            "Resolve AI",
+            "중립~긍정",
+            "$2.68<br>+$0.15 (+5.93%)",
+            "",
+            "",
+            "주가 +6.77%",
+            "yfinance 뉴스는 TCS 협력, TraceWare 검증, 3억달러 자사주 매입 계획, Microsoft 출신 인사 영입을 다뤘다. 가격은 당일과 7일 모두 우호적이다."
+          ],
+          [
+            "Intuitive Machines",
+            "중립~부정",
+            "$26.62<br>-$4.02 (-13.12%)",
+            "",
+            "",
+            "주가 -20.84%",
+            "yfinance 뉴스는 NASA 로버 계약 수주 실패와 달 기지 기대를 함께 전했다. 직전 거래일과 7일 가격 약세가 겹쳐 단기 변동성 부담이 크다."
+          ]
+        ]
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "text": "3. 금융주 브리핑"
+      },
+      {
+        "type": "paragraph",
+        "text": "**하나금융지주**는 산업단지 생산적 금융 확산 협약과 중소 제조업을 포함한 포용금융 논의가 뉴스의 중심이다. DART의 IR 개최 공시는 투자자 소통 일정으로 분류할 수 있다. 직전 거래일 가격 상승과 7일 보합권 흐름은 우호적이지만, 기관·외국인 수급이 미수집돼 뉴스가 실제 자금 흐름으로 확인됐는지는 판단할 수 없다.",
+        "autoBold": true
+      },
+      {
+        "type": "paragraph",
+        "text": "**우리금융지주**는 주식소각 정정과 자기주식취득 신탁 해지가 **주주환원**, IR 공시가 **기업가치 소통**의 확인 사안이다. Naver Search의 금융지주 증권사 자본확충 뉴스는 사업 확장과 자본 부담을 함께 봐야 하는 이슈이며 직접 영향은 **확인 필요**다. **DB손해보험**은 보험사기 환수 승소율 뉴스가 손해율 관리와 회수 역량의 관찰 신호지만, 증권발행실적보고서와 투자설명서의 자본조달 내용은 별도 확인이 필요하다.",
+        "autoBold": true
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "text": "4. 현대차 / 환율"
+      },
+      {
+        "type": "paragraph",
+        "text": "**USD/KRW 최근 종가**는 1,517.89원으로 직전 거래일 대비 -0.47%였다. **현대차2우B**는 +2.34% 반등했지만 7거래일 기준 -9.40%이며 국내 수급은 미수집됐다. 원화 강세 방향은 수출 채산성에 일방적으로 우호적인 신호가 아니고, 수급이 없어 가격 반등의 확인 강도도 낮다.",
+        "autoBold": true
+      },
+      {
+        "type": "paragraph",
+        "text": "Naver Search는 현대차의 주주친화 강화와 제네시스의 유럽 경쟁 확대를 전했다. 이는 지배구조·브랜드 확장 축의 이슈이며 우선주 가치에 대한 직접 영향은 **확인 필요**다. DART의 특수관계인 유가증권 매수와 출자는 그룹 내 자본거래 축으로 분류해야 하며 실적 개선 근거로 확대 해석할 수 없다.",
+        "autoBold": true
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "text": "5. 반도체 브리핑"
+      },
+      {
+        "type": "paragraph",
+        "text": "**필라델피아반도체지수**는 +1.52%, **Nvidia**는 +0.16%, **삼성전자**는 +7.86%였다. Nvidia의 호주 GPU 확장 뉴스는 AI 데이터센터 사업모델 확대 기대를 제공하지만, Nvidia와 삼성전자는 7거래일 기준 각각 -6.16%, -8.25%다. 삼성전자 관련 수집 뉴스의 직접성도 낮고 국내 수급까지 미수집돼, 당일 반등만으로 AI 기대가 추세로 이어졌다고 단정하기 어렵다.",
+        "autoBold": true
+      },
+      {
+        "type": "paragraph",
+        "text": "**이수페타시스**는 직전 거래일 -0.65%, 7거래일 -8.45%였다. 수집된 주간 외국인·기관 뉴스 제목은 삼성전자 중심이라 종목 직접성이 낮고, 이수페타시스 수급도 확보되지 않았다. 필라델피아반도체지수의 반등이 국내 AI 기판주 가격으로 확산되지 않은 점만 제한적으로 확인된다.",
+        "autoBold": true
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "text": "6. 미국 포트폴리오 브리핑"
+      },
+      {
+        "type": "paragraph",
+        "text": "**SpaceX 상장**이 미국 포트폴리오의 가장 직접적인 변수다. CNBC Markets는 SpaceX의 역사적 상장과 2조달러 시가총액을 다뤘고, yfinance 뉴스는 상장 당일 다른 우주주의 급락을 전했다. **Rocket Lab**과 **Intuitive Machines**는 두 자릿수 하락했으며, Intuitive Machines에는 NASA 로버 수주 실패 뉴스도 겹쳤다. 섹터 관심 확대보다 경쟁 부담과 상장 종목으로의 자금 집중이 가격에 더 강하게 나타났다.",
+        "autoBold": true
+      },
+      {
+        "type": "paragraph",
+        "text": "**Coupang**은 개인정보 침해 관련 6,246.8억원 과징금과 글로벌 성장 부담이 핵심이다. **Resolve AI**는 TCS 협력, TraceWare 검증, 3억달러 자사주 매입 계획, Microsoft 출신 인사 영입 뉴스 속 상승했다. **Apple**은 직접 관련 뉴스가 제한된 가운데 당일·7일 약세였고, **SCHD**는 배당 전략 분석 기사 중심이라 가격과 연결할 새 사업 이슈가 부족하다.",
+        "autoBold": true
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "text": "7. 공시 및 뉴스"
+      },
+      {
+        "type": "list",
+        "items": [
+          "**DART:** 우리금융지주 주식소각 정정·자기주식취득 신탁 해지, 하나금융지주 IR·주요주주 증권 소유, 삼성전자 최대주주·임원 지분 변동, DB손해보험 증권발행실적·투자설명서, 현대차 특수관계인 자본거래가 수집됐다."
+        ],
+        "autoBold": false
+      },
+      {
+        "type": "list",
+        "items": [
+          "**Naver Search:** 현대차 주주친화 강화와 제네시스 유럽 경쟁, 하나금융 생산적 금융 협약, 우리금융을 포함한 금융지주 증권사 자본확충, DB손해보험 보험사기 환수 승소율이 주요 이슈다."
+        ],
+        "autoBold": false
+      },
+      {
+        "type": "list",
+        "items": [
+          "**yfinance 뉴스:** Coupang 과징금, Rocket Lab을 포함한 우주주 약세, Resolve AI 자사주 매입 계획, Intuitive Machines의 NASA 로버 수주 실패가 포함됐다."
+        ],
+        "autoBold": false
+      },
+      {
+        "type": "list",
+        "items": [
+          "**CNBC Markets:** SpaceX의 역사적 상장과 2조달러 시가총액, 이란 합의 시점 관련 소식을 전했다."
+        ],
+        "autoBold": false
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "text": "8. 오늘의 관찰 포인트"
+      },
+      {
+        "type": "paragraph",
+        "text": "1. **우주주:** SpaceX 상장 이후 Rocket Lab·Intuitive Machines의 경쟁 부담과 큰 폭의 가격 변동이 진정되는지 본다.",
+        "autoBold": false
+      },
+      {
+        "type": "paragraph",
+        "text": "2. **삼성전자:** +7.86% 반등이 7거래일 약세를 줄이는지, 다음 거래일 수급 데이터가 가격을 확인하는지 살핀다.",
+        "autoBold": false
+      },
+      {
+        "type": "paragraph",
+        "text": "3. **금융주:** 우리금융 주주환원 공시와 금융지주 증권사 자본확충 이슈가 다음 거래일 가격·수급에 어떻게 반영되는지 구분한다.",
+        "autoBold": false
+      },
+      {
+        "type": "paragraph",
+        "text": "4. **Coupang:** 개인정보 침해 과징금이 글로벌 성장과 규제 비용 평가에 미치는 후속 반응을 확인한다.",
+        "autoBold": false
+      },
+      {
+        "type": "paragraph",
+        "text": "5. **현대차2우B:** 주주친화·유럽 경쟁 확대 뉴스와 7거래일 가격 약세 사이의 간극이 줄어드는지 본다.",
+        "autoBold": false
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "text": "9. 데이터 품질"
+      },
+      {
+        "type": "list",
+        "items": [
+          "국내·미국 보유주 **15개**와 시장 지표 **8개**의 가격이 모두 채워졌다. 일요일 실행이므로 주식·지표 가격은 **가장 최근 유효 거래일인 2026-06-12 종가**를 사용했다."
+        ],
+        "autoBold": false
+      },
+      {
+        "type": "list",
+        "items": [
+          "뉴스 **47건**과 DART 공시 **13건**이 수집됐다."
+        ],
+        "autoBold": false
+      },
+      {
+        "type": "list",
+        "items": [
+          "선택적 KRX 참조 데이터 일부와 국내 보유주의 기관·외국인 수급은 수집되지 않았다. 따라서 이번 보고서는 수급 방향이나 규모를 추정하지 않았다."
+        ],
+        "autoBold": false
+      },
+      {
+        "type": "list",
+        "items": [
+          "미국 종목은 국내 투자자별 수급 데이터 적용 대상이 아니다."
+        ],
+        "autoBold": false
+      },
+      {
+        "type": "list",
+        "items": [
+          "일부 검색 뉴스는 해당 종목과 직접 관련성이 낮아 **확인 필요**로 표시했다."
+        ],
+        "autoBold": false
+      }
+    ]
+  },
+  "view_model": {
+    "schema": "kss-view-model.v1",
+    "date": "2026-06-14",
+    "as_of": "2026-06-14T09:28:59.090213+09:00",
+    "timezone": "Asia/Seoul",
+    "market_status": {
+      "label": "중립",
+      "score": 0,
+      "reasons": [],
+      "reason": ""
+    },
+    "market_indicators": [
+      {
+        "name": "KOSPI",
+        "symbol": "^KS11",
+        "source": "yfinance",
+        "as_of_date": "2026-06-12",
+        "display_order": 0,
+        "unit": "index",
+        "risk_tags": [
+          "시장 강세"
+        ],
+        "short_comment": "강세",
+        "price": {
+          "latest_close": 8123.6201,
+          "previous_close": 7763.9502,
+          "close_7d_ago": 8639.4102,
+          "recent_closes": [
+            8639.4102,
+            8160.5898,
+            7484.4102,
+            8096.9302,
+            7730.8198,
+            7763.9502,
+            8123.6201
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": 359.6699,
+          "change_pct": 4.63,
+          "trend": "up"
+        },
+        "volume": 493400
+      },
+      {
+        "name": "KOSDAQ",
+        "symbol": "^KQ11",
+        "source": "yfinance",
+        "as_of_date": "2026-06-12",
+        "display_order": 1,
+        "unit": "index",
+        "risk_tags": [
+          "시장 강세"
+        ],
+        "short_comment": "강세",
+        "price": {
+          "latest_close": 1029.05,
+          "previous_close": 996.93,
+          "close_7d_ago": 1049.73,
+          "recent_closes": [
+            1049.73,
+            1002.44,
+            911.39,
+            967.81,
+            951.63,
+            996.93,
+            1029.05
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": 32.1201,
+          "change_pct": 3.22,
+          "trend": "up"
+        },
+        "volume": 644900
+      },
+      {
+        "name": "Nasdaq",
+        "symbol": "^IXIC",
+        "source": "yfinance",
+        "as_of_date": "2026-06-12",
+        "display_order": 2,
+        "unit": "index",
+        "risk_tags": [],
+        "short_comment": "보합권",
+        "price": {
+          "latest_close": 25888.8398,
+          "previous_close": 25809.6602,
+          "close_7d_ago": 26830.9609,
+          "recent_closes": [
+            26830.9609,
+            25709.4297,
+            25929.6602,
+            25678.8203,
+            25169.5,
+            25809.6602,
+            25888.8398
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": 79.1797,
+          "change_pct": 0.31,
+          "trend": "down_7d"
+        },
+        "volume": 10337400000
+      },
+      {
+        "name": "S&P 500",
+        "symbol": "^GSPC",
+        "source": "yfinance",
+        "as_of_date": "2026-06-12",
+        "display_order": 3,
+        "unit": "index",
+        "risk_tags": [],
+        "short_comment": "보합권",
+        "price": {
+          "latest_close": 7431.46,
+          "previous_close": 7394.2998,
+          "close_7d_ago": 7584.3101,
+          "recent_closes": [
+            7584.3101,
+            7383.7402,
+            7405.73,
+            7386.6499,
+            7266.9902,
+            7394.2998,
+            7431.46
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": 37.1602,
+          "change_pct": 0.5,
+          "trend": "down_7d"
+        },
+        "volume": 4950530000
+      },
+      {
+        "name": "VIX",
+        "symbol": "^VIX",
+        "source": "yfinance",
+        "as_of_date": "2026-06-12",
+        "display_order": 4,
+        "unit": "pct",
+        "risk_tags": [],
+        "short_comment": "급락",
+        "price": {
+          "latest_close": 17.68,
+          "previous_close": 19.44,
+          "close_7d_ago": 15.4,
+          "recent_closes": [
+            15.4,
+            21.51,
+            18.92,
+            19.87,
+            22.22,
+            19.44,
+            17.68
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": -1.76,
+          "change_pct": -9.05,
+          "trend": "down"
+        },
+        "volume": 0
+      },
+      {
+        "name": "Gold",
+        "symbol": "GC=F",
+        "source": "yfinance",
+        "as_of_date": "2026-06-12",
+        "display_order": 5,
+        "unit": "USD",
+        "risk_tags": [
+          "안전자산 강세"
+        ],
+        "short_comment": "강세",
+        "price": {
+          "latest_close": 4215,
+          "previous_close": 4090.3,
+          "close_7d_ago": 4475.7998,
+          "recent_closes": [
+            4475.7998,
+            4337.1001,
+            4335.8999,
+            4260,
+            4108.2002,
+            4090.3,
+            4215
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": 124.7,
+          "change_pct": 3.05,
+          "trend": "up"
+        },
+        "volume": 1938
+      },
+      {
+        "name": "USD/KRW",
+        "symbol": "KRW=X",
+        "source": "yfinance",
+        "as_of_date": "2026-06-12",
+        "display_order": 6,
+        "unit": "KRW",
+        "risk_tags": [],
+        "short_comment": "보합권",
+        "price": {
+          "latest_close": 1517.89,
+          "previous_close": 1525.05,
+          "close_7d_ago": 1530.11,
+          "recent_closes": [
+            1530.11,
+            1533.0699,
+            1554.48,
+            1528.88,
+            1525.8101,
+            1525.05,
+            1517.89
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": -7.16,
+          "change_pct": -0.47,
+          "trend": "down_7d"
+        },
+        "volume": 0
+      },
+      {
+        "name": "필라델피아반도체지수",
+        "symbol": "^SOX",
+        "source": "yfinance",
+        "as_of_date": "2026-06-12",
+        "display_order": 7,
+        "unit": "index",
+        "risk_tags": [],
+        "short_comment": "상승",
+        "price": {
+          "latest_close": 13371.4697,
+          "previous_close": 13171.4404,
+          "close_7d_ago": 13617.5,
+          "recent_closes": [
+            13617.5,
+            12220.7598,
+            12906.6904,
+            12657.8096,
+            12206.46,
+            13171.4404,
+            13371.4697
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": 200.0293,
+          "change_pct": 1.52,
+          "trend": "up"
+        },
+        "volume": 0
+      }
+    ],
+    "holdings": [
+      {
+        "name": "현대차2우B",
+        "symbol": "005387",
+        "market": "KR",
+        "tier": 1,
+        "sector": "auto_fx",
+        "priority": 7,
+        "factors": [
+          "usdkrw",
+          "auto",
+          "dividend",
+          "export"
+        ],
+        "price": {
+          "source": "naver_finance",
+          "reference_source": null,
+          "as_of_date": "2026-06-12",
+          "latest_close": 241000,
+          "previous_close": 235500,
+          "close_7d_ago": 266000,
+          "recent_closes": [
+            266000,
+            260000,
+            240000,
+            247500,
+            238000,
+            235500,
+            241000
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": 5500,
+          "change_pct": 2.3355,
+          "trend": "up",
+          "volume": null,
+          "trading_value": null
+        },
+        "flow": {
+          "latest": {
+            "source": null,
+            "as_of_date": null,
+            "scope": null,
+            "market": null,
+            "symbol": null,
+            "name": null,
+            "unit": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null,
+            "buy_leader": "",
+            "sell_leader": "",
+            "seven_day_total": {
+              "available": false,
+              "trading_days": null,
+              "individual": null,
+              "institution": null,
+              "foreign": null
+            }
+          },
+          "seven_day_total": {
+            "available": false,
+            "trading_days": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null
+          }
+        },
+        "news": [
+          {
+            "source": "naver_search_news",
+            "symbol": "005387",
+            "name": "현대차2우B",
+            "query": "현대차",
+            "title": "“내 주식만 안 올라, 어쩌나”…‘8천피 시대’ 신저가 종목 속출했다",
+            "url": "https://www.mk.co.kr/article/12073521",
+            "naver_url": "https://n.news.naver.com/mnews/article/009/0005693433?sid=101",
+            "description": "코스피 시가총액 1, 2위인 삼성전자와 SK하이닉스를 비롯해 SK스퀘어, 삼성전자우, 현대차, 삼성전기, 삼성생명, 삼성물산, HD현대중공업 등 시총 상위 10개 종목 중 LG에너지솔루션을 제외한 9개 종목이 지난달 말 또는...",
+            "published_at": "Sun, 14 Jun 2026 09:25:00 +0900"
+          },
+          {
+            "source": "naver_search_news",
+            "symbol": "005387",
+            "name": "현대차2우B",
+            "query": "현대차",
+            "title": "[기업지배구조 보고서 톺아보기] 주주친화 강화한 현대차…소수주주 보...",
+            "url": "http://www.hansbiz.co.kr/news/articleView.html?idxno=843988",
+            "naver_url": "http://www.hansbiz.co.kr/news/articleView.html?idxno=843988",
+            "description": "현대차·기아의 양재 사옥./현대차그룹 | 서울=한스경제 곽호준 기자 | 현대차가 지난해 기업지배구조 핵심지표를 대체로 충족하며 전체 상장사 평균을 웃도는 수준을 기록한 것으로 나타났다. 주주 관련 핵심지표를 모두...",
+            "published_at": "Sun, 14 Jun 2026 09:10:00 +0900"
+          },
+          {
+            "source": "naver_search_news",
+            "symbol": "005387",
+            "name": "현대차2우B",
+            "query": "현대차",
+            "title": "호세 무뇨스 “제네시스, 유럽서 獨 3사에 도전”",
+            "url": "https://biz.chosun.com/industry/car/2026/06/14/5KB5F6TQEZEOJJDZ2YUXV4OJSE/?utm_source=naver&utm_medium=original&utm_campaign=biz",
+            "naver_url": "https://n.news.naver.com/mnews/article/366/0001171685?sid=103",
+            "description": "시사 현대차그룹의 고급 브랜드 제네시스가 유럽 시장 공략과 모터스포츠 도전을 앞세워 독일 프리미엄 완성차 3사를 정조준했다. 호세 무뇨스 현대차 대표이사(사장)는 12일(현지시각) 프랑스 르망 라 사르트 서킷에서...",
+            "published_at": "Sun, 14 Jun 2026 09:02:00 +0900"
+          }
+        ],
+        "disclosures": [
+          {
+            "source": "dart",
+            "symbol": "005387",
+            "dart_stock_code": "005380",
+            "name": "현대차2우B",
+            "corp_code": "00164742",
+            "report_name": "특수관계인으로부터기타유가증권매수",
+            "receipt_no": "20260610000653",
+            "receipt_date": "20260610",
+            "submitter": "현대자동차",
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260610000653"
+          },
+          {
+            "source": "dart",
+            "symbol": "005387",
+            "dart_stock_code": "005380",
+            "name": "현대차2우B",
+            "corp_code": "00164742",
+            "report_name": "특수관계인에대한출자",
+            "receipt_no": "20260610000640",
+            "receipt_date": "20260610",
+            "submitter": "현대자동차",
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260610000640"
+          }
+        ],
+        "impact": {
+          "label": "중립~긍정",
+          "score": 1,
+          "reasons": [
+            "가격 상승",
+            "공시 2건",
+            "뉴스 3건"
+          ]
+        },
+        "primary_issue": "공시 확인",
+        "data_status": {
+          "price": "ok",
+          "flow": "missing",
+          "news": "ok",
+          "disclosures": "ok"
+        },
+        "analysis_inputs": {
+          "price_trend": "up",
+          "flow_bias": "unknown",
+          "news_count": 3,
+          "disclosure_count": 2,
+          "tags": [
+            "auto",
+            "dividend",
+            "export",
+            "usdkrw"
+          ]
+        }
+      },
+      {
+        "name": "하나금융지주",
+        "symbol": "086790",
+        "market": "KR",
+        "tier": 1,
+        "sector": "portfolio",
+        "priority": 10,
+        "factors": [
+          "kr_rate",
+          "yield_curve",
+          "foreign_flow",
+          "dividend"
+        ],
+        "price": {
+          "source": "naver_finance",
+          "reference_source": null,
+          "as_of_date": "2026-06-12",
+          "latest_close": 121000,
+          "previous_close": 114800,
+          "close_7d_ago": 120600,
+          "recent_closes": [
+            120600,
+            123600,
+            112400,
+            119000,
+            117900,
+            114800,
+            121000
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": 6200,
+          "change_pct": 5.4007,
+          "trend": "up",
+          "volume": null,
+          "trading_value": null
+        },
+        "flow": {
+          "latest": {
+            "source": null,
+            "as_of_date": null,
+            "scope": null,
+            "market": null,
+            "symbol": null,
+            "name": null,
+            "unit": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null,
+            "buy_leader": "",
+            "sell_leader": "",
+            "seven_day_total": {
+              "available": false,
+              "trading_days": null,
+              "individual": null,
+              "institution": null,
+              "foreign": null
+            }
+          },
+          "seven_day_total": {
+            "available": false,
+            "trading_days": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null
+          }
+        },
+        "news": [
+          {
+            "source": "naver_search_news",
+            "symbol": "086790",
+            "name": "하나금융지주",
+            "query": "하나금융지주",
+            "title": "[코스피 주식선물 옵션] AI·전력망·방산 삼각동맹 형성…선물 시장 판...",
+            "url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=459802",
+            "naver_url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=459802",
+            "description": "LS일렉트릭과 한화오션, 하나금융지주도 상승 대열에 합류했다. 전력기기와 조선, 금융 업종이 동시에 주목받는 모습이었다. 효성중공업은 11만1000원 상승하며 강한 탄력을 보였다. 반면 삼성화재는 소폭 하락해...",
+            "published_at": "Sat, 13 Jun 2026 07:50:00 +0900"
+          },
+          {
+            "source": "naver_search_news",
+            "symbol": "086790",
+            "name": "하나금융지주",
+            "query": "하나금융지주",
+            "title": "산단공, 하나금융·산단 경제단체와 산단 생산적 금융 확산 협약",
+            "url": "https://zdnet.co.kr/view/?no=20260613065719",
+            "naver_url": "https://n.news.naver.com/mnews/article/092/0002426452?sid=105",
+            "description": "최철호 한국산업단지경영자연합회 회장, 이호성 하나은행장, 이상훈 한국산업단지공단 이사장, 강성묵 하나금융지주 부회장, 이원해 글로벌선도기업협회 회장(왼쪽)이 협약을 체결한 후 기념촬영을 하고 있다.(사진...",
+            "published_at": "Sat, 13 Jun 2026 06:58:00 +0900"
+          },
+          {
+            "source": "naver_search_news",
+            "symbol": "086790",
+            "name": "하나금융지주",
+            "query": "하나금융지주",
+            "title": "함영주 \"생산적금융, 중소 제조업 아우르는 포용금융과 결합될 때 완성...",
+            "url": "https://www.apnews.kr/news/articleView.html?idxno=3049031",
+            "naver_url": "https://www.apnews.kr/news/articleView.html?idxno=3049031",
+            "description": "©AP신문(AP뉴스)/이미지 제공 = 하나금융지주 ▲(왼쪽부터) 권남훈 산업연구원장, 이항용 한국금융연구원장, 함영주 하나금융그룹 회장, 정희수 하나금융연구소장이 지난 11일 서울 중구 은행회관 2층 국제회의실에서...",
+            "published_at": "Sat, 13 Jun 2026 02:50:00 +0900"
+          }
+        ],
+        "disclosures": [
+          {
+            "source": "dart",
+            "symbol": "086790",
+            "dart_stock_code": "086790",
+            "name": "하나금융지주",
+            "corp_code": "00547583",
+            "report_name": "기업설명회(IR)개최(안내공시)              ",
+            "receipt_no": "20260612800535",
+            "receipt_date": "20260612",
+            "submitter": "하나금융지주",
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260612800535"
+          },
+          {
+            "source": "dart",
+            "symbol": "086790",
+            "dart_stock_code": "086790",
+            "name": "하나금융지주",
+            "corp_code": "00547583",
+            "report_name": "임원ㆍ주요주주특정증권등소유상황보고서",
+            "receipt_no": "20260612000303",
+            "receipt_date": "20260612",
+            "submitter": "이재술",
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260612000303"
+          }
+        ],
+        "impact": {
+          "label": "중립~긍정",
+          "score": 1,
+          "reasons": [
+            "가격 상승",
+            "공시 2건",
+            "뉴스 3건"
+          ]
+        },
+        "primary_issue": "공시 확인",
+        "data_status": {
+          "price": "ok",
+          "flow": "missing",
+          "news": "ok",
+          "disclosures": "ok"
+        },
+        "analysis_inputs": {
+          "price_trend": "up",
+          "flow_bias": "unknown",
+          "news_count": 3,
+          "disclosure_count": 2,
+          "tags": [
+            "dividend",
+            "foreign_flow",
+            "kr_rate",
+            "yield_curve"
+          ]
+        }
+      },
+      {
+        "name": "우리금융지주",
+        "symbol": "316140",
+        "market": "KR",
+        "tier": 1,
+        "sector": "portfolio",
+        "priority": 8,
+        "factors": [
+          "kr_rate",
+          "yield_curve",
+          "foreign_flow",
+          "dividend"
+        ],
+        "price": {
+          "source": "naver_finance",
+          "reference_source": null,
+          "as_of_date": "2026-06-12",
+          "latest_close": 31150,
+          "previous_close": 30150,
+          "close_7d_ago": 30400,
+          "recent_closes": [
+            30400,
+            31200,
+            28850,
+            30000,
+            29800,
+            30150,
+            31150
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": 1000,
+          "change_pct": 3.3167,
+          "trend": "up",
+          "volume": null,
+          "trading_value": null
+        },
+        "flow": {
+          "latest": {
+            "source": null,
+            "as_of_date": null,
+            "scope": null,
+            "market": null,
+            "symbol": null,
+            "name": null,
+            "unit": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null,
+            "buy_leader": "",
+            "sell_leader": "",
+            "seven_day_total": {
+              "available": false,
+              "trading_days": null,
+              "individual": null,
+              "institution": null,
+              "foreign": null
+            }
+          },
+          "seven_day_total": {
+            "available": false,
+            "trading_days": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null
+          }
+        },
+        "news": [
+          {
+            "source": "naver_search_news",
+            "symbol": "316140",
+            "name": "우리금융지주",
+            "query": "우리금융지주",
+            "title": "금융지주 증권사, 덩치키운다…자본확충 잇따라",
+            "url": "https://www.sisaon.co.kr/news/articleView.html?idxno=201826",
+            "naver_url": "https://www.sisaon.co.kr/news/articleView.html?idxno=201826",
+            "description": "14일 금융투자업계에 따르면 KB증권은 올 2월 모회사 KB금융지주로부터 7000억 원 규모의 유상증자를, NH투자증권은 모회사 농협금융지주로부터 4000억 원 규모의 유상증자를, 우리투자증권은 모회사 우리금융지주로부...",
+            "published_at": "Sun, 14 Jun 2026 07:30:00 +0900"
+          },
+          {
+            "source": "naver_search_news",
+            "symbol": "316140",
+            "name": "우리금융지주",
+            "query": "우리금융지주",
+            "title": "신한은 ‘슈퍼SOL’, 삼성은 ‘모니모’… 금융권 원앱 경쟁 재점화",
+            "url": "https://biz.chosun.com/stock/finance/2026/06/14/FL77TFHGZ5FMBG4RVAKBJYUYVM/?utm_source=naver&utm_medium=original&utm_campaign=biz",
+            "naver_url": "https://n.news.naver.com/mnews/article/366/0001171669?sid=101",
+            "description": "KB금융과 우리금융지주가 선제적으로 통합 플랫폼을 구축한 가운데, 신한지주와 삼성 금융 계열사도 잇따라 서비스 개편에 속도를 내고 있다. 14일 금융권에 따르면 신한지주는 오는 17일 ‘신한 SOL뱅크’를 기반으로...",
+            "published_at": "Sun, 14 Jun 2026 06:01:00 +0900"
+          }
+        ],
+        "disclosures": [
+          {
+            "source": "dart",
+            "symbol": "316140",
+            "dart_stock_code": "316140",
+            "name": "우리금융지주",
+            "corp_code": "01350869",
+            "report_name": "[기재정정]주식소각결정              ",
+            "receipt_no": "20260610800817",
+            "receipt_date": "20260610",
+            "submitter": "우리금융지주",
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260610800817"
+          },
+          {
+            "source": "dart",
+            "symbol": "316140",
+            "dart_stock_code": "316140",
+            "name": "우리금융지주",
+            "corp_code": "01350869",
+            "report_name": "신탁계약해지결과보고서",
+            "receipt_no": "20260610000559",
+            "receipt_date": "20260610",
+            "submitter": "우리금융지주",
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260610000559"
+          },
+          {
+            "source": "dart",
+            "symbol": "316140",
+            "dart_stock_code": "316140",
+            "name": "우리금융지주",
+            "corp_code": "01350869",
+            "report_name": "주요사항보고서(자기주식취득신탁계약해지결정)",
+            "receipt_no": "20260610000461",
+            "receipt_date": "20260610",
+            "submitter": "우리금융지주",
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260610000461"
+          },
+          {
+            "source": "dart",
+            "symbol": "316140",
+            "dart_stock_code": "316140",
+            "name": "우리금융지주",
+            "corp_code": "01350869",
+            "report_name": "기업설명회(IR)개최(안내공시)              ",
+            "receipt_no": "20260610800591",
+            "receipt_date": "20260610",
+            "submitter": "우리금융지주",
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260610800591"
+          },
+          {
+            "source": "dart",
+            "symbol": "316140",
+            "dart_stock_code": "316140",
+            "name": "우리금융지주",
+            "corp_code": "01350869",
+            "report_name": "기업설명회(IR)개최(안내공시)              ",
+            "receipt_no": "20260610800585",
+            "receipt_date": "20260610",
+            "submitter": "우리금융지주",
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260610800585"
+          }
+        ],
+        "impact": {
+          "label": "중립~긍정",
+          "score": 1,
+          "reasons": [
+            "가격 상승",
+            "공시 5건",
+            "뉴스 2건"
+          ]
+        },
+        "primary_issue": "공시 확인",
+        "data_status": {
+          "price": "ok",
+          "flow": "missing",
+          "news": "ok",
+          "disclosures": "ok"
+        },
+        "analysis_inputs": {
+          "price_trend": "up",
+          "flow_bias": "unknown",
+          "news_count": 2,
+          "disclosure_count": 5,
+          "tags": [
+            "dividend",
+            "foreign_flow",
+            "kr_rate",
+            "yield_curve"
+          ]
+        }
+      },
+      {
+        "name": "삼성전자",
+        "symbol": "005930",
+        "market": "KR",
+        "tier": 2,
+        "sector": "semiconductor",
+        "priority": 11,
+        "factors": [
+          "soxx",
+          "semiconductor",
+          "export",
+          "fx"
+        ],
+        "price": {
+          "source": "naver_finance",
+          "reference_source": null,
+          "as_of_date": "2026-06-12",
+          "latest_close": 322500,
+          "previous_close": 299000,
+          "close_7d_ago": 351500,
+          "recent_closes": [
+            351500,
+            329000,
+            295500,
+            322000,
+            302500,
+            299000,
+            322500
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": 23500,
+          "change_pct": 7.8595,
+          "trend": "up",
+          "volume": null,
+          "trading_value": null
+        },
+        "flow": {
+          "latest": {
+            "source": null,
+            "as_of_date": null,
+            "scope": null,
+            "market": null,
+            "symbol": null,
+            "name": null,
+            "unit": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null,
+            "buy_leader": "",
+            "sell_leader": "",
+            "seven_day_total": {
+              "available": false,
+              "trading_days": null,
+              "individual": null,
+              "institution": null,
+              "foreign": null
+            }
+          },
+          "seven_day_total": {
+            "available": false,
+            "trading_days": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null
+          }
+        },
+        "news": [
+          {
+            "source": "naver_search_news",
+            "symbol": "005930",
+            "name": "삼성전자",
+            "query": "삼성전자",
+            "title": "최태원 \"전속력으로 AX 돌입해야 할 때\"…'1인 1 AI 에이전트' 제시",
+            "url": "http://www.econonews.co.kr/news/articleView.html?idxno=439625",
+            "naver_url": "http://www.econonews.co.kr/news/articleView.html?idxno=439625",
+            "description": "국내에서도 삼성전자가 생성형 AI를 업무 현장에 도입하며 '일하는 방식 혁신'이 주요 경영 화두로 부상하는 분위기다. 특히 최 회장이 제시한 '1인 1 AI 에이전트' 구상은 구성원 개인이 AI를 보조도구 수준에서...",
+            "published_at": "Sun, 14 Jun 2026 09:24:00 +0900"
+          },
+          {
+            "source": "naver_search_news",
+            "symbol": "005930",
+            "name": "삼성전자",
+            "query": "삼성전자",
+            "title": "iM뱅크, 김준성 초대 은행장 흉상 금융박물관 이전 전시…김상범 이수그...",
+            "url": "https://www.kbmaeil.com/article/20260612500174",
+            "naver_url": "https://www.kbmaeil.com/article/20260612500174",
+            "description": "이후 그는 한국은행 총재와 부총리 겸 경제기획원 장관을 역임하며 국가 경제 발전에 기여했으며, 삼성전자 회장과 ㈜대우 회장 등을 거쳐 이수화학 회장을 맡는 등 경제계 주요 인사로 활동했다. 김 전 은행장은 자전...",
+            "published_at": "Sun, 14 Jun 2026 09:22:00 +0900"
+          }
+        ],
+        "disclosures": [
+          {
+            "source": "dart",
+            "symbol": "005930",
+            "dart_stock_code": "005930",
+            "name": "삼성전자",
+            "corp_code": "00126380",
+            "report_name": "최대주주등소유주식변동신고서              ",
+            "receipt_no": "20260608800918",
+            "receipt_date": "20260608",
+            "submitter": "삼성전자",
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260608800918"
+          },
+          {
+            "source": "dart",
+            "symbol": "005930",
+            "dart_stock_code": "005930",
+            "name": "삼성전자",
+            "corp_code": "00126380",
+            "report_name": "임원ㆍ주요주주특정증권등소유상황보고서",
+            "receipt_no": "20260608000002",
+            "receipt_date": "20260608",
+            "submitter": "박태훈",
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260608000002"
+          }
+        ],
+        "impact": {
+          "label": "중립~긍정",
+          "score": 1,
+          "reasons": [
+            "가격 상승",
+            "공시 2건",
+            "뉴스 2건"
+          ]
+        },
+        "primary_issue": "공시 확인",
+        "data_status": {
+          "price": "ok",
+          "flow": "missing",
+          "news": "ok",
+          "disclosures": "ok"
+        },
+        "analysis_inputs": {
+          "price_trend": "up",
+          "flow_bias": "unknown",
+          "news_count": 2,
+          "disclosure_count": 2,
+          "tags": [
+            "export",
+            "fx",
+            "semiconductor",
+            "soxx"
+          ]
+        }
+      },
+      {
+        "name": "DB손해보험",
+        "symbol": "005830",
+        "market": "KR",
+        "tier": 2,
+        "sector": "financial",
+        "priority": 10,
+        "factors": [
+          "kr_rate",
+          "insurance",
+          "dividend"
+        ],
+        "price": {
+          "source": "naver_finance",
+          "reference_source": null,
+          "as_of_date": "2026-06-12",
+          "latest_close": 148200,
+          "previous_close": 140000,
+          "close_7d_ago": 144700,
+          "recent_closes": [
+            144700,
+            142400,
+            136200,
+            143800,
+            142500,
+            140000,
+            148200
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": 8200,
+          "change_pct": 5.8571,
+          "trend": "up",
+          "volume": null,
+          "trading_value": null
+        },
+        "flow": {
+          "latest": {
+            "source": null,
+            "as_of_date": null,
+            "scope": null,
+            "market": null,
+            "symbol": null,
+            "name": null,
+            "unit": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null,
+            "buy_leader": "",
+            "sell_leader": "",
+            "seven_day_total": {
+              "available": false,
+              "trading_days": null,
+              "individual": null,
+              "institution": null,
+              "foreign": null
+            }
+          },
+          "seven_day_total": {
+            "available": false,
+            "trading_days": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null
+          }
+        },
+        "news": [
+          {
+            "source": "naver_search_news",
+            "symbol": "005830",
+            "name": "DB손해보험",
+            "query": "DB손해보험",
+            "title": "[교보금융지주 가시화] 선결조건은 자본비율 방어…M&A發 낙폭 촉각",
+            "url": "https://news.dealsitetv.com/articles/171548",
+            "naver_url": "https://news.dealsitetv.com/articles/171548",
+            "description": "올해 들어 보험업계에서 후순위채 발행이 뚝 끊기고, DB손해보험이 기본자본 신종자본증권을 발행한 이유도 여기에 있다. DB손보도 지난달 말 2조3000억원 규모의 미국 특화보험사 포테그라 인수를 마치면서...",
+            "published_at": "Sun, 14 Jun 2026 08:32:00 +0900"
+          },
+          {
+            "source": "naver_search_news",
+            "symbol": "005830",
+            "name": "DB손해보험",
+            "query": "DB손해보험",
+            "title": "보험사기 적발 1.1조원 넘어…메리츠·DB손보, 환수 승소율 100% ‘두각’",
+            "url": "https://www.ceoscoredaily.com/page/view/2026060912253039912",
+            "naver_url": "https://www.ceoscoredaily.com/page/view/2026060912253039912",
+            "description": "메리츠화재, DB손해보험, 흥국화재, 하나손해보험, AIG손해보험 등 5개사는 2024년 하반기와 2025년 하반기 모두 전부승소율 100%를 기록했다. 전부패소율 역시 두 기간 모두 0%를 유지했다. 업계는 유죄확정판결에 기반한...",
+            "published_at": "Sun, 14 Jun 2026 07:00:00 +0900"
+          },
+          {
+            "source": "naver_search_news",
+            "symbol": "005830",
+            "name": "DB손해보험",
+            "query": "DB손해보험",
+            "title": "김민솔 vs '국대' 양윤서, 메르세데스-벤츠 한국여자오픈 우승 놓고 '격...",
+            "url": "https://www.g-enews.com/view.php?ud=202606140629002496daecd3dad5_1",
+            "naver_url": "https://www.g-enews.com/view.php?ud=202606140629002496daecd3dad5_1",
+            "description": "통산 20승을 올린 박민지(NH투지증권)는 합계 4오버파 217타를 쳐 한아름(DB손해보험), 김민주(삼천리), 성유진(대방건설), 서어진(대보건설), 박보겸(삼천리) 등과 공동 17위에 랭크됐다. US여자오픈 출전한 뒤 이번...",
+            "published_at": "Sun, 14 Jun 2026 06:40:00 +0900"
+          }
+        ],
+        "disclosures": [
+          {
+            "source": "dart",
+            "symbol": "005830",
+            "dart_stock_code": "005830",
+            "name": "DB손해보험",
+            "corp_code": "00159102",
+            "report_name": "증권발행실적보고서",
+            "receipt_no": "20260609000493",
+            "receipt_date": "20260609",
+            "submitter": "DB손해보험",
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260609000493"
+          },
+          {
+            "source": "dart",
+            "symbol": "005830",
+            "dart_stock_code": "005830",
+            "name": "DB손해보험",
+            "corp_code": "00159102",
+            "report_name": "투자설명서",
+            "receipt_no": "20260609000003",
+            "receipt_date": "20260609",
+            "submitter": "DB손해보험",
+            "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260609000003"
+          }
+        ],
+        "impact": {
+          "label": "중립~긍정",
+          "score": 1,
+          "reasons": [
+            "가격 상승",
+            "공시 2건",
+            "뉴스 3건"
+          ]
+        },
+        "primary_issue": "공시 확인",
+        "data_status": {
+          "price": "ok",
+          "flow": "missing",
+          "news": "ok",
+          "disclosures": "ok"
+        },
+        "analysis_inputs": {
+          "price_trend": "up",
+          "flow_bias": "unknown",
+          "news_count": 3,
+          "disclosure_count": 2,
+          "tags": [
+            "dividend",
+            "insurance",
+            "kr_rate"
+          ]
+        }
+      },
+      {
+        "name": "현대바이오",
+        "symbol": "048410",
+        "market": "KR",
+        "tier": 3,
+        "sector": "bio",
+        "priority": 3,
+        "factors": [
+          "biotech",
+          "risk_sentiment"
+        ],
+        "price": {
+          "source": "naver_finance",
+          "reference_source": null,
+          "as_of_date": "2026-06-12",
+          "latest_close": 8910,
+          "previous_close": 9080,
+          "close_7d_ago": 10940,
+          "recent_closes": [
+            10940,
+            10160,
+            8860,
+            8790,
+            8360,
+            9080,
+            8910
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": -170,
+          "change_pct": -1.8722,
+          "trend": "down",
+          "volume": null,
+          "trading_value": null
+        },
+        "flow": {
+          "latest": {
+            "source": null,
+            "as_of_date": null,
+            "scope": null,
+            "market": null,
+            "symbol": null,
+            "name": null,
+            "unit": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null,
+            "buy_leader": "",
+            "sell_leader": "",
+            "seven_day_total": {
+              "available": false,
+              "trading_days": null,
+              "individual": null,
+              "institution": null,
+              "foreign": null
+            }
+          },
+          "seven_day_total": {
+            "available": false,
+            "trading_days": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null
+          }
+        },
+        "news": [
+          {
+            "source": "naver_search_news",
+            "symbol": "048410",
+            "name": "현대바이오",
+            "query": "현대바이오",
+            "title": "'미래산업 공동개척'...한경협, 韓·伊 비즈니스 라운드테이블",
+            "url": "https://www.tfmedia.co.kr/news/article.html?no=205125",
+            "naver_url": "https://www.tfmedia.co.kr/news/article.html?no=205125",
+            "description": "이탈리아는 바이오·제약, 우주·방산 등 신산업 경쟁력 강화에 나서고 있으며, 세계 3번째 인공위성 발사국으로서 한국과 글로벌 위성시장 공동 진출 가능성이 주목받고 있다. AI 데이터센터 증가에 따른 송전망 현대화...",
+            "published_at": "Sun, 14 Jun 2026 09:10:00 +0900"
+          },
+          {
+            "source": "naver_search_news",
+            "symbol": "048410",
+            "name": "현대바이오",
+            "query": "현대바이오",
+            "title": "“불장이라더니 내 주식만 왜?”…신고가·신저가 동시 속출 ‘양극화’",
+            "url": "https://www.dt.co.kr/article/12067348?ref=naver",
+            "naver_url": "https://n.news.naver.com/mnews/article/029/0003031530?sid=101",
+            "description": "코스피 시총 1, 2위인 삼성전자와 SK하이닉스를 포함, SK스퀘어와 삼성전자우, 현대차, 삼성전기, 삼성생명... 시가총액 상위 종목 중에선 삼성바이오로직스(12위)가 올 1월 15일 52주 신고가를 기록했지만, 이후 지속해서...",
+            "published_at": "Sun, 14 Jun 2026 08:17:00 +0900"
+          }
+        ],
+        "disclosures": [],
+        "impact": {
+          "label": "중립~부정",
+          "score": -1,
+          "reasons": [
+            "가격 약세",
+            "뉴스 2건"
+          ]
+        },
+        "primary_issue": "뉴스 확인",
+        "data_status": {
+          "price": "ok",
+          "flow": "missing",
+          "news": "ok",
+          "disclosures": "empty"
+        },
+        "analysis_inputs": {
+          "price_trend": "down",
+          "flow_bias": "unknown",
+          "news_count": 2,
+          "disclosure_count": 0,
+          "tags": [
+            "biotech",
+            "risk_sentiment"
+          ]
+        }
+      },
+      {
+        "name": "금호석유화학",
+        "symbol": "011780",
+        "market": "KR",
+        "tier": 3,
+        "sector": "portfolio",
+        "priority": 5,
+        "factors": [
+          "chemical",
+          "dividend",
+          "china"
+        ],
+        "price": {
+          "source": "naver_finance",
+          "reference_source": null,
+          "as_of_date": "2026-06-12",
+          "latest_close": 123200,
+          "previous_close": 119700,
+          "close_7d_ago": 131900,
+          "recent_closes": [
+            131900,
+            127100,
+            119100,
+            120800,
+            120000,
+            119700,
+            123200
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": 3500,
+          "change_pct": 2.924,
+          "trend": "up",
+          "volume": null,
+          "trading_value": null
+        },
+        "flow": {
+          "latest": {
+            "source": null,
+            "as_of_date": null,
+            "scope": null,
+            "market": null,
+            "symbol": null,
+            "name": null,
+            "unit": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null,
+            "buy_leader": "",
+            "sell_leader": "",
+            "seven_day_total": {
+              "available": false,
+              "trading_days": null,
+              "individual": null,
+              "institution": null,
+              "foreign": null
+            }
+          },
+          "seven_day_total": {
+            "available": false,
+            "trading_days": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null
+          }
+        },
+        "news": [
+          {
+            "source": "naver_search_news",
+            "symbol": "011780",
+            "name": "금호석유화학",
+            "query": "금호석유화학",
+            "title": "[더페어 돋보기] 중동 훈풍에 요동치는 포트폴리오…국면 전환기 '눈여...",
+            "url": "https://www.thefairnews.co.kr/news/articleView.html?idxno=79413",
+            "naver_url": "https://www.thefairnews.co.kr/news/articleView.html?idxno=79413",
+            "description": "이에 따라 전통의 화학 대장주인 LG화학과 롯데케미칼을 비롯해 고부가 가치 다운스트림 제품 포트폴리오를 다각화해 둔 금호석유화학 등이 직접적인 마진 스프레드 개선 수혜주로 꼽힌다. 원가 부담 둔화는 글로벌 경기...",
+            "published_at": "Sun, 14 Jun 2026 00:00:00 +0900"
+          },
+          {
+            "source": "naver_search_news",
+            "symbol": "011780",
+            "name": "금호석유화학",
+            "query": "금호석유화학",
+            "title": "금호석유화학그룹, 철새 서식지 복원…3년간 2.6억원 투입",
+            "url": "https://www.1conomynews.co.kr/news/articleView.html?idxno=49046",
+            "naver_url": "https://www.1conomynews.co.kr/news/articleView.html?idxno=49046",
+            "description": "금호석유화학그룹이 전남 여수 지역의 생물다양성 보전과 기후위기 대응을 위해 지역 농민들과 손을 잡았다. 12일 금호석유화학그룹에 따르면 금호석유화학·금호피앤비화학·금호미쓰이화학·금호폴리켐·금호티앤엘...",
+            "published_at": "Fri, 12 Jun 2026 15:04:00 +0900"
+          },
+          {
+            "source": "naver_search_news",
+            "symbol": "011780",
+            "name": "금호석유화학",
+            "query": "금호석유화학",
+            "title": "기업가치 제고 지표 가시화에 수급 폭발…코리아 밸류업 지수 테마, 사...",
+            "url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=459712",
+            "naver_url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=459712",
+            "description": "합성고무 및 친환경 화학 제품 공급을 통해 타이어 등 전방 산업 수요 회복과 동행하는 금호석유화학은 자사주 소각 모멘텀이 유효하다. 타 금융지주 대비 상대적으로 높은 저평가 매력과 밸류업 프로그램 참여 의지를...",
+            "published_at": "Fri, 12 Jun 2026 14:46:00 +0900"
+          }
+        ],
+        "disclosures": [],
+        "impact": {
+          "label": "중립~긍정",
+          "score": 1,
+          "reasons": [
+            "가격 상승",
+            "뉴스 3건"
+          ]
+        },
+        "primary_issue": "뉴스 확인",
+        "data_status": {
+          "price": "ok",
+          "flow": "missing",
+          "news": "ok",
+          "disclosures": "empty"
+        },
+        "analysis_inputs": {
+          "price_trend": "up",
+          "flow_bias": "unknown",
+          "news_count": 3,
+          "disclosure_count": 0,
+          "tags": [
+            "chemical",
+            "china",
+            "dividend"
+          ]
+        }
+      },
+      {
+        "name": "이수페타시스",
+        "symbol": "007660",
+        "market": "KR",
+        "tier": 3,
+        "sector": "semiconductor",
+        "priority": 2,
+        "factors": [
+          "ai",
+          "pcb",
+          "semiconductor"
+        ],
+        "price": {
+          "source": "naver_finance",
+          "reference_source": null,
+          "as_of_date": "2026-06-12",
+          "latest_close": 122400,
+          "previous_close": 123200,
+          "close_7d_ago": 133700,
+          "recent_closes": [
+            133700,
+            120900,
+            105700,
+            115800,
+            113000,
+            123200,
+            122400
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": -800,
+          "change_pct": -0.6494,
+          "trend": "down_7d",
+          "volume": null,
+          "trading_value": null
+        },
+        "flow": {
+          "latest": {
+            "source": null,
+            "as_of_date": null,
+            "scope": null,
+            "market": null,
+            "symbol": null,
+            "name": null,
+            "unit": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null,
+            "buy_leader": "",
+            "sell_leader": "",
+            "seven_day_total": {
+              "available": false,
+              "trading_days": null,
+              "individual": null,
+              "institution": null,
+              "foreign": null
+            }
+          },
+          "seven_day_total": {
+            "available": false,
+            "trading_days": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null
+          }
+        },
+        "news": [
+          {
+            "source": "naver_search_news",
+            "symbol": "007660",
+            "name": "이수페타시스",
+            "query": "이수페타시스",
+            "title": "[주간 거래소 외국인] 삼성전자 던지고 삼성전기 샀다…수조원 자금 대...",
+            "url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=459799",
+            "naver_url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=459799",
+            "description": "반도체 기판 관련 대표 종목인 이수페타시스와 대덕전자 역시 순매도 상위권에 포함됐다. 최근 강한 상승에 따른 부담이 반영된 것으로 풀이된다. 조선주 역시 외국인의 매도 대상이 됐다. 삼성중공업과 한화오션...",
+            "published_at": "Sat, 13 Jun 2026 07:40:00 +0900"
+          },
+          {
+            "source": "naver_search_news",
+            "symbol": "007660",
+            "name": "이수페타시스",
+            "query": "이수페타시스",
+            "title": "[주간 거래소 기관] 삼성전자 2조원 던졌다…기관 자금, 뜻밖의 종목으...",
+            "url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=459798",
+            "naver_url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=459798",
+            "description": "대덕전자와 이수페타시스는 각각 1480억원, 1085억원 규모의 순매수를 기록했다. AI 서버와 고성능 컴퓨팅 시장 확대에 따른 수혜 기대감이 반영된 것으로 분석된다. 산업재와 조선 업종에 대한 관심도 두드러졌다....",
+            "published_at": "Sat, 13 Jun 2026 07:38:00 +0900"
+          }
+        ],
+        "disclosures": [],
+        "impact": {
+          "label": "중립",
+          "score": 0,
+          "reasons": [
+            "뉴스 2건"
+          ]
+        },
+        "primary_issue": "뉴스 확인",
+        "data_status": {
+          "price": "ok",
+          "flow": "missing",
+          "news": "ok",
+          "disclosures": "empty"
+        },
+        "analysis_inputs": {
+          "price_trend": "down_7d",
+          "flow_bias": "unknown",
+          "news_count": 2,
+          "disclosure_count": 0,
+          "tags": [
+            "ai",
+            "pcb",
+            "semiconductor"
+          ]
+        }
+      },
+      {
+        "name": "SCHD",
+        "symbol": "SCHD",
+        "market": "US",
+        "tier": 1,
+        "sector": "us_portfolio",
+        "priority": 3,
+        "factors": [
+          "dividend",
+          "us_large_value",
+          "rates"
+        ],
+        "price": {
+          "source": "yfinance",
+          "as_of_date": "2026-06-12",
+          "latest_close": 32.82,
+          "previous_close": 32.53,
+          "close_7d_ago": 32.59,
+          "recent_closes": [
+            32.59,
+            32.3,
+            32.29,
+            32.39,
+            32.26,
+            32.53,
+            32.82
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": 0.29,
+          "change_pct": 0.89,
+          "trend": "up_7d",
+          "volume": 20470300,
+          "trading_value": null
+        },
+        "flow": {
+          "latest": {
+            "source": null,
+            "as_of_date": null,
+            "scope": null,
+            "market": null,
+            "symbol": null,
+            "name": null,
+            "unit": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null,
+            "buy_leader": "",
+            "sell_leader": "",
+            "seven_day_total": {
+              "available": false,
+              "trading_days": null,
+              "individual": null,
+              "institution": null,
+              "foreign": null
+            }
+          },
+          "seven_day_total": {
+            "available": false,
+            "trading_days": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null
+          }
+        },
+        "news": [
+          {
+            "source": "yfinance_news",
+            "symbol": "SCHD",
+            "publisher": "24/7 Wall St.",
+            "title": "Why a Dividend Portfolio That Pays Your Rent May Beat Homeownership by $500,000 Over 20 Years",
+            "url": "https://247wallst.com/personal-finance/2026/06/13/why-a-dividend-portfolio-that-pays-your-rent-may-beat-homeownership-by-500000-over-20-years/",
+            "published_at": "2026-06-13T12:02:12Z"
+          },
+          {
+            "source": "yfinance_news",
+            "symbol": "SCHD",
+            "publisher": "24/7 Wall St.",
+            "title": "How to Build $12,000 a Month in Dividend Income (And Why Most Investors Underestimate the Cost)",
+            "url": "https://247wallst.com/personal-finance/2026/06/12/how-to-build-12000-a-month-in-dividend-income-and-why-most-investors-underestimate-the-cost/",
+            "published_at": "2026-06-12T15:28:21Z"
+          },
+          {
+            "source": "yfinance_news",
+            "symbol": "SCHD",
+            "publisher": "24/7 Wall St.",
+            "title": "Retiring? Buy SCHD. $1m into $2.3m since 2016, $53K/y in dividends. No Reinvestments.",
+            "url": "https://247wallst.com/investing/2026/06/11/retiring-buy-schd-1m-into-2-3m-since-2016-53k-y-in-dividends-no-reinvestments/",
+            "published_at": "2026-06-11T16:31:13Z"
+          }
+        ],
+        "disclosures": [],
+        "impact": {
+          "label": "중립",
+          "score": 0,
+          "reasons": [
+            "뉴스 3건"
+          ]
+        },
+        "primary_issue": "뉴스 확인",
+        "data_status": {
+          "price": "ok",
+          "flow": "not_applicable",
+          "news": "ok",
+          "disclosures": "empty"
+        },
+        "analysis_inputs": {
+          "price_trend": "up_7d",
+          "flow_bias": "unknown",
+          "news_count": 3,
+          "disclosure_count": 0,
+          "tags": [
+            "dividend",
+            "rates",
+            "us_large_value"
+          ]
+        }
+      },
+      {
+        "name": "Apple",
+        "symbol": "AAPL",
+        "market": "US",
+        "tier": 2,
+        "sector": "us_portfolio",
+        "priority": 4,
+        "factors": [
+          "nasdaq",
+          "consumer_tech",
+          "usd"
+        ],
+        "price": {
+          "source": "yfinance",
+          "as_of_date": "2026-06-12",
+          "latest_close": 291.13,
+          "previous_close": 295.63,
+          "close_7d_ago": 311.23,
+          "recent_closes": [
+            311.23,
+            307.34,
+            301.54,
+            290.55,
+            291.58,
+            295.63,
+            291.13
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": -4.5,
+          "change_pct": -1.52,
+          "trend": "down",
+          "volume": 38742100,
+          "trading_value": null
+        },
+        "flow": {
+          "latest": {
+            "source": null,
+            "as_of_date": null,
+            "scope": null,
+            "market": null,
+            "symbol": null,
+            "name": null,
+            "unit": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null,
+            "buy_leader": "",
+            "sell_leader": "",
+            "seven_day_total": {
+              "available": false,
+              "trading_days": null,
+              "individual": null,
+              "institution": null,
+              "foreign": null
+            }
+          },
+          "seven_day_total": {
+            "available": false,
+            "trading_days": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null
+          }
+        },
+        "news": [
+          {
+            "source": "yfinance_news",
+            "symbol": "AAPL",
+            "publisher": "Simply Wall St.",
+            "title": "Amazon Expands Satellite, Cloud And Robotics Investments As Valuation Gap Widens",
+            "url": "https://finance.yahoo.com/markets/stocks/articles/amazon-expands-satellite-cloud-robotics-200831338.html",
+            "published_at": "2026-06-13T20:08:31Z"
+          },
+          {
+            "source": "yfinance_news",
+            "symbol": "AAPL",
+            "publisher": "Insider Monkey",
+            "title": "Wall Street’s Top Billionaires Are Changing Their Mind About Apple (AAPL)",
+            "url": "https://finance.yahoo.com/markets/stocks/articles/wall-street-top-billionaires-changing-154240546.html",
+            "published_at": "2026-06-13T15:42:40Z"
+          },
+          {
+            "source": "yfinance_news",
+            "symbol": "AAPL",
+            "publisher": "Insider Monkey",
+            "title": "Taiwan Semiconductor (TSM) is This Famous Billionaire’s Biggest AI Stock Holding",
+            "url": "https://finance.yahoo.com/markets/stocks/articles/taiwan-semiconductor-tsm-famous-billionaire-154237082.html",
+            "published_at": "2026-06-13T15:42:37Z"
+          }
+        ],
+        "disclosures": [],
+        "impact": {
+          "label": "중립~부정",
+          "score": -1,
+          "reasons": [
+            "가격 약세",
+            "뉴스 3건"
+          ]
+        },
+        "primary_issue": "뉴스 확인",
+        "data_status": {
+          "price": "ok",
+          "flow": "not_applicable",
+          "news": "ok",
+          "disclosures": "empty"
+        },
+        "analysis_inputs": {
+          "price_trend": "down",
+          "flow_bias": "unknown",
+          "news_count": 3,
+          "disclosure_count": 0,
+          "tags": [
+            "consumer_tech",
+            "nasdaq",
+            "usd"
+          ]
+        }
+      },
+      {
+        "name": "Nvidia",
+        "symbol": "NVDA",
+        "market": "US",
+        "tier": 2,
+        "sector": "semiconductor",
+        "priority": 3,
+        "factors": [
+          "ai",
+          "soxx",
+          "nasdaq"
+        ],
+        "price": {
+          "source": "yfinance",
+          "as_of_date": "2026-06-12",
+          "latest_close": 205.19,
+          "previous_close": 204.87,
+          "close_7d_ago": 218.66,
+          "recent_closes": [
+            218.66,
+            205.1,
+            208.64,
+            208.19,
+            200.42,
+            204.87,
+            205.19
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": 0.32,
+          "change_pct": 0.16,
+          "trend": "down_7d",
+          "volume": 112001800,
+          "trading_value": null
+        },
+        "flow": {
+          "latest": {
+            "source": null,
+            "as_of_date": null,
+            "scope": null,
+            "market": null,
+            "symbol": null,
+            "name": null,
+            "unit": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null,
+            "buy_leader": "",
+            "sell_leader": "",
+            "seven_day_total": {
+              "available": false,
+              "trading_days": null,
+              "individual": null,
+              "institution": null,
+              "foreign": null
+            }
+          },
+          "seven_day_total": {
+            "available": false,
+            "trading_days": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null
+          }
+        },
+        "news": [
+          {
+            "source": "yfinance_news",
+            "symbol": "NVDA",
+            "publisher": "Simply Wall St.",
+            "title": "NVIDIA Tests Recurring AI Data Center Model With Australian GPU Expansion",
+            "url": "https://finance.yahoo.com/markets/stocks/articles/nvidia-tests-recurring-ai-data-231238173.html",
+            "published_at": "2026-06-13T23:12:38Z"
+          },
+          {
+            "source": "yfinance_news",
+            "symbol": "NVDA",
+            "publisher": "Motley Fool",
+            "title": "Is Palantir Stock Ripe for a Rebound?",
+            "url": "https://www.fool.com/investing/2026/06/13/is-palantir-stock-ripe-for-a-rebound/",
+            "published_at": "2026-06-13T22:30:00Z"
+          },
+          {
+            "source": "yfinance_news",
+            "symbol": "NVDA",
+            "publisher": "Motley Fool",
+            "title": "Micron Reports Earnings June 24. Here's the One Number That May Make or Break the Stock.",
+            "url": "https://www.fool.com/investing/2026/06/13/micron-reports-earnings-june-24-heres-the-one-numb/",
+            "published_at": "2026-06-13T21:56:00Z"
+          }
+        ],
+        "disclosures": [],
+        "impact": {
+          "label": "중립",
+          "score": 0,
+          "reasons": [
+            "뉴스 3건"
+          ]
+        },
+        "primary_issue": "뉴스 확인",
+        "data_status": {
+          "price": "ok",
+          "flow": "not_applicable",
+          "news": "ok",
+          "disclosures": "empty"
+        },
+        "analysis_inputs": {
+          "price_trend": "down_7d",
+          "flow_bias": "unknown",
+          "news_count": 3,
+          "disclosure_count": 0,
+          "tags": [
+            "ai",
+            "nasdaq",
+            "soxx"
+          ]
+        }
+      },
+      {
+        "name": "Coupang",
+        "symbol": "CPNG",
+        "market": "US",
+        "tier": 2,
+        "sector": "us_portfolio",
+        "priority": 5,
+        "factors": [
+          "consumer",
+          "krw",
+          "growth"
+        ],
+        "price": {
+          "source": "yfinance",
+          "as_of_date": "2026-06-12",
+          "latest_close": 16.82,
+          "previous_close": 17.25,
+          "close_7d_ago": 16.53,
+          "recent_closes": [
+            16.53,
+            15.15,
+            15.18,
+            15.91,
+            15.12,
+            17.25,
+            16.82
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": -0.43,
+          "change_pct": -2.49,
+          "trend": "down",
+          "volume": 38805700,
+          "trading_value": null
+        },
+        "flow": {
+          "latest": {
+            "source": null,
+            "as_of_date": null,
+            "scope": null,
+            "market": null,
+            "symbol": null,
+            "name": null,
+            "unit": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null,
+            "buy_leader": "",
+            "sell_leader": "",
+            "seven_day_total": {
+              "available": false,
+              "trading_days": null,
+              "individual": null,
+              "institution": null,
+              "foreign": null
+            }
+          },
+          "seven_day_total": {
+            "available": false,
+            "trading_days": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null
+          }
+        },
+        "news": [
+          {
+            "source": "yfinance_news",
+            "symbol": "CPNG",
+            "publisher": "Simply Wall St.",
+            "title": "Coupang Fine Tests Data Privacy Resilience And Global Growth Ambitions",
+            "url": "https://finance.yahoo.com/markets/stocks/articles/coupang-fine-tests-data-privacy-170940380.html",
+            "published_at": "2026-06-13T17:09:40Z"
+          },
+          {
+            "source": "yfinance_news",
+            "symbol": "CPNG",
+            "publisher": "Zacks",
+            "title": "Coupang, Inc. (CPNG) Stock Slides as Market Rises: Facts to Know Before You Trade",
+            "url": "https://finance.yahoo.com/markets/stocks/articles/coupang-inc-cpng-stock-slides-215004357.html",
+            "published_at": "2026-06-12T21:50:04Z"
+          },
+          {
+            "source": "yfinance_news",
+            "symbol": "CPNG",
+            "publisher": "Retail Insight Network",
+            "title": "South Korea issues Won624.68bn fine on Coupang over data breach",
+            "url": "https://www.retail-insight-network.com/news/south-korea-fines-coupang-won624-68bn/",
+            "published_at": "2026-06-12T14:31:48Z"
+          }
+        ],
+        "disclosures": [],
+        "impact": {
+          "label": "중립~부정",
+          "score": -1,
+          "reasons": [
+            "가격 약세",
+            "뉴스 3건"
+          ]
+        },
+        "primary_issue": "뉴스 확인",
+        "data_status": {
+          "price": "ok",
+          "flow": "not_applicable",
+          "news": "ok",
+          "disclosures": "empty"
+        },
+        "analysis_inputs": {
+          "price_trend": "down",
+          "flow_bias": "unknown",
+          "news_count": 3,
+          "disclosure_count": 0,
+          "tags": [
+            "consumer",
+            "growth",
+            "krw"
+          ]
+        }
+      },
+      {
+        "name": "Rocket Lab",
+        "symbol": "RKLB",
+        "market": "US",
+        "tier": 3,
+        "sector": "us_portfolio",
+        "priority": 13,
+        "factors": [
+          "space",
+          "risk_sentiment",
+          "growth"
+        ],
+        "price": {
+          "source": "yfinance",
+          "as_of_date": "2026-06-12",
+          "latest_close": 102.39,
+          "previous_close": 114.78,
+          "close_7d_ago": 119.95,
+          "recent_closes": [
+            119.95,
+            110.08,
+            113.65,
+            108.23,
+            105.05,
+            114.78,
+            102.39
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": -12.39,
+          "change_pct": -10.79,
+          "trend": "down",
+          "volume": 62987600,
+          "trading_value": null
+        },
+        "flow": {
+          "latest": {
+            "source": null,
+            "as_of_date": null,
+            "scope": null,
+            "market": null,
+            "symbol": null,
+            "name": null,
+            "unit": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null,
+            "buy_leader": "",
+            "sell_leader": "",
+            "seven_day_total": {
+              "available": false,
+              "trading_days": null,
+              "individual": null,
+              "institution": null,
+              "foreign": null
+            }
+          },
+          "seven_day_total": {
+            "available": false,
+            "trading_days": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null
+          }
+        },
+        "news": [
+          {
+            "source": "yfinance_news",
+            "symbol": "RKLB",
+            "publisher": "Motley Fool",
+            "title": "Space Stocks Got Crushed on SpaceX's Big Day. Is the Sell-Off a Warning or a Buying Opportunity?",
+            "url": "https://www.fool.com/investing/2026/06/13/space-stocks-got-crushed-on-spacexs-big-day-is-the/",
+            "published_at": "2026-06-13T17:26:00Z"
+          },
+          {
+            "source": "yfinance_news",
+            "symbol": "RKLB",
+            "publisher": "Moneywise",
+            "title": "A Star Trek nerd put his savings into Rocket Lab years ago — he's now semi-retired with $3 million in gains",
+            "url": "https://finance.yahoo.com/markets/stocks/articles/star-trek-nerd-put-savings-153000511.html",
+            "published_at": "2026-06-13T15:30:00Z"
+          },
+          {
+            "source": "yfinance_news",
+            "symbol": "RKLB",
+            "publisher": "Barrons.com",
+            "title": "The Great, Big, Boring SpaceX IPO",
+            "url": "https://www.barrons.com/articles/spacex-ipo-stock-price-spcx-494b9186?siteid=yhoof2&yptr=yahoo",
+            "published_at": "2026-06-13T14:40:00Z"
+          }
+        ],
+        "disclosures": [],
+        "impact": {
+          "label": "중립~부정",
+          "score": -1,
+          "reasons": [
+            "가격 약세",
+            "뉴스 3건"
+          ]
+        },
+        "primary_issue": "뉴스 확인",
+        "data_status": {
+          "price": "ok",
+          "flow": "not_applicable",
+          "news": "ok",
+          "disclosures": "empty"
+        },
+        "analysis_inputs": {
+          "price_trend": "down",
+          "flow_bias": "unknown",
+          "news_count": 3,
+          "disclosure_count": 0,
+          "tags": [
+            "growth",
+            "risk_sentiment",
+            "space"
+          ]
+        }
+      },
+      {
+        "name": "Resolve AI",
+        "symbol": "RZLV",
+        "market": "US",
+        "tier": 3,
+        "sector": "us_portfolio",
+        "priority": 8,
+        "factors": [
+          "ai",
+          "speculative"
+        ],
+        "price": {
+          "source": "yfinance",
+          "as_of_date": "2026-06-12",
+          "latest_close": 2.68,
+          "previous_close": 2.53,
+          "close_7d_ago": 2.51,
+          "recent_closes": [
+            2.51,
+            2.3,
+            2.34,
+            2.33,
+            2.39,
+            2.53,
+            2.68
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": 0.15,
+          "change_pct": 5.93,
+          "trend": "up",
+          "volume": 41701500,
+          "trading_value": null
+        },
+        "flow": {
+          "latest": {
+            "source": null,
+            "as_of_date": null,
+            "scope": null,
+            "market": null,
+            "symbol": null,
+            "name": null,
+            "unit": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null,
+            "buy_leader": "",
+            "sell_leader": "",
+            "seven_day_total": {
+              "available": false,
+              "trading_days": null,
+              "individual": null,
+              "institution": null,
+              "foreign": null
+            }
+          },
+          "seven_day_total": {
+            "available": false,
+            "trading_days": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null
+          }
+        },
+        "news": [
+          {
+            "source": "yfinance_news",
+            "symbol": "RZLV",
+            "publisher": "Simply Wall St.",
+            "title": "Rezolve AI Taps TCS Partnership And TraceWare Validation To Build Retail Trust",
+            "url": "https://finance.yahoo.com/markets/stocks/articles/rezolve-ai-taps-tcs-partnership-001429282.html",
+            "published_at": "2026-06-13T00:14:29Z"
+          },
+          {
+            "source": "yfinance_news",
+            "symbol": "RZLV",
+            "publisher": "Simply Wall St.",
+            "title": "Rezolve AI (RZLV) Stock Valuation In Focus After Planned US$300 Million Buyback Plan",
+            "url": "https://finance.yahoo.com/markets/stocks/articles/rezolve-ai-rzlv-stock-valuation-211317328.html",
+            "published_at": "2026-06-12T21:13:17Z"
+          },
+          {
+            "source": "yfinance_news",
+            "symbol": "RZLV",
+            "publisher": "Insider Monkey",
+            "title": "Rezolve AI (RZLV) Recruits a Microsoft Veteran—What Comes Next?",
+            "url": "https://finance.yahoo.com/markets/stocks/articles/rezolve-ai-rzlv-recruits-microsoft-003617187.html",
+            "published_at": "2026-06-12T00:36:17Z"
+          }
+        ],
+        "disclosures": [],
+        "impact": {
+          "label": "중립~긍정",
+          "score": 1,
+          "reasons": [
+            "가격 상승",
+            "뉴스 3건"
+          ]
+        },
+        "primary_issue": "뉴스 확인",
+        "data_status": {
+          "price": "ok",
+          "flow": "not_applicable",
+          "news": "ok",
+          "disclosures": "empty"
+        },
+        "analysis_inputs": {
+          "price_trend": "up",
+          "flow_bias": "unknown",
+          "news_count": 3,
+          "disclosure_count": 0,
+          "tags": [
+            "ai",
+            "speculative"
+          ]
+        }
+      },
+      {
+        "name": "Intuitive Machines",
+        "symbol": "LUNR",
+        "market": "US",
+        "tier": 3,
+        "sector": "us_portfolio",
+        "priority": 11,
+        "factors": [
+          "space",
+          "risk_sentiment",
+          "growth"
+        ],
+        "price": {
+          "source": "yfinance",
+          "as_of_date": "2026-06-12",
+          "latest_close": 26.62,
+          "previous_close": 30.64,
+          "close_7d_ago": 33.63,
+          "recent_closes": [
+            33.63,
+            29.36,
+            29.735,
+            27.47,
+            26.535,
+            30.64,
+            26.62
+          ],
+          "recent_dates": [
+            "2026-06-04",
+            "2026-06-05",
+            "2026-06-08",
+            "2026-06-09",
+            "2026-06-10",
+            "2026-06-11",
+            "2026-06-12"
+          ],
+          "change": -4.02,
+          "change_pct": -13.12,
+          "trend": "down",
+          "volume": 22230200,
+          "trading_value": null
+        },
+        "flow": {
+          "latest": {
+            "source": null,
+            "as_of_date": null,
+            "scope": null,
+            "market": null,
+            "symbol": null,
+            "name": null,
+            "unit": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null,
+            "buy_leader": "",
+            "sell_leader": "",
+            "seven_day_total": {
+              "available": false,
+              "trading_days": null,
+              "individual": null,
+              "institution": null,
+              "foreign": null
+            }
+          },
+          "seven_day_total": {
+            "available": false,
+            "trading_days": null,
+            "individual": null,
+            "institution": null,
+            "foreign": null
+          }
+        },
+        "news": [
+          {
+            "source": "yfinance_news",
+            "symbol": "LUNR",
+            "publisher": "Simply Wall St.",
+            "title": "Intuitive Machines Misses NASA Rover Win Yet Moon Base Hopes Remain",
+            "url": "https://finance.yahoo.com/markets/stocks/articles/intuitive-machines-misses-nasa-rover-041343557.html",
+            "published_at": "2026-06-13T04:13:43Z"
+          }
+        ],
+        "disclosures": [],
+        "impact": {
+          "label": "중립~부정",
+          "score": -1,
+          "reasons": [
+            "가격 약세",
+            "뉴스 1건"
+          ]
+        },
+        "primary_issue": "뉴스 확인",
+        "data_status": {
+          "price": "ok",
+          "flow": "not_applicable",
+          "news": "ok",
+          "disclosures": "empty"
+        },
+        "analysis_inputs": {
+          "price_trend": "down",
+          "flow_bias": "unknown",
+          "news_count": 1,
+          "disclosure_count": 0,
+          "tags": [
+            "growth",
+            "risk_sentiment",
+            "space"
+          ]
+        }
+      }
+    ],
+    "market_flows": [],
+    "news": [
+      {
+        "source": "CNBC Markets",
+        "title": "Trump says peace deal will be signed Sunday after Iran said it remains cautious on timing",
+        "url": "https://www.cnbc.com/2026/06/13/trump-iran-deal-strait-of-hormuz.html",
+        "published_at": "Sat, 13 Jun 2026 19:44:44 GMT"
+      },
+      {
+        "source": "CNBC Markets",
+        "title": "From 10% chance of success to $2 trillion market cap: SpaceX's historic IPO",
+        "url": "https://www.cnbc.com/2026/06/13/from-10percent-chance-of-success-to-2-trillion-spacexs-historic-ipo.html",
+        "published_at": "Sat, 13 Jun 2026 15:50:43 GMT"
+      },
+      {
+        "source": "CNBC Markets",
+        "title": "UAE denies 'false' reports of fund transfer to Iran",
+        "url": "https://www.cnbc.com/2026/06/13/uae-denies-false-reports-of-fund-transfer-to-iran.html",
+        "published_at": "Sat, 13 Jun 2026 09:30:18 GMT"
+      },
+      {
+        "source": "CNBC Markets",
+        "title": "Switzerland is voting on whether to cap its population at 10 million. Here's what to know",
+        "url": "https://www.cnbc.com/2026/06/13/switzerland-population-cap-referendum-immigration.html",
+        "published_at": "Sat, 13 Jun 2026 10:51:08 GMT"
+      },
+      {
+        "source": "CNBC Markets",
+        "title": "Anthropic disables access to Fable 5 and Mythos 5 to comply with government directive",
+        "url": "https://www.cnbc.com/2026/06/12/anthropic-disables-access-to-fable-5-and-mythos-5-to-comply-with-government-directive.html",
+        "published_at": "Sat, 13 Jun 2026 01:36:34 GMT"
+      },
+      {
+        "source": "CNBC Markets",
+        "title": "SpaceX IPO sticks the landing. Here's what investors are saying about its epic first trading day",
+        "url": "https://www.cnbc.com/2026/06/13/spacex-ipo-sticks-the-landing-heres-what-investors-are-saying-about-its-epic-first-trading-day.html",
+        "published_at": "Sat, 13 Jun 2026 13:37:31 GMT"
+      },
+      {
+        "source": "CNBC Markets",
+        "title": "Why TD Securities anticipates even bigger days ahead for SpaceX",
+        "url": "https://www.cnbc.com/2026/06/13/spacex-surges-but-bigger-days-are-ahead-td-securities-.html",
+        "published_at": "Sat, 13 Jun 2026 15:00:01 GMT"
+      },
+      {
+        "source": "CNBC Markets",
+        "title": "College sticker prices top $100,000 at 16 schools — but many students pay significantly less",
+        "url": "https://www.cnbc.com/2026/06/10/college-six-figure-sticker-price.html",
+        "published_at": "Wed, 10 Jun 2026 20:13:37 GMT"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "005387",
+        "name": "현대차2우B",
+        "query": "현대차",
+        "title": "“내 주식만 안 올라, 어쩌나”…‘8천피 시대’ 신저가 종목 속출했다",
+        "url": "https://www.mk.co.kr/article/12073521",
+        "naver_url": "https://n.news.naver.com/mnews/article/009/0005693433?sid=101",
+        "description": "코스피 시가총액 1, 2위인 삼성전자와 SK하이닉스를 비롯해 SK스퀘어, 삼성전자우, 현대차, 삼성전기, 삼성생명, 삼성물산, HD현대중공업 등 시총 상위 10개 종목 중 LG에너지솔루션을 제외한 9개 종목이 지난달 말 또는...",
+        "published_at": "Sun, 14 Jun 2026 09:25:00 +0900"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "005387",
+        "name": "현대차2우B",
+        "query": "현대차",
+        "title": "[기업지배구조 보고서 톺아보기] 주주친화 강화한 현대차…소수주주 보...",
+        "url": "http://www.hansbiz.co.kr/news/articleView.html?idxno=843988",
+        "naver_url": "http://www.hansbiz.co.kr/news/articleView.html?idxno=843988",
+        "description": "현대차·기아의 양재 사옥./현대차그룹 | 서울=한스경제 곽호준 기자 | 현대차가 지난해 기업지배구조 핵심지표를 대체로 충족하며 전체 상장사 평균을 웃도는 수준을 기록한 것으로 나타났다. 주주 관련 핵심지표를 모두...",
+        "published_at": "Sun, 14 Jun 2026 09:10:00 +0900"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "005387",
+        "name": "현대차2우B",
+        "query": "현대차",
+        "title": "호세 무뇨스 “제네시스, 유럽서 獨 3사에 도전”",
+        "url": "https://biz.chosun.com/industry/car/2026/06/14/5KB5F6TQEZEOJJDZ2YUXV4OJSE/?utm_source=naver&utm_medium=original&utm_campaign=biz",
+        "naver_url": "https://n.news.naver.com/mnews/article/366/0001171685?sid=103",
+        "description": "시사 현대차그룹의 고급 브랜드 제네시스가 유럽 시장 공략과 모터스포츠 도전을 앞세워 독일 프리미엄 완성차 3사를 정조준했다. 호세 무뇨스 현대차 대표이사(사장)는 12일(현지시각) 프랑스 르망 라 사르트 서킷에서...",
+        "published_at": "Sun, 14 Jun 2026 09:02:00 +0900"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "086790",
+        "name": "하나금융지주",
+        "query": "하나금융지주",
+        "title": "[코스피 주식선물 옵션] AI·전력망·방산 삼각동맹 형성…선물 시장 판...",
+        "url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=459802",
+        "naver_url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=459802",
+        "description": "LS일렉트릭과 한화오션, 하나금융지주도 상승 대열에 합류했다. 전력기기와 조선, 금융 업종이 동시에 주목받는 모습이었다. 효성중공업은 11만1000원 상승하며 강한 탄력을 보였다. 반면 삼성화재는 소폭 하락해...",
+        "published_at": "Sat, 13 Jun 2026 07:50:00 +0900"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "086790",
+        "name": "하나금융지주",
+        "query": "하나금융지주",
+        "title": "산단공, 하나금융·산단 경제단체와 산단 생산적 금융 확산 협약",
+        "url": "https://zdnet.co.kr/view/?no=20260613065719",
+        "naver_url": "https://n.news.naver.com/mnews/article/092/0002426452?sid=105",
+        "description": "최철호 한국산업단지경영자연합회 회장, 이호성 하나은행장, 이상훈 한국산업단지공단 이사장, 강성묵 하나금융지주 부회장, 이원해 글로벌선도기업협회 회장(왼쪽)이 협약을 체결한 후 기념촬영을 하고 있다.(사진...",
+        "published_at": "Sat, 13 Jun 2026 06:58:00 +0900"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "086790",
+        "name": "하나금융지주",
+        "query": "하나금융지주",
+        "title": "함영주 \"생산적금융, 중소 제조업 아우르는 포용금융과 결합될 때 완성...",
+        "url": "https://www.apnews.kr/news/articleView.html?idxno=3049031",
+        "naver_url": "https://www.apnews.kr/news/articleView.html?idxno=3049031",
+        "description": "©AP신문(AP뉴스)/이미지 제공 = 하나금융지주 ▲(왼쪽부터) 권남훈 산업연구원장, 이항용 한국금융연구원장, 함영주 하나금융그룹 회장, 정희수 하나금융연구소장이 지난 11일 서울 중구 은행회관 2층 국제회의실에서...",
+        "published_at": "Sat, 13 Jun 2026 02:50:00 +0900"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "316140",
+        "name": "우리금융지주",
+        "query": "우리금융지주",
+        "title": "금융지주 증권사, 덩치키운다…자본확충 잇따라",
+        "url": "https://www.sisaon.co.kr/news/articleView.html?idxno=201826",
+        "naver_url": "https://www.sisaon.co.kr/news/articleView.html?idxno=201826",
+        "description": "14일 금융투자업계에 따르면 KB증권은 올 2월 모회사 KB금융지주로부터 7000억 원 규모의 유상증자를, NH투자증권은 모회사 농협금융지주로부터 4000억 원 규모의 유상증자를, 우리투자증권은 모회사 우리금융지주로부...",
+        "published_at": "Sun, 14 Jun 2026 07:30:00 +0900"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "316140",
+        "name": "우리금융지주",
+        "query": "우리금융지주",
+        "title": "신한은 ‘슈퍼SOL’, 삼성은 ‘모니모’… 금융권 원앱 경쟁 재점화",
+        "url": "https://biz.chosun.com/stock/finance/2026/06/14/FL77TFHGZ5FMBG4RVAKBJYUYVM/?utm_source=naver&utm_medium=original&utm_campaign=biz",
+        "naver_url": "https://n.news.naver.com/mnews/article/366/0001171669?sid=101",
+        "description": "KB금융과 우리금융지주가 선제적으로 통합 플랫폼을 구축한 가운데, 신한지주와 삼성 금융 계열사도 잇따라 서비스 개편에 속도를 내고 있다. 14일 금융권에 따르면 신한지주는 오는 17일 ‘신한 SOL뱅크’를 기반으로...",
+        "published_at": "Sun, 14 Jun 2026 06:01:00 +0900"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "005930",
+        "name": "삼성전자",
+        "query": "삼성전자",
+        "title": "최태원 \"전속력으로 AX 돌입해야 할 때\"…'1인 1 AI 에이전트' 제시",
+        "url": "http://www.econonews.co.kr/news/articleView.html?idxno=439625",
+        "naver_url": "http://www.econonews.co.kr/news/articleView.html?idxno=439625",
+        "description": "국내에서도 삼성전자가 생성형 AI를 업무 현장에 도입하며 '일하는 방식 혁신'이 주요 경영 화두로 부상하는 분위기다. 특히 최 회장이 제시한 '1인 1 AI 에이전트' 구상은 구성원 개인이 AI를 보조도구 수준에서...",
+        "published_at": "Sun, 14 Jun 2026 09:24:00 +0900"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "005930",
+        "name": "삼성전자",
+        "query": "삼성전자",
+        "title": "iM뱅크, 김준성 초대 은행장 흉상 금융박물관 이전 전시…김상범 이수그...",
+        "url": "https://www.kbmaeil.com/article/20260612500174",
+        "naver_url": "https://www.kbmaeil.com/article/20260612500174",
+        "description": "이후 그는 한국은행 총재와 부총리 겸 경제기획원 장관을 역임하며 국가 경제 발전에 기여했으며, 삼성전자 회장과 ㈜대우 회장 등을 거쳐 이수화학 회장을 맡는 등 경제계 주요 인사로 활동했다. 김 전 은행장은 자전...",
+        "published_at": "Sun, 14 Jun 2026 09:22:00 +0900"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "005830",
+        "name": "DB손해보험",
+        "query": "DB손해보험",
+        "title": "[교보금융지주 가시화] 선결조건은 자본비율 방어…M&A發 낙폭 촉각",
+        "url": "https://news.dealsitetv.com/articles/171548",
+        "naver_url": "https://news.dealsitetv.com/articles/171548",
+        "description": "올해 들어 보험업계에서 후순위채 발행이 뚝 끊기고, DB손해보험이 기본자본 신종자본증권을 발행한 이유도 여기에 있다. DB손보도 지난달 말 2조3000억원 규모의 미국 특화보험사 포테그라 인수를 마치면서...",
+        "published_at": "Sun, 14 Jun 2026 08:32:00 +0900"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "005830",
+        "name": "DB손해보험",
+        "query": "DB손해보험",
+        "title": "보험사기 적발 1.1조원 넘어…메리츠·DB손보, 환수 승소율 100% ‘두각’",
+        "url": "https://www.ceoscoredaily.com/page/view/2026060912253039912",
+        "naver_url": "https://www.ceoscoredaily.com/page/view/2026060912253039912",
+        "description": "메리츠화재, DB손해보험, 흥국화재, 하나손해보험, AIG손해보험 등 5개사는 2024년 하반기와 2025년 하반기 모두 전부승소율 100%를 기록했다. 전부패소율 역시 두 기간 모두 0%를 유지했다. 업계는 유죄확정판결에 기반한...",
+        "published_at": "Sun, 14 Jun 2026 07:00:00 +0900"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "005830",
+        "name": "DB손해보험",
+        "query": "DB손해보험",
+        "title": "김민솔 vs '국대' 양윤서, 메르세데스-벤츠 한국여자오픈 우승 놓고 '격...",
+        "url": "https://www.g-enews.com/view.php?ud=202606140629002496daecd3dad5_1",
+        "naver_url": "https://www.g-enews.com/view.php?ud=202606140629002496daecd3dad5_1",
+        "description": "통산 20승을 올린 박민지(NH투지증권)는 합계 4오버파 217타를 쳐 한아름(DB손해보험), 김민주(삼천리), 성유진(대방건설), 서어진(대보건설), 박보겸(삼천리) 등과 공동 17위에 랭크됐다. US여자오픈 출전한 뒤 이번...",
+        "published_at": "Sun, 14 Jun 2026 06:40:00 +0900"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "048410",
+        "name": "현대바이오",
+        "query": "현대바이오",
+        "title": "'미래산업 공동개척'...한경협, 韓·伊 비즈니스 라운드테이블",
+        "url": "https://www.tfmedia.co.kr/news/article.html?no=205125",
+        "naver_url": "https://www.tfmedia.co.kr/news/article.html?no=205125",
+        "description": "이탈리아는 바이오·제약, 우주·방산 등 신산업 경쟁력 강화에 나서고 있으며, 세계 3번째 인공위성 발사국으로서 한국과 글로벌 위성시장 공동 진출 가능성이 주목받고 있다. AI 데이터센터 증가에 따른 송전망 현대화...",
+        "published_at": "Sun, 14 Jun 2026 09:10:00 +0900"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "048410",
+        "name": "현대바이오",
+        "query": "현대바이오",
+        "title": "“불장이라더니 내 주식만 왜?”…신고가·신저가 동시 속출 ‘양극화’",
+        "url": "https://www.dt.co.kr/article/12067348?ref=naver",
+        "naver_url": "https://n.news.naver.com/mnews/article/029/0003031530?sid=101",
+        "description": "코스피 시총 1, 2위인 삼성전자와 SK하이닉스를 포함, SK스퀘어와 삼성전자우, 현대차, 삼성전기, 삼성생명... 시가총액 상위 종목 중에선 삼성바이오로직스(12위)가 올 1월 15일 52주 신고가를 기록했지만, 이후 지속해서...",
+        "published_at": "Sun, 14 Jun 2026 08:17:00 +0900"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "011780",
+        "name": "금호석유화학",
+        "query": "금호석유화학",
+        "title": "[더페어 돋보기] 중동 훈풍에 요동치는 포트폴리오…국면 전환기 '눈여...",
+        "url": "https://www.thefairnews.co.kr/news/articleView.html?idxno=79413",
+        "naver_url": "https://www.thefairnews.co.kr/news/articleView.html?idxno=79413",
+        "description": "이에 따라 전통의 화학 대장주인 LG화학과 롯데케미칼을 비롯해 고부가 가치 다운스트림 제품 포트폴리오를 다각화해 둔 금호석유화학 등이 직접적인 마진 스프레드 개선 수혜주로 꼽힌다. 원가 부담 둔화는 글로벌 경기...",
+        "published_at": "Sun, 14 Jun 2026 00:00:00 +0900"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "011780",
+        "name": "금호석유화학",
+        "query": "금호석유화학",
+        "title": "금호석유화학그룹, 철새 서식지 복원…3년간 2.6억원 투입",
+        "url": "https://www.1conomynews.co.kr/news/articleView.html?idxno=49046",
+        "naver_url": "https://www.1conomynews.co.kr/news/articleView.html?idxno=49046",
+        "description": "금호석유화학그룹이 전남 여수 지역의 생물다양성 보전과 기후위기 대응을 위해 지역 농민들과 손을 잡았다. 12일 금호석유화학그룹에 따르면 금호석유화학·금호피앤비화학·금호미쓰이화학·금호폴리켐·금호티앤엘...",
+        "published_at": "Fri, 12 Jun 2026 15:04:00 +0900"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "011780",
+        "name": "금호석유화학",
+        "query": "금호석유화학",
+        "title": "기업가치 제고 지표 가시화에 수급 폭발…코리아 밸류업 지수 테마, 사...",
+        "url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=459712",
+        "naver_url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=459712",
+        "description": "합성고무 및 친환경 화학 제품 공급을 통해 타이어 등 전방 산업 수요 회복과 동행하는 금호석유화학은 자사주 소각 모멘텀이 유효하다. 타 금융지주 대비 상대적으로 높은 저평가 매력과 밸류업 프로그램 참여 의지를...",
+        "published_at": "Fri, 12 Jun 2026 14:46:00 +0900"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "007660",
+        "name": "이수페타시스",
+        "query": "이수페타시스",
+        "title": "[주간 거래소 외국인] 삼성전자 던지고 삼성전기 샀다…수조원 자금 대...",
+        "url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=459799",
+        "naver_url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=459799",
+        "description": "반도체 기판 관련 대표 종목인 이수페타시스와 대덕전자 역시 순매도 상위권에 포함됐다. 최근 강한 상승에 따른 부담이 반영된 것으로 풀이된다. 조선주 역시 외국인의 매도 대상이 됐다. 삼성중공업과 한화오션...",
+        "published_at": "Sat, 13 Jun 2026 07:40:00 +0900"
+      },
+      {
+        "source": "naver_search_news",
+        "symbol": "007660",
+        "name": "이수페타시스",
+        "query": "이수페타시스",
+        "title": "[주간 거래소 기관] 삼성전자 2조원 던졌다…기관 자금, 뜻밖의 종목으...",
+        "url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=459798",
+        "naver_url": "https://www.pinpointnews.co.kr/news/articleView.html?idxno=459798",
+        "description": "대덕전자와 이수페타시스는 각각 1480억원, 1085억원 규모의 순매수를 기록했다. AI 서버와 고성능 컴퓨팅 시장 확대에 따른 수혜 기대감이 반영된 것으로 분석된다. 산업재와 조선 업종에 대한 관심도 두드러졌다....",
+        "published_at": "Sat, 13 Jun 2026 07:38:00 +0900"
+      },
+      {
+        "source": "yfinance_news",
+        "symbol": "SCHD",
+        "publisher": "24/7 Wall St.",
+        "title": "Why a Dividend Portfolio That Pays Your Rent May Beat Homeownership by $500,000 Over 20 Years",
+        "url": "https://247wallst.com/personal-finance/2026/06/13/why-a-dividend-portfolio-that-pays-your-rent-may-beat-homeownership-by-500000-over-20-years/",
+        "published_at": "2026-06-13T12:02:12Z"
+      },
+      {
+        "source": "yfinance_news",
+        "symbol": "SCHD",
+        "publisher": "24/7 Wall St.",
+        "title": "How to Build $12,000 a Month in Dividend Income (And Why Most Investors Underestimate the Cost)",
+        "url": "https://247wallst.com/personal-finance/2026/06/12/how-to-build-12000-a-month-in-dividend-income-and-why-most-investors-underestimate-the-cost/",
+        "published_at": "2026-06-12T15:28:21Z"
+      },
+      {
+        "source": "yfinance_news",
+        "symbol": "SCHD",
+        "publisher": "24/7 Wall St.",
+        "title": "Retiring? Buy SCHD. $1m into $2.3m since 2016, $53K/y in dividends. No Reinvestments.",
+        "url": "https://247wallst.com/investing/2026/06/11/retiring-buy-schd-1m-into-2-3m-since-2016-53k-y-in-dividends-no-reinvestments/",
+        "published_at": "2026-06-11T16:31:13Z"
+      },
+      {
+        "source": "yfinance_news",
+        "symbol": "AAPL",
+        "publisher": "Simply Wall St.",
+        "title": "Amazon Expands Satellite, Cloud And Robotics Investments As Valuation Gap Widens",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/amazon-expands-satellite-cloud-robotics-200831338.html",
+        "published_at": "2026-06-13T20:08:31Z"
+      },
+      {
+        "source": "yfinance_news",
+        "symbol": "AAPL",
+        "publisher": "Insider Monkey",
+        "title": "Wall Street’s Top Billionaires Are Changing Their Mind About Apple (AAPL)",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/wall-street-top-billionaires-changing-154240546.html",
+        "published_at": "2026-06-13T15:42:40Z"
+      },
+      {
+        "source": "yfinance_news",
+        "symbol": "AAPL",
+        "publisher": "Insider Monkey",
+        "title": "Taiwan Semiconductor (TSM) is This Famous Billionaire’s Biggest AI Stock Holding",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/taiwan-semiconductor-tsm-famous-billionaire-154237082.html",
+        "published_at": "2026-06-13T15:42:37Z"
+      },
+      {
+        "source": "yfinance_news",
+        "symbol": "NVDA",
+        "publisher": "Simply Wall St.",
+        "title": "NVIDIA Tests Recurring AI Data Center Model With Australian GPU Expansion",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/nvidia-tests-recurring-ai-data-231238173.html",
+        "published_at": "2026-06-13T23:12:38Z"
+      },
+      {
+        "source": "yfinance_news",
+        "symbol": "NVDA",
+        "publisher": "Motley Fool",
+        "title": "Is Palantir Stock Ripe for a Rebound?",
+        "url": "https://www.fool.com/investing/2026/06/13/is-palantir-stock-ripe-for-a-rebound/",
+        "published_at": "2026-06-13T22:30:00Z"
+      },
+      {
+        "source": "yfinance_news",
+        "symbol": "NVDA",
+        "publisher": "Motley Fool",
+        "title": "Micron Reports Earnings June 24. Here's the One Number That May Make or Break the Stock.",
+        "url": "https://www.fool.com/investing/2026/06/13/micron-reports-earnings-june-24-heres-the-one-numb/",
+        "published_at": "2026-06-13T21:56:00Z"
+      },
+      {
+        "source": "yfinance_news",
+        "symbol": "CPNG",
+        "publisher": "Simply Wall St.",
+        "title": "Coupang Fine Tests Data Privacy Resilience And Global Growth Ambitions",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/coupang-fine-tests-data-privacy-170940380.html",
+        "published_at": "2026-06-13T17:09:40Z"
+      },
+      {
+        "source": "yfinance_news",
+        "symbol": "CPNG",
+        "publisher": "Zacks",
+        "title": "Coupang, Inc. (CPNG) Stock Slides as Market Rises: Facts to Know Before You Trade",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/coupang-inc-cpng-stock-slides-215004357.html",
+        "published_at": "2026-06-12T21:50:04Z"
+      },
+      {
+        "source": "yfinance_news",
+        "symbol": "CPNG",
+        "publisher": "Retail Insight Network",
+        "title": "South Korea issues Won624.68bn fine on Coupang over data breach",
+        "url": "https://www.retail-insight-network.com/news/south-korea-fines-coupang-won624-68bn/",
+        "published_at": "2026-06-12T14:31:48Z"
+      },
+      {
+        "source": "yfinance_news",
+        "symbol": "RKLB",
+        "publisher": "Motley Fool",
+        "title": "Space Stocks Got Crushed on SpaceX's Big Day. Is the Sell-Off a Warning or a Buying Opportunity?",
+        "url": "https://www.fool.com/investing/2026/06/13/space-stocks-got-crushed-on-spacexs-big-day-is-the/",
+        "published_at": "2026-06-13T17:26:00Z"
+      },
+      {
+        "source": "yfinance_news",
+        "symbol": "RKLB",
+        "publisher": "Moneywise",
+        "title": "A Star Trek nerd put his savings into Rocket Lab years ago — he's now semi-retired with $3 million in gains",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/star-trek-nerd-put-savings-153000511.html",
+        "published_at": "2026-06-13T15:30:00Z"
+      },
+      {
+        "source": "yfinance_news",
+        "symbol": "RKLB",
+        "publisher": "Barrons.com",
+        "title": "The Great, Big, Boring SpaceX IPO",
+        "url": "https://www.barrons.com/articles/spacex-ipo-stock-price-spcx-494b9186?siteid=yhoof2&yptr=yahoo",
+        "published_at": "2026-06-13T14:40:00Z"
+      },
+      {
+        "source": "yfinance_news",
+        "symbol": "RZLV",
+        "publisher": "Simply Wall St.",
+        "title": "Rezolve AI Taps TCS Partnership And TraceWare Validation To Build Retail Trust",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/rezolve-ai-taps-tcs-partnership-001429282.html",
+        "published_at": "2026-06-13T00:14:29Z"
+      },
+      {
+        "source": "yfinance_news",
+        "symbol": "RZLV",
+        "publisher": "Simply Wall St.",
+        "title": "Rezolve AI (RZLV) Stock Valuation In Focus After Planned US$300 Million Buyback Plan",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/rezolve-ai-rzlv-stock-valuation-211317328.html",
+        "published_at": "2026-06-12T21:13:17Z"
+      },
+      {
+        "source": "yfinance_news",
+        "symbol": "RZLV",
+        "publisher": "Insider Monkey",
+        "title": "Rezolve AI (RZLV) Recruits a Microsoft Veteran—What Comes Next?",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/rezolve-ai-rzlv-recruits-microsoft-003617187.html",
+        "published_at": "2026-06-12T00:36:17Z"
+      },
+      {
+        "source": "yfinance_news",
+        "symbol": "LUNR",
+        "publisher": "Simply Wall St.",
+        "title": "Intuitive Machines Misses NASA Rover Win Yet Moon Base Hopes Remain",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/intuitive-machines-misses-nasa-rover-041343557.html",
+        "published_at": "2026-06-13T04:13:43Z"
+      }
+    ],
+    "disclosures": [
+      {
+        "source": "dart",
+        "symbol": "005387",
+        "dart_stock_code": "005380",
+        "name": "현대차2우B",
+        "corp_code": "00164742",
+        "report_name": "특수관계인으로부터기타유가증권매수",
+        "receipt_no": "20260610000653",
+        "receipt_date": "20260610",
+        "submitter": "현대자동차",
+        "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260610000653"
+      },
+      {
+        "source": "dart",
+        "symbol": "005387",
+        "dart_stock_code": "005380",
+        "name": "현대차2우B",
+        "corp_code": "00164742",
+        "report_name": "특수관계인에대한출자",
+        "receipt_no": "20260610000640",
+        "receipt_date": "20260610",
+        "submitter": "현대자동차",
+        "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260610000640"
+      },
+      {
+        "source": "dart",
+        "symbol": "086790",
+        "dart_stock_code": "086790",
+        "name": "하나금융지주",
+        "corp_code": "00547583",
+        "report_name": "기업설명회(IR)개최(안내공시)              ",
+        "receipt_no": "20260612800535",
+        "receipt_date": "20260612",
+        "submitter": "하나금융지주",
+        "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260612800535"
+      },
+      {
+        "source": "dart",
+        "symbol": "086790",
+        "dart_stock_code": "086790",
+        "name": "하나금융지주",
+        "corp_code": "00547583",
+        "report_name": "임원ㆍ주요주주특정증권등소유상황보고서",
+        "receipt_no": "20260612000303",
+        "receipt_date": "20260612",
+        "submitter": "이재술",
+        "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260612000303"
+      },
+      {
+        "source": "dart",
+        "symbol": "316140",
+        "dart_stock_code": "316140",
+        "name": "우리금융지주",
+        "corp_code": "01350869",
+        "report_name": "[기재정정]주식소각결정              ",
+        "receipt_no": "20260610800817",
+        "receipt_date": "20260610",
+        "submitter": "우리금융지주",
+        "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260610800817"
+      },
+      {
+        "source": "dart",
+        "symbol": "316140",
+        "dart_stock_code": "316140",
+        "name": "우리금융지주",
+        "corp_code": "01350869",
+        "report_name": "신탁계약해지결과보고서",
+        "receipt_no": "20260610000559",
+        "receipt_date": "20260610",
+        "submitter": "우리금융지주",
+        "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260610000559"
+      },
+      {
+        "source": "dart",
+        "symbol": "316140",
+        "dart_stock_code": "316140",
+        "name": "우리금융지주",
+        "corp_code": "01350869",
+        "report_name": "주요사항보고서(자기주식취득신탁계약해지결정)",
+        "receipt_no": "20260610000461",
+        "receipt_date": "20260610",
+        "submitter": "우리금융지주",
+        "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260610000461"
+      },
+      {
+        "source": "dart",
+        "symbol": "316140",
+        "dart_stock_code": "316140",
+        "name": "우리금융지주",
+        "corp_code": "01350869",
+        "report_name": "기업설명회(IR)개최(안내공시)              ",
+        "receipt_no": "20260610800591",
+        "receipt_date": "20260610",
+        "submitter": "우리금융지주",
+        "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260610800591"
+      },
+      {
+        "source": "dart",
+        "symbol": "316140",
+        "dart_stock_code": "316140",
+        "name": "우리금융지주",
+        "corp_code": "01350869",
+        "report_name": "기업설명회(IR)개최(안내공시)              ",
+        "receipt_no": "20260610800585",
+        "receipt_date": "20260610",
+        "submitter": "우리금융지주",
+        "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260610800585"
+      },
+      {
+        "source": "dart",
+        "symbol": "005930",
+        "dart_stock_code": "005930",
+        "name": "삼성전자",
+        "corp_code": "00126380",
+        "report_name": "최대주주등소유주식변동신고서              ",
+        "receipt_no": "20260608800918",
+        "receipt_date": "20260608",
+        "submitter": "삼성전자",
+        "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260608800918"
+      },
+      {
+        "source": "dart",
+        "symbol": "005930",
+        "dart_stock_code": "005930",
+        "name": "삼성전자",
+        "corp_code": "00126380",
+        "report_name": "임원ㆍ주요주주특정증권등소유상황보고서",
+        "receipt_no": "20260608000002",
+        "receipt_date": "20260608",
+        "submitter": "박태훈",
+        "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260608000002"
+      },
+      {
+        "source": "dart",
+        "symbol": "005830",
+        "dart_stock_code": "005830",
+        "name": "DB손해보험",
+        "corp_code": "00159102",
+        "report_name": "증권발행실적보고서",
+        "receipt_no": "20260609000493",
+        "receipt_date": "20260609",
+        "submitter": "DB손해보험",
+        "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260609000493"
+      },
+      {
+        "source": "dart",
+        "symbol": "005830",
+        "dart_stock_code": "005830",
+        "name": "DB손해보험",
+        "corp_code": "00159102",
+        "report_name": "투자설명서",
+        "receipt_no": "20260609000003",
+        "receipt_date": "20260609",
+        "submitter": "DB손해보험",
+        "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260609000003"
+      }
+    ],
+    "data_quality": [
+      {
+        "source": "krx_open_api",
+        "status": "skipped",
+        "reason": "KRX_AUTH_KEY not set"
+      },
+      {
+        "source": "pykrx_fallback",
+        "status": "skipped",
+        "reason": "KRX_ID or KRX_PW not set"
+      },
+      {
+        "source": "krx_investor_flows",
+        "status": "skipped",
+        "reason": "KRX_AUTH_KEY not set"
+      },
+      {
+        "source": "pykrx_fallback",
+        "status": "skipped",
+        "reason": "KRX_ID or KRX_PW not set"
+      }
+    ],
+    "coverage": {
+      "news_count": 47,
+      "disclosure_count": 13,
+      "holding_count": 15,
+      "seven_day_flow_available": false
+    }
+  }
+}
