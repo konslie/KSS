@@ -17,6 +17,8 @@ import zipfile
 from pathlib import Path
 from typing import Any
 
+from bs4 import BeautifulSoup
+
 
 ROOT = Path(__file__).resolve().parents[1]
 PORTFOLIO_PATH = ROOT / "config" / "portfolio.yaml"
@@ -105,14 +107,19 @@ def read_portfolio() -> list[dict[str, Any]]:
 
 
 def parse_yaml_value(value: str) -> Any:
-    if value.startswith('"') and value.endswith('"'):
-        return value[1:-1]
-    if value.startswith("[") and value.endswith("]"):
-        items = [item.strip().strip('"') for item in value[1:-1].split(",")]
+    val_strip = value.strip()
+    if val_strip == "true":
+        return True
+    if val_strip == "false":
+        return False
+    if val_strip.startswith('"') and val_strip.endswith('"'):
+        return val_strip[1:-1]
+    if val_strip.startswith("[") and val_strip.endswith("]"):
+        items = [item.strip().strip('"') for item in val_strip[1:-1].split(",")]
         return [item for item in items if item]
-    if value.isdigit():
-        return int(value)
-    return value
+    if val_strip.isdigit():
+        return int(val_strip)
+    return val_strip
 
 
 def fetch_url(url: str, timeout: int = 12) -> str:
@@ -369,8 +376,18 @@ def collect_naver(
         url = f"https://finance.naver.com/item/main.naver?code={symbol}"
         try:
             page = fetch_url(url)
-            price = extract_first(page, r'<p class="no_today">.*?<span class="blind">([\d,]+)</span>')
-            rate = extract_first(page, r'<p class="no_exday">.*?<span class="blind">([+-]?\d+\.\d+)</span>')
+            soup = BeautifulSoup(page, "html.parser")
+            no_today = soup.select_one(".no_today")
+            price = no_today.select_one(".blind").text.strip() if no_today and no_today.select_one(".blind") else None
+            
+            rate = None
+            no_exday = soup.select_one(".no_exday")
+            if no_exday:
+                for b in no_exday.select(".blind"):
+                    b_text = b.text.strip()
+                    if re.match(r"[+-]?\d+\.\d+", b_text):
+                        rate = b_text
+                        break
             current_price = int(price.replace(",", "")) if price else None
             change_pct = float(rate) if rate else None
             previous_close = None
@@ -494,6 +511,10 @@ def collect_naver_news(
 
 
 def naver_news_query(holding: dict[str, Any]) -> str:
+    custom_query = holding.get("news_query")
+    if custom_query:
+        return str(custom_query).strip()
+        
     name = str(holding["name"])
     if holding.get("symbol") == "005387":
         return "현대차"
@@ -1210,10 +1231,17 @@ def collect_dart(
     disclosures: list[dict[str, Any]] = []
     quality: list[dict[str, Any]] = []
 
-    targets = [
-        holding for holding in holdings
-        if holding.get("market") == "KR" and int(holding.get("tier", 99)) <= 2
-    ]
+    targets = []
+    for holding in holdings:
+        if holding.get("market") != "KR":
+            continue
+        
+        track = holding.get("track_disclosure")
+        if track is not None:
+            if track:
+                targets.append(holding)
+        elif int(holding.get("tier", 99)) <= 2:
+            targets.append(holding)
 
     for holding in targets:
         stock_code = holding["symbol"]

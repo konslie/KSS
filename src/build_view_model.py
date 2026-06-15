@@ -105,22 +105,36 @@ def market_status_model(market_data: dict[str, Any]) -> dict[str, Any]:
     indicators = market_data.get("market_indicators", [])
     kospi = find_by_name(indicators, "KOSPI")
     kosdaq = find_by_name(indicators, "KOSDAQ")
+    nasdaq = find_by_name(indicators, "Nasdaq")
+    sp500 = find_by_name(indicators, "S&P 500")
     usdkrw = find_by_name(indicators, "USD/KRW")
     vix = find_by_name(indicators, "VIX")
-    scores = [
-        risk_score(kospi, negative_threshold=-2),
-        risk_score(kosdaq, negative_threshold=-2),
-        risk_score(usdkrw, positive_threshold=0.7),
-        risk_score(vix, positive_threshold=2),
-    ]
-    score = sum(scores)
-    if score >= 3:
+    
+    # VIX 특수 계산
+    vix_score = 0
+    if vix:
+        vix_close = clean_number(vix.get("close"))
+        vix_pct = clean_number(vix.get("change_pct"))
+        if (vix_close is not None and vix_close > 20) or (vix_pct is not None and vix_pct >= 10):
+            vix_score = 1
+            
+    score = (
+        risk_score(nasdaq, negative_threshold=-2.0, weight=2)
+        + risk_score(sp500, negative_threshold=-1.5, weight=2)
+        + risk_score(kospi, negative_threshold=-2.0, weight=1)
+        + risk_score(kosdaq, negative_threshold=-2.5, weight=1)
+        + risk_score(usdkrw, positive_threshold=0.7, weight=1)
+        + vix_score
+    )
+    
+    if score >= 4:
         label = "위험"
-    elif score >= 1:
+    elif score >= 2:
         label = "주의"
     else:
         label = "중립"
-    reasons = market_status_reasons([kospi, kosdaq, usdkrw, vix])
+        
+    reasons = market_status_reasons(kospi, kosdaq, nasdaq, sp500, usdkrw, vix)
     return {
         "label": label,
         "score": score,
@@ -129,34 +143,66 @@ def market_status_model(market_data: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def risk_score(row: dict[str, Any] | None, *, negative_threshold: float | None = None, positive_threshold: float | None = None) -> int:
+def risk_score(
+    row: dict[str, Any] | None,
+    *,
+    negative_threshold: float | None = None,
+    positive_threshold: float | None = None,
+    weight: int = 1,
+) -> int:
     if not row:
         return 0
     pct = clean_number(row.get("change_pct"))
     if pct is None:
         return 0
     if negative_threshold is not None and pct <= negative_threshold:
-        return 1
+        return weight
     if positive_threshold is not None and pct >= positive_threshold:
-        return 1
+        return weight
     return 0
 
 
-def market_status_reasons(rows: list[dict[str, Any] | None]) -> list[str]:
+def market_status_reasons(
+    kospi: dict[str, Any] | None,
+    kosdaq: dict[str, Any] | None,
+    nasdaq: dict[str, Any] | None,
+    sp500: dict[str, Any] | None,
+    usdkrw: dict[str, Any] | None,
+    vix: dict[str, Any] | None,
+) -> list[str]:
     reasons = []
-    for row in rows:
-        if not row:
-            continue
-        pct = clean_number(row.get("change_pct"))
-        name = row.get("name") or row.get("symbol")
-        if pct is None:
-            continue
-        if name in {"KOSPI", "KOSDAQ"} and pct <= -2:
-            reasons.append(f"{name} 급락")
-        elif name == "USD/KRW" and pct >= 0.7:
-            reasons.append("환율 상승")
-        elif name == "VIX" and pct >= 2:
-            reasons.append("VIX 상승")
+    
+    if nasdaq:
+        pct = clean_number(nasdaq.get("change_pct"))
+        if pct is not None and pct <= -2.0:
+            reasons.append("나스닥 급락")
+            
+    if sp500:
+        pct = clean_number(sp500.get("change_pct"))
+        if pct is not None and pct <= -1.5:
+            reasons.append("S&P 500 급락")
+            
+    if kospi:
+        pct = clean_number(kospi.get("change_pct"))
+        if pct is not None and pct <= -2.0:
+            reasons.append("KOSPI 급락")
+            
+    if kosdaq:
+        pct = clean_number(kosdaq.get("change_pct"))
+        if pct is not None and pct <= -2.5:
+            reasons.append("KOSDAQ 급락")
+            
+    if usdkrw:
+        pct = clean_number(usdkrw.get("change_pct"))
+        if pct is not None and pct >= 0.7:
+            reasons.append("환율 급등")
+            
+    if vix:
+        vix_close = clean_number(vix.get("close"))
+        vix_pct = clean_number(vix.get("change_pct"))
+        if (vix_close is not None and vix_close > 20) or (vix_pct is not None and vix_pct >= 10):
+            reasons.append("VIX 급등")
+            
     return reasons
 
 

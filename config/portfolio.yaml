@@ -11,6 +11,7 @@ domestic:
     symbol: "316140"
     tier: 1
     factors: ["kr_rate", "yield_curve", "foreign_flow", "dividend"]
+    track_disclosure: false
   - name: "삼성전자"
     symbol: "005930"
     tier: 2
@@ -23,14 +24,17 @@ domestic:
     symbol: "048410"
     tier: 3
     factors: ["biotech", "risk_sentiment"]
+    track_disclosure: true
   - name: "금호석유화학"
     symbol: "011780"
     tier: 3
     factors: ["chemical", "dividend", "china"]
+    news_query: "금호석유"
   - name: "이수페타시스"
     symbol: "007660"
     tier: 3
     factors: ["ai", "pcb", "semiconductor"]
+    news_query: "이수페타시스"
 
 overseas:
   - name: "SCHD"

@@ -298,6 +298,15 @@ class CollectTests(unittest.TestCase):
         self.assertEqual(rows[0]["BAS_DD"], "20260605")
         self.assertEqual(rows[0]["TDD_CLSPRC"], "70,100")
 
+    def test_naver_news_query_prefers_custom_news_query(self) -> None:
+        holding_custom = {"name": "금호석유화학", "symbol": "011780", "news_query": "금호석유"}
+        query_custom = collect.naver_news_query(holding_custom)
+        self.assertEqual(query_custom, "금호석유")
+        
+        holding_default = {"name": "현대차2우B", "symbol": "005387"}
+        query_default = collect.naver_news_query(holding_default)
+        self.assertEqual(query_default, "현대차")
+
     def test_dart_uses_common_stock_fallback_for_preferred_stock(self) -> None:
         holdings = [{"market": "KR", "name": "현대차2우B", "symbol": "005387", "tier": 1}]
         payload = {"status": "013"}
@@ -310,6 +319,26 @@ class CollectTests(unittest.TestCase):
         self.assertEqual(disclosures, [])
         self.assertEqual(quality, [])
         self.assertIn("corp_code=00164742", fetch.call_args.args[0])
+
+    def test_dart_respects_custom_track_disclosure_flag(self) -> None:
+        holdings = [
+            {"market": "KR", "name": "우리금융지주", "symbol": "316140", "tier": 1, "track_disclosure": False},
+            {"market": "KR", "name": "현대바이오", "symbol": "048410", "tier": 3, "track_disclosure": True},
+            {"market": "KR", "name": "삼성전자", "symbol": "005930", "tier": 2}
+        ]
+        payload = {"status": "013"}
+        corp_map = {"048410": "001", "005930": "002", "316140": "003"}
+        
+        with mock.patch.dict("os.environ", {"DART_API_KEY": "token"}, clear=True):
+            with mock.patch.object(collect, "get_dart_corp_map", return_value=corp_map):
+                with mock.patch.object(collect, "fetch_url", return_value=json.dumps(payload)) as fetch:
+                    disclosures, quality = collect.collect_dart(holdings, "2026-06-04", offline=False)
+                    
+        called_urls = [call.args[0] for call in fetch.call_args_list]
+        self.assertEqual(len(called_urls), 2)
+        self.assertTrue(any("corp_code=001" in url for url in called_urls))
+        self.assertTrue(any("corp_code=002" in url for url in called_urls))
+        self.assertFalse(any("corp_code=003" in url for url in called_urls))
 
     def test_main_writes_source_and_news(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

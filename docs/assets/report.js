@@ -74,14 +74,14 @@ function reportBodyElements(elements) {
     if (element.type === "heading" && element.level === 1) continue;
     if (element.type === "heading" && element.level === 2) {
       const text = element.text || "";
-      if (text.includes("주요 거시지표") || text.includes("포트폴리오 영향도")) {
+      if (text.includes("주요 거시지표") || text.includes("포트폴리오 영향도") || text.includes("1. Executive Summary")) {
         skipSection = text;
         continue;
       }
       skipSection = null;
     }
     if (skipSection) {
-      if (element.type === "table" || element.type === "metrics-meta") continue;
+      if (element.type === "table" || element.type === "metrics-meta" || element.type === "list" || element.type === "paragraph") continue;
     }
     visible.push(element);
   }
@@ -122,11 +122,53 @@ function renderDataDashboard(viewModel, report) {
   const section = document.createElement("section");
   section.className = "data-dashboard";
   section.append(renderHero(report, viewModel));
+  
   section.append(renderSectionHeader("주요 지표", marketDateMeta(viewModel.market_indicators || [], viewModel.date || report.date || ""), "violet"));
   section.append(renderMarketCards(viewModel.market_indicators || []));
-  section.append(renderSectionHeader("포트폴리오 현황", "", "gold", sourceLegend()));
+  
+  const summary = extractExecutiveSummary(report.elements || []);
+  if (summary.list) {
+    section.append(renderExecutiveSummary(summary));
+  }
+  
+  section.append(renderSectionHeader("2. 포트폴리오 현황", "", "gold", sourceLegend()));
   section.append(renderHoldingMatrix(viewModel.holdings || []));
   return section;
+}
+
+function extractExecutiveSummary(elements) {
+  let summaryHeading = null;
+  let summaryList = null;
+  for (let i = 0; i < elements.length; i++) {
+    const el = elements[i];
+    if (el.type === "heading" && el.level === 2 && el.text.includes("1. Executive Summary")) {
+      summaryHeading = el;
+      if (i + 1 < elements.length && elements[i + 1].type === "list") {
+        summaryList = elements[i + 1];
+      }
+      break;
+    }
+  }
+  return { heading: summaryHeading, list: summaryList };
+}
+
+function renderExecutiveSummary(summary) {
+  if (!summary.list) return document.createTextNode("");
+  const card = document.createElement("section");
+  card.className = "executive-summary-card";
+  
+  const title = document.createElement("h2");
+  title.textContent = "1. Executive Summary";
+  card.append(title);
+  
+  const ul = document.createElement("ul");
+  for (const item of summary.list.items || []) {
+    const li = document.createElement("li");
+    li.innerHTML = inlineHtml(item, { autoBold: true, sourceBadges: false });
+    ul.append(li);
+  }
+  card.append(ul);
+  return card;
 }
 
 function marketDateMeta(indicators, fallbackDate) {
@@ -195,15 +237,19 @@ function renderMarketCards(indicators) {
     const card = document.createElement("article");
     card.className = `market-card market-${tone}`;
     card.innerHTML = `
-      <div class="market-copy">
-        <p>${escapeHtml(indicator.name || indicator.symbol || "")}</p>
-        <span class="prev-value">이전 ${formatPlainNumber(price.previous_close)}</span>
+      <div class="market-card-left">
+        <span class="market-label">${escapeHtml(indicator.name || indicator.symbol || "")}</span>
         <strong>${formatPlainNumber(price.latest_close)}</strong>
-        <span class="metric-pills"><b>${formatSignedPercent(price.change_pct)}</b><em>${formatSignedNumber(price.change)}</em></span>
-        <span class="market-comment">${escapeHtml(indicator.short_comment || "")}</span>
-        ${tagList(indicator.risk_tags || [])}
+        <div class="market-change">
+          <span class="change-pct">${formatSignedPercent(price.change_pct)}</span>
+          <span class="change-val">(${formatSignedNumber(price.change)})</span>
+        </div>
+        <span class="prev-value">이전: ${formatPlainNumber(price.previous_close)}</span>
       </div>
-      <div class="market-spark">${numericSparkline(price.recent_closes || [], tone)}</div>
+      <div class="market-card-right">
+        <div class="market-spark">${numericSparkline(price.recent_closes || [], tone)}</div>
+        <span class="market-comment">${escapeHtml(indicator.short_comment || "")}</span>
+      </div>
     `;
     grid.append(card);
   }
@@ -220,11 +266,9 @@ function renderHoldingMatrix(holdings) {
     <thead>
       <tr>
         <th>종목</th>
-        <th>최근 종가</th>
-        <th>추이 (7일)</th>
+        <th>최근 종가 & 추이</th>
         <th>수급</th>
-        <th>영향</th>
-        <th>핵심 이슈</th>
+        <th>영향 & 핵심 이슈</th>
         <th>한줄 요약</th>
       </tr>
     </thead>
@@ -237,26 +281,88 @@ function renderHoldingMatrix(holdings) {
     const seven = flow.seven_day_total || {};
     const tone = toneFromNumber(price.change_pct);
     const hasDomesticFlow = holding.market === "KR";
+    
     const tr = document.createElement("tr");
+    tr.className = "holding-main-row";
+    tr.style.cursor = "pointer";
     tr.innerHTML = `
       <td>
         <strong>${breakHoldingName(holding.name || "")}</strong>
         <span>${escapeHtml(holding.symbol || "")} · ${escapeHtml(holding.market || "")}</span>
       </td>
-      <td>${priceGrid(price, holding.market, tone)}</td>
-      <td>${numericSparkline(price.recent_closes || [], tone)}</td>
-      <td>${hasDomesticFlow ? compactFlowBlock(latest, seven) : ""}</td>
-      <td><span class="impact-pill impact-${impactTone(holding.impact?.label)}">${escapeHtml(holding.impact?.label || "중립")}</span></td>
       <td>
-        <div class="issue-cell">
-          <strong>${escapeHtml(holdingIssueTitle(holding))}</strong>
-          ${holdingIssueMeta(holding)}
-          ${dataStatusFlags(holding.data_status || {})}
+        <div class="price-spark-container">
+          ${priceGrid(price, holding.market, tone)}
+          <div class="holding-spark">${numericSparkline(price.recent_closes || [], tone)}</div>
+        </div>
+      </td>
+      <td>${hasDomesticFlow ? compactFlowBlock(latest, seven) : ""}</td>
+      <td>
+        <div class="impact-issue-container">
+          <span class="impact-pill impact-${impactTone(holding.impact?.label)}">${escapeHtml(holding.impact?.label || "중립")}</span>
+          <div class="issue-cell">
+            <strong>${escapeHtml(holdingIssueTitle(holding))}</strong>
+            <div class="issue-meta-row">
+              ${holdingIssueMeta(holding)}
+              ${dataStatusFlags(holding.data_status || {})}
+            </div>
+          </div>
         </div>
       </td>
       <td><p class="brief-summary">${escapeHtml(holdingBriefSummary(holding))}</p></td>
     `;
+    
+    const detailTr = document.createElement("tr");
+    detailTr.className = "holding-detail-row";
+    
+    const newsListHtml = (holding.news || []).map(item => `
+      <div class="detail-item">
+        <span class="source-badge source-${item.source === 'naver_search_news' ? 'naver' : 'yfinance'}">${item.source === 'naver_search_news' ? 'N' : 'y'}</span>
+        <a href="${item.url}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.title)}</a>
+        <span class="time">${escapeHtml(item.published_at || '')}</span>
+      </div>
+    `).join('') || '<p class="empty-msg">최근 뉴스가 없습니다.</p>';
+
+    const discListHtml = (holding.disclosures || []).map(item => `
+      <div class="detail-item">
+        <span class="source-badge source-dart">D</span>
+        <a href="${item.url}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.report_name)}</a>
+        <span class="time">${escapeHtml(item.receipt_date || '')}</span>
+      </div>
+    `).join('') || '<p class="empty-msg">최근 공시가 없습니다.</p>';
+
+    detailTr.innerHTML = `
+      <td colspan="5">
+        <div class="detail-wrapper">
+          <div class="detail-content">
+            <div class="detail-section">
+              <h4>📰 뉴스 목록</h4>
+              <div class="detail-list">${newsListHtml}</div>
+            </div>
+            <div class="detail-section">
+              <h4>📋 공시 목록</h4>
+              <div class="detail-list">${discListHtml}</div>
+            </div>
+          </div>
+        </div>
+      </td>
+    `;
+    
+    tr.addEventListener("click", () => {
+      const wrapper = detailTr.querySelector(".detail-wrapper");
+      const isExpanded = wrapper.classList.contains("expanded");
+      
+      tbody.querySelectorAll(".detail-wrapper").forEach(w => w.classList.remove("expanded"));
+      tbody.querySelectorAll(".holding-main-row").forEach(r => r.classList.remove("active-row"));
+      
+      if (!isExpanded) {
+        wrapper.classList.add("expanded");
+        tr.classList.add("active-row");
+      }
+    });
+
     tbody.append(tr);
+    tbody.append(detailTr);
   }
   table.append(tbody);
   wrap.append(table);
@@ -516,6 +622,7 @@ function renderPriceCell(text) {
 
 function inlineHtml(text, { autoBold, sourceBadges }) {
   let result = escapeHtml(text || "");
+  result = result.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
   result = result.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
   if (autoBold) result = autoBoldKeywords(result);
   if (sourceBadges) result = sourceBadgeHtml(result);
@@ -693,7 +800,6 @@ function formatSignedPercent(value) {
 }
 
 function formatFlow(value) {
-  if (value === null || value === undefined || value === "") return "미수집";
   const number = Number(value);
   if (!Number.isFinite(number)) return "미수집";
   const direction = number > 0 ? "순매수" : number < 0 ? "순매도" : "중립";

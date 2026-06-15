@@ -31,6 +31,15 @@ class BuildViewModelTests(unittest.TestCase):
                     "change": -478.82,
                     "change_pct": -5.54,
                     "recent_closes": [8228.7, 8185.29, 8160.59],
+                }, {
+                    "name": "Nasdaq",
+                    "symbol": "^IXIC",
+                    "source": "yfinance",
+                    "close": 15000.0,
+                    "previous_close": 15306.0,
+                    "change": -306.0,
+                    "change_pct": -2.0,
+                    "recent_closes": [15500.0, 15306.0, 15000.0],
                 }],
                 "kr_quotes": [{
                     "symbol": "005930",

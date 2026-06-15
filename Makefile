@@ -4,7 +4,7 @@ VIEW_MODEL ?= data/reports/$(DATE)/view_model.json
 ANALYSIS_CONTEXT ?= data/reports/$(DATE)/analysis_context.json
 PYTHON ?= $(if $(wildcard .venv/bin/python),.venv/bin/python,python3)
 
-.PHONY: collect collect-offline view-model analysis-context render-html test clean-day
+.PHONY: collect collect-offline view-model analysis-context render-html test clean-day deploy
 
 collect:
 	$(PYTHON) -m src.collect --date $(DATE)
@@ -26,3 +26,8 @@ test:
 
 clean-day:
 	rm -rf "data/incoming/$(DATE)" "data/reports/$(DATE)"
+
+deploy:
+	git add docs/ data/
+	git commit -m "deploy: update briefing $(DATE)"
+	git push origin main
