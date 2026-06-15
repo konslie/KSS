@@ -693,6 +693,7 @@ function formatSignedPercent(value) {
 }
 
 function formatFlow(value) {
+  if (value === null || value === undefined || value === "") return "미수집";
   const number = Number(value);
   if (!Number.isFinite(number)) return "미수집";
   const direction = number > 0 ? "순매수" : number < 0 ? "순매도" : "중립";
