@@ -1,3 +1,5 @@
+- **2026-06-16 일자 투자 리포트 수동 가동 및 원격 배포 완료**
+  - 사용자의 요청에 따라 2026-06-16자 데이터에 대한 강제 수동 런(`make collect`, `make view-model`, `make analysis-context`, `make render-html`, `make deploy`)을 전적으로 수행하여, AI 리포트 생성 및 깃허브 `KSS` 레포지토리에 최종 배포를 완료함.
 - **아침 투자 브리핑 자동 스케줄링 등록 및 리포트 빌더 최적화**
   - 매일 오전 07:30 KST에 **Gemini 3.5 Flash (High)** 모델을 적용하여 일일 모닝 브리핑 수집, 정제, 보고서 작성, HTML 대시보드 빌드 작업을 자동으로 수행하고, 최종 `docs/` 및 `data/` 파일 변경분을 GitHub KSS 레포지토리에 커밋 및 푸시(`make deploy`)하도록 recurring cron 스케줄 등록 완료.
   - HTML 빌더의 CSS/JS 호출 시 캐시 우회(Cache Busting) 타임스탬프 파라미터를 동적으로 부여하도록 수정하여, 로컬 브라우저가 최신 대시보드 리포트 양식과 여백을 즉시 반영하도록 개선.
